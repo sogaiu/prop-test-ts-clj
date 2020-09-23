@@ -22,7 +22,7 @@ __version__ = '0.0.1'
 # compound (17)
 #   discard_expr
 #   + list
-#   map
+#   + map
 #   + vector
 #   set
 #   anon_func

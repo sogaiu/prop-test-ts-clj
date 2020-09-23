@@ -10,8 +10,10 @@ from hypothesis_grammar_tree_sitter_clojure.keywords import *
 from hypothesis_grammar_tree_sitter_clojure.numbers import *
 from hypothesis_grammar_tree_sitter_clojure.strings import *
 from hypothesis_grammar_tree_sitter_clojure.symbols import *
-from hypothesis_grammar_tree_sitter_clojure.vectors import *
+#
 from hypothesis_grammar_tree_sitter_clojure.lists import *
+from hypothesis_grammar_tree_sitter_clojure.maps import *
+from hypothesis_grammar_tree_sitter_clojure.vectors import *
 
 vb = Verbosity.verbose
 #vb = Verbosity.normal
@@ -339,6 +341,46 @@ def test_parses_atom_vector(atm_vector_item):
             cnt += 1
     assert len(atm_items) == cnt
 
+## maps
+
+@settings(verbosity=vb)
+@given(number_map_items())
+def test_parses_number_map(num_map_item):
+    (map_str, label), num_items = num_map_item
+    tree = parser.parse(bytes(map_str, "utf8"))
+    root_node = tree.root_node
+    assert 1 == len(root_node.children)
+    the_map_node = root_node.children[0]
+    assert the_map_node.type == label
+    cnt = 0
+    for child in the_map_node.children:
+        if child.is_named:
+            child_text = node_text(map_str, child)
+            a_num, a_type = num_items[cnt]
+            assert child_text == a_num
+            assert child.type == a_type
+            cnt += 1
+    assert len(num_items) == cnt
+
+@settings(verbosity=vb)
+@given(atom_map_items())
+def test_parses_atom_map(atm_map_item):
+    (map_str, label), atm_items = atm_map_item
+    tree = parser.parse(bytes(map_str, "utf8"))
+    root_node = tree.root_node
+    assert 1 == len(root_node.children)
+    the_map_node = root_node.children[0]
+    assert the_map_node.type == label
+    cnt = 0
+    for child in the_map_node.children:
+        if child.is_named:
+            child_text = node_text(map_str, child)
+            an_atm, a_type = atm_items[cnt]
+            assert child_text == an_atm
+            assert child.type == a_type
+            cnt += 1
+    assert len(atm_items) == cnt
+
 if __name__ == "__main__":
     test_parses_hex_as_number()
     test_parses_octal_as_number()
@@ -369,3 +411,6 @@ if __name__ == "__main__":
     #
     test_parses_number_vector()
     test_parses_atom_vector()
+    #
+    test_parses_number_map()
+    test_parses_atom_map()
