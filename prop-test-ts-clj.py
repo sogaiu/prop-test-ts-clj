@@ -9,8 +9,9 @@ from hypothesis_grammar_tree_sitter_clojure.characters import *
 from hypothesis_grammar_tree_sitter_clojure.keywords import *
 from hypothesis_grammar_tree_sitter_clojure.numbers import *
 from hypothesis_grammar_tree_sitter_clojure.strings import *
+from hypothesis_grammar_tree_sitter_clojure.symbols import *
+from hypothesis_grammar_tree_sitter_clojure.vectors import *
 from hypothesis_grammar_tree_sitter_clojure.lists import *
-from hypothesis_grammar_tree_sitter_clojure import *
 
 vb = Verbosity.verbose
 #vb = Verbosity.normal
@@ -64,118 +65,129 @@ def test_parses_octal_as_number(oct_num_item):
     assert the_num == node_text(the_num, child)
 
 @settings(verbosity=vb)
-@given(radix_number_as_str())
-def test_parses_radix_as_number(radix_num_str):
-    tree = parser.parse(bytes(radix_num_str, "utf8"))
+@given(radix_number_items())
+def test_parses_radix_as_number(radix_num_item):
+    the_num, label = radix_num_item
+    tree = parser.parse(bytes(the_num, "utf8"))
     root_node = tree.root_node
     assert 1 == len(root_node.children)
     child = root_node.children[0]
-    assert child.type == "number"
-    assert radix_num_str == node_text(radix_num_str, child)
+    assert child.type == label
+    assert the_num == node_text(the_num, child)
 
 @settings(verbosity=vb)
-@given(ratio_as_str())
-def test_parses_ratio_as_number(ratio_str):
-    tree = parser.parse(bytes(ratio_str, "utf8"))
+@given(ratio_items())
+def test_parses_ratio_as_number(ratio_item):
+    the_num, label = ratio_item
+    tree = parser.parse(bytes(the_num, "utf8"))
     root_node = tree.root_node
     assert 1 == len(root_node.children)
     child = root_node.children[0]
-    assert child.type == "number"
-    assert ratio_str == node_text(ratio_str, child)
+    assert child.type == label
+    assert the_num == node_text(the_num, child)
 
 @settings(verbosity=vb)
-@given(double_as_str())
-def test_parses_double_as_number(dbl_str):
-    tree = parser.parse(bytes(dbl_str, "utf8"))
+@given(double_items())
+def test_parses_double_as_number(double_item):
+    the_num, label = double_item
+    tree = parser.parse(bytes(the_num, "utf8"))
     root_node = tree.root_node
     assert 1 == len(root_node.children)
     child = root_node.children[0]
-    assert child.type == "number"
-    assert dbl_str == node_text(dbl_str, child)
+    assert child.type == label
+    assert the_num == node_text(the_num, child)
 
 @settings(verbosity=vb)
-@given(integer_as_str())
-def test_parses_integer_as_number(int_str):
-    tree = parser.parse(bytes(int_str, "utf8"))
+@given(integer_items())
+def test_parses_integer_as_number(integer_item):
+    the_num, label = integer_item
+    tree = parser.parse(bytes(the_num, "utf8"))
     root_node = tree.root_node
     assert 1 == len(root_node.children)
     child = root_node.children[0]
-    assert child.type == "number"
-    assert int_str == node_text(int_str, child)
+    assert child.type == label
+    assert the_num == node_text(the_num, child)
 
 @settings(verbosity=vb)
-@given(number_as_str())
-def test_parses_number(num_str):
-    tree = parser.parse(bytes(num_str, "utf8"))
+@given(number_items())
+def test_parses_number(number_item):
+    the_num, label = number_item
+    tree = parser.parse(bytes(the_num, "utf8"))
     root_node = tree.root_node
     assert 1 == len(root_node.children)
     child = root_node.children[0]
-    assert child.type == "number"
-    assert num_str == node_text(num_str, child)
+    assert child.type == label
+    assert the_num == node_text(the_num, child)
 
 ## symbols
 
 @settings(verbosity=vb)
-@given(unqualified_symbol_as_str())
-def test_parses_unqualified_symbol(symbol_str):
-    tree = parser.parse(bytes(symbol_str, "utf8"))
+@given(unqualified_symbol_items())
+def test_parses_unqualified_symbol(unqualified_symbol_item):
+    the_sym, label = unqualified_symbol_item
+    tree = parser.parse(bytes(the_sym, "utf8"))
     root_node = tree.root_node
     assert 1 == len(root_node.children)
     child = root_node.children[0]
-    assert child.type == "symbol"
-    assert symbol_str == node_text(symbol_str, child)
+    assert child.type == label
+    assert the_sym == node_text(the_sym, child)
 
 @settings(verbosity=vb)
-@given(qualified_symbol_as_str())
-def test_parses_qualified_symbol(symbol_str):
-    tree = parser.parse(bytes(symbol_str, "utf8"))
+@given(qualified_symbol_items())
+def test_parses_qualified_symbol(qualified_symbol_item):
+    the_sym, label = qualified_symbol_item
+    tree = parser.parse(bytes(the_sym, "utf8"))
     root_node = tree.root_node
     assert 1 == len(root_node.children)
     child = root_node.children[0]
-    assert child.type == "symbol"
-    assert symbol_str == node_text(symbol_str, child)
+    assert child.type == label
+    assert the_sym == node_text(the_sym, child)
 
 ## keywords
 
 @settings(verbosity=vb)
-@given(unqualified_keyword_as_str())
-def test_parses_unqualified_keyword(keyword_str):
-    tree = parser.parse(bytes(keyword_str, "utf8"))
+@given(unqualified_keyword_items())
+def test_parses_unqualified_keyword(unqualified_keyword_item):
+    the_kwd, label = unqualified_keyword_item
+    tree = parser.parse(bytes(the_kwd, "utf8"))
     root_node = tree.root_node
     assert 1 == len(root_node.children)
     child = root_node.children[0]
-    assert child.type == "keyword"
-    assert keyword_str == node_text(keyword_str, child)
+    assert child.type == label
+    assert the_kwd == node_text(the_kwd, child)
 
 @settings(verbosity=vb)
-@given(qualified_keyword_as_str())
-def test_parses_qualified_keyword(keyword_str):
-    tree = parser.parse(bytes(keyword_str, "utf8"))
+@given(qualified_keyword_items())
+def test_parses_qualified_keyword(qual_keyword_item):
+    the_kwd, label = qual_keyword_item
+    tree = parser.parse(bytes(the_kwd, "utf8"))
     root_node = tree.root_node
     assert 1 == len(root_node.children)
     child = root_node.children[0]
-    assert child.type == "keyword"
-    assert keyword_str == node_text(keyword_str, child)
+    assert child.type == label
+    assert the_kwd == node_text(the_kwd, child)
 
 @settings(verbosity=vb)
-@given(unqualified_auto_resolved_keyword_as_str())
-def test_parses_unqualified_auto_resolved_keyword(keyword_str):
-    tree = parser.parse(bytes(keyword_str, "utf8"))
+@given(unqualified_auto_resolved_keyword_items())
+def test_parses_unqualified_auto_resolved_keyword(unqual_auto_res_keyword_item):
+    the_kwd, label = unqual_auto_res_keyword_item
+    tree = parser.parse(bytes(the_kwd, "utf8"))
     root_node = tree.root_node
     assert 1 == len(root_node.children)
     child = root_node.children[0]
-    assert child.type == "keyword"
-    assert keyword_str == node_text(keyword_str, child)
+    assert child.type == label
+    assert the_kwd == node_text(the_kwd, child)
 
 @settings(verbosity=vb)
-@given(qualified_auto_resolved_keyword_as_str())
-def test_parses_qualified_auto_resolved_keyword(keyword_str):
-    tree = parser.parse(bytes(keyword_str, "utf8"))
+@given(qualified_auto_resolved_keyword_items())
+def test_parses_qualified_auto_resolved_keyword(qual_auto_res_keyword_item):
+    the_kwd, label = qual_auto_res_keyword_item
+    tree = parser.parse(bytes(the_kwd, "utf8"))
     root_node = tree.root_node
     assert 1 == len(root_node.children)
     child = root_node.children[0]
-    assert child.type == "keyword"
-    assert keyword_str == node_text(keyword_str, child)
+    assert child.type == label
+    assert the_kwd == node_text(the_kwd, child)
 
 ## characters
 
@@ -287,6 +299,46 @@ def test_parses_atom_list(atm_list_item):
             cnt += 1
     assert len(atm_items) == cnt
 
+## vectors
+
+@settings(verbosity=vb)
+@given(number_vector_items())
+def test_parses_number_vector(num_vector_item):
+    (vector_str, label), num_items = num_vector_item
+    tree = parser.parse(bytes(vector_str, "utf8"))
+    root_node = tree.root_node
+    assert 1 == len(root_node.children)
+    the_vector_node = root_node.children[0]
+    assert the_vector_node.type == label
+    cnt = 0
+    for child in the_vector_node.children:
+        if child.is_named:
+            child_text = node_text(vector_str, child)
+            a_num, a_type = num_items[cnt]
+            assert child_text == a_num
+            assert child.type == a_type
+            cnt += 1
+    assert len(num_items) == cnt
+
+@settings(verbosity=vb)
+@given(atom_vector_items())
+def test_parses_atom_vector(atm_vector_item):
+    (vector_str, label), atm_items = atm_vector_item
+    tree = parser.parse(bytes(vector_str, "utf8"))
+    root_node = tree.root_node
+    assert 1 == len(root_node.children)
+    the_vector_node = root_node.children[0]
+    assert the_vector_node.type == label
+    cnt = 0
+    for child in the_vector_node.children:
+        if child.is_named:
+            child_text = node_text(vector_str, child)
+            an_atm, a_type = atm_items[cnt]
+            assert child_text == an_atm
+            assert child.type == a_type
+            cnt += 1
+    assert len(atm_items) == cnt
+
 if __name__ == "__main__":
     test_parses_hex_as_number()
     test_parses_octal_as_number()
@@ -315,3 +367,5 @@ if __name__ == "__main__":
     test_parses_number_list()
     test_parses_atom_list()
     #
+    test_parses_number_vector()
+    test_parses_atom_vector()
