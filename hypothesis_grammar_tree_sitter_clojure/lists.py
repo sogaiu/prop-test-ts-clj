@@ -1,5 +1,5 @@
 from hypothesis.strategies import integers
-from hypothesis.strategies import composite, just, lists, one_of
+from hypothesis.strategies import composite, lists, one_of
 
 from .characters import character_items
 from .keywords import keyword_items
