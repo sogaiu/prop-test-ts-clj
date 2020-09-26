@@ -275,6 +275,9 @@ def test_parses_unqualified_symbol(unqual_symbol_item):
 def test_parses_qualified_symbol(qual_symbol_item):
     form_test(qual_symbol_item)
 
+def test_parses_symbol(symbol_item):
+    form_test(symbol_item)
+
 ## keywords
 
 @settings(verbosity=vb)
@@ -296,6 +299,11 @@ def test_parses_unqualified_auto_resolved_keyword(unqual_auto_res_keyword_item):
 @given(qualified_auto_resolved_keyword_items())
 def test_parses_qualified_auto_resolved_keyword(qual_auto_res_keyword_item):
     form_test(qual_auto_res_keyword_item)
+
+@settings(verbosity=vb)
+@given(keyword_items())
+def test_parses_keyword(keyword_item):
+    form_test(keyword_item)
 
 ## characters
 
@@ -385,11 +393,13 @@ if __name__ == "__main__":
     #
     test_parses_unqualified_symbol()
     test_parses_qualified_symbol()
+    test_parses_symbol()
     #
     test_parses_unqualified_keyword()
     test_parses_qualified_keyword()
     test_parses_unqualified_auto_resolved_keyword()
     test_parses_qualified_auto_resolved_keyword()
+    test_parses_keyword()
     #
     test_parses_any_character()
     test_parses_named_character()
