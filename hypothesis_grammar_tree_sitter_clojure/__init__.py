@@ -2,6 +2,12 @@
 
 __version__ = '0.0.1'
 
+# XXX: could have assertions for checking has_error?
+
+# XXX: numeric constants being used in strategies are hard-wired -> change?
+
+# XXX: label strings could be factored out (e.g. "map", "number", etc.)
+
 # grammatical pieces
 #
 # subatomic (1)

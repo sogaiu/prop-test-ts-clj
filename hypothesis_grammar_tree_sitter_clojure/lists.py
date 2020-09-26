@@ -1,6 +1,7 @@
 from hypothesis.strategies import integers
-from hypothesis.strategies import composite, lists, one_of
+from hypothesis.strategies import composite, lists
 
+from .atoms import atom_items
 from .characters import character_items
 from .keywords import keyword_items
 from .numbers import number_items
@@ -18,8 +19,12 @@ from .symbols import symbol_items
 #      "spacing" or "separation" units
 #
 #      could also have stuff before and after delimiters
-def build_list_str(items):
-    return f'({" ".join([an_item for an_item, _ in items])})'
+def build_list_str(list_item):
+    items = list_item["inputs"]
+    return \
+        "(" + \
+        " ".join([item["recipe"](item) for item in items]) + \
+        ")"
 
 @composite
 def number_list_items(draw):
@@ -28,23 +33,9 @@ def number_list_items(draw):
     num_items = draw(lists(elements=number_items(),
                            min_size=n, max_size=n))
     #
-    list_item = (build_list_str(num_items), "list")
-    #
-    return (list_item, num_items)
-
-@composite
-def atom_items(draw):
-    atm_item = draw(one_of(# XXX: boolean
-                           character_items(),
-                           keyword_items(),
-                           # XXX: nil
-                           number_items(),
-                           # XXX: regex
-                           string_items(),
-                           symbol_items(),
-                           # XXX: symbolic value
-                          ))
-    return atm_item
+    return {"inputs": num_items,
+            "label": "list",
+            "recipe": build_list_str}
 
 @composite
 def atom_list_items(draw):
@@ -53,6 +44,6 @@ def atom_list_items(draw):
     atm_items = draw(lists(elements=atom_items(),
                            min_size=n, max_size=n))
     #
-    list_item = (build_list_str(atm_items), "list")
-    #
-    return (list_item, atm_items)
+    return {"inputs": atm_items,
+            "label": "list",
+            "recipe": build_list_str}

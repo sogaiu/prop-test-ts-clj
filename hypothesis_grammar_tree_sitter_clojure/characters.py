@@ -7,40 +7,50 @@ from hypothesis_grammar_clojure.characters \
            octal_character_as_str, \
            unicode_quad_character_as_str
 
+def build_chr_str(item):
+    return item["inputs"]
+
 # XXX: should these specialized characters have specialized labels?
 #      e.g. instead of "character", should the following be labeled
 #      "any_character"?
 @composite
 def any_character_items(draw):
-    a_chr = draw(any_character_as_str())
+    a_chr_str = draw(any_character_as_str())
     # XXX: tree-sitter cannot handle null byte (0)
-    assume(a_chr != '\\\x00')
+    assume(a_chr_str != '\\\x00')
     #
-    return (a_chr, "character")
+    return {"inputs": a_chr_str,
+            "label": "character",
+            "recipe": build_chr_str}
 
 @composite
 def named_character_items(draw):
-    a_chr = draw(named_character_as_str())
+    a_chr_str = draw(named_character_as_str())
     #
-    return (a_chr, "character")
+    return {"inputs": a_chr_str,
+            "label": "character",
+            "recipe": build_chr_str}
 
 @composite
 def octal_character_items(draw):
-    a_chr = draw(octal_character_as_str())
+    a_chr_str = draw(octal_character_as_str())
     #
-    return (a_chr, "character")
+    return {"inputs": a_chr_str,
+            "label": "character",
+            "recipe": build_chr_str}
 
 @composite
 def unicode_quad_character_items(draw):
-    a_chr = draw(unicode_quad_character_as_str())
+    a_chr_str = draw(unicode_quad_character_as_str())
     #
-    return (a_chr, "character")
+    return {"inputs": a_chr_str,
+            "label": "character",
+            "recipe": build_chr_str}
 
 @composite
 def character_items(draw):
-    a_chr, label = draw(one_of(any_character_items(),
-                               named_character_items(),
-                               octal_character_items(),
-                               unicode_quad_character_items()))
-    # XXX: whether label should be passed through...
-    return (a_chr, "character")
+    a_chr_item = draw(one_of(any_character_items(),
+                             named_character_items(),
+                             octal_character_items(),
+                             unicode_quad_character_items()))
+    return a_chr_item

@@ -1,5 +1,6 @@
 # clone tree-sitter-clojure into vendor dir and follow setup
 # instructions in README for setup before executing this file
+from operator import itemgetter
 
 from hypothesis import given
 from hypothesis import note, settings, Verbosity
@@ -14,6 +15,8 @@ from hypothesis_grammar_tree_sitter_clojure.symbols import *
 from hypothesis_grammar_tree_sitter_clojure.lists import *
 from hypothesis_grammar_tree_sitter_clojure.maps import *
 from hypothesis_grammar_tree_sitter_clojure.vectors import *
+#
+from hypothesis_grammar_tree_sitter_clojure.metadata import *
 
 vb = Verbosity.verbose
 #vb = Verbosity.normal
@@ -42,344 +45,334 @@ parser.set_language(CLJ_LANGUAGE)
 def node_text(source, node):
     return bytes(source, "utf8")[node.start_byte:node.end_byte].decode("utf-8")
 
+def get_lone_node(form_str):
+    tree = parser.parse(bytes(form_str, "utf8"))
+    root_node = tree.root_node
+    children = root_node.children
+    n_children = len(children)
+    if n_children != 1:
+        # XXX
+        print("did not find exactly 1 child")
+        print("  n_children:", n_children)
+        print("  form_str:", form_str)
+        for child in children:
+           print(f'  {child}')
+           print(f'  {child.sexp()}')
+    assert 1 == n_children
+    return children[0]
+
+def verify_node_as_atom(ctx, item):
+    node, source = \
+        itemgetter('node', 'source')(ctx)
+    label, recipe = \
+        itemgetter('label', 'recipe')(item)
+    if node.type != label:
+        # XXX
+        print("node type mismatch")
+        print("  node:", node.type)
+        print("  expected:", label)
+        return False
+    atom_str = recipe(item)
+    text_of_node = node_text(source, node)
+    if text_of_node != atom_str:
+        # XXX
+        print("node text mismatch")
+        print("  node:", text_of_node)
+        print("  expected:", atom_str)
+        return False
+    return True
+
+def verify_node_as_coll(ctx, coll_item):
+    node, source  = \
+        itemgetter('node', 'source')(ctx)
+    items, coll_label = \
+        itemgetter('inputs', 'label')(coll_item)
+    if node.type != coll_label:
+        # XXX
+        print("node type mismatch")
+        print("  node:", node.type)
+        print("  expected:", coll_label)
+        return False
+    cnt = 0
+    for child in node.children:
+        if child.is_named:
+            # XXX: is this logic correct?
+            if child.type == "metadata":
+                pass
+            else:
+                label, recipe = \
+                    itemgetter('label', 'recipe')(items[cnt])
+                coll_str = recipe(items[cnt])
+                if child.type != label:
+                    # XXX
+                    print("node type mismatch")
+                    print("  node:", node.type)
+                    print("  expected:", label)
+                    return False
+                text_of_node = node_text(source, child)
+                if text_of_node != coll_str:
+                    # XXX
+                    print("node text mismatch")
+                    print("  node:", text_of_node)
+                    print("  expected:", coll_str)
+                    return False
+                cnt += 1
+    expected_cnt = len(items)
+    if expected_cnt != cnt:
+        # XXX
+        print("unexpected number of element nodes")
+        print("  actual:", cnt)
+        print("  expected:", expected_cnt)
+        return False
+    else:
+        return True
+
+# XXX: only handles one pieces of metadata
+#      eventually handle multiple?
+def verify_node_metadata(ctx, item):
+    node, source = \
+        itemgetter('node', 'source')(ctx)
+    md_node = node.child_by_field_name("metadata")
+    if md_node == None:
+        # XXX
+        print("no metadata found")
+        return False
+    mcnt = 0
+    for child in node.children:
+        if child.type == "metadata":
+            mcnt += 1
+    if mcnt > 1:
+        # XXX
+        print("more than one piece of metadata found")
+        return False
+    # XXX: currently only one metadata item
+    md_inputs, md_label, md_recipe = \
+        itemgetter('inputs', 'label', 'recipe')(item["metadata"][0])
+    for child in node.children:
+        if child.is_named:
+            # XXX: is this logic correct?
+            if child.type == "metadata":
+                gchildren = child.children
+                n_gchildren = 0
+                for gchild in gchildren:
+                    if gchild.is_named:
+                        n_gchildren += 1
+                if n_gchildren != 1:
+                    # XXX
+                    print("metadata doesn't have exactly 1 child")
+                    print(n_gchildren)
+                    return False
+                target_idx = 0
+                for gchild in gchildren:
+                    if gchild.is_named:
+                        break
+                    target_idx += 1
+                target_node = gchildren[target_idx]
+                if target_node.type != md_inputs["label"]:
+                    # XXX
+                    print("metadata child node type mismatch")
+                    print("  node:", target_node.type)
+                    print("  expected:", md_inputs["label"])
+                    return False
+                #
+                # XXX: may need to inherit metadata info too at some point?
+                return verify_node({"node": target_node,
+                                    "source": source},
+                                   {"inputs": md_inputs["inputs"],
+                                    "label": md_inputs["label"],
+                                    "recipe": md_inputs["recipe"]})
+
+def verify_node_with_metadata(ctx, item):
+    return verify_node_metadata(ctx, item) and \
+        verify_node_as_coll(ctx, item)
+
+def has_metadata(item):
+    return "metadata" in item
+
+def is_atom(item):
+    # XXX: update this list when necessary
+    return item["label"] in [#"boolean",
+                             "character",
+                             "keyword",
+                             #"nil",
+                             "number",
+                             "string",
+                             "symbol"]
+
+def is_coll(item):
+    # XXX: update this list when necessary
+    return item["label"] in ["list",
+                             "map",
+                             #"namespaced_map",
+                             "vector",
+                             "set"]
+
+def verify_node(ctx, item):
+    # XXX: any way to avoid this kind of conditional?
+    if has_metadata(item):
+        return verify_node_with_metadata(ctx, item)
+    elif is_atom(item):
+        return verify_node_as_atom(ctx, item)
+    elif is_coll(item):
+        return verify_node_as_coll(ctx, item)
+    else:
+        # XXX
+        print("unexpected item:", item)
+        return False
+
+def form_test(item):
+    form_str = item["recipe"](item)
+    ctx = {"node": get_lone_node(form_str),
+           "source": form_str}
+    assert verify_node(ctx, item)
+
 ## numbers
 
 @settings(verbosity=vb)
 @given(hex_number_items())
 def test_parses_hex_as_number(hex_num_item):
-    the_num, label = hex_num_item
-    tree = parser.parse(bytes(the_num, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    child = root_node.children[0]
-    assert child.type == label
-    assert the_num == node_text(the_num, child)
+    form_test(hex_num_item)
 
 @settings(verbosity=vb)
 @given(octal_number_items())
 def test_parses_octal_as_number(oct_num_item):
-    the_num, label = oct_num_item
-    tree = parser.parse(bytes(the_num, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    child = root_node.children[0]
-    assert child.type == label
-    assert the_num == node_text(the_num, child)
+    form_test(oct_num_item)
 
 @settings(verbosity=vb)
 @given(radix_number_items())
 def test_parses_radix_as_number(radix_num_item):
-    the_num, label = radix_num_item
-    tree = parser.parse(bytes(the_num, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    child = root_node.children[0]
-    assert child.type == label
-    assert the_num == node_text(the_num, child)
+    form_test(radix_num_item)
 
 @settings(verbosity=vb)
 @given(ratio_items())
 def test_parses_ratio_as_number(ratio_item):
-    the_num, label = ratio_item
-    tree = parser.parse(bytes(the_num, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    child = root_node.children[0]
-    assert child.type == label
-    assert the_num == node_text(the_num, child)
+    form_test(ratio_item)
 
 @settings(verbosity=vb)
 @given(double_items())
 def test_parses_double_as_number(double_item):
-    the_num, label = double_item
-    tree = parser.parse(bytes(the_num, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    child = root_node.children[0]
-    assert child.type == label
-    assert the_num == node_text(the_num, child)
+    form_test(double_item)
 
 @settings(verbosity=vb)
 @given(integer_items())
 def test_parses_integer_as_number(integer_item):
-    the_num, label = integer_item
-    tree = parser.parse(bytes(the_num, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    child = root_node.children[0]
-    assert child.type == label
-    assert the_num == node_text(the_num, child)
+    form_test(integer_item)
 
 @settings(verbosity=vb)
 @given(number_items())
 def test_parses_number(number_item):
-    the_num, label = number_item
-    tree = parser.parse(bytes(the_num, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    child = root_node.children[0]
-    assert child.type == label
-    assert the_num == node_text(the_num, child)
+    form_test(number_item)
 
 ## symbols
 
 @settings(verbosity=vb)
 @given(unqualified_symbol_items())
-def test_parses_unqualified_symbol(unqualified_symbol_item):
-    the_sym, label = unqualified_symbol_item
-    tree = parser.parse(bytes(the_sym, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    child = root_node.children[0]
-    assert child.type == label
-    assert the_sym == node_text(the_sym, child)
+def test_parses_unqualified_symbol(unqual_symbol_item):
+    form_test(unqual_symbol_item)
 
 @settings(verbosity=vb)
 @given(qualified_symbol_items())
-def test_parses_qualified_symbol(qualified_symbol_item):
-    the_sym, label = qualified_symbol_item
-    tree = parser.parse(bytes(the_sym, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    child = root_node.children[0]
-    assert child.type == label
-    assert the_sym == node_text(the_sym, child)
+def test_parses_qualified_symbol(qual_symbol_item):
+    form_test(qual_symbol_item)
 
 ## keywords
 
 @settings(verbosity=vb)
 @given(unqualified_keyword_items())
-def test_parses_unqualified_keyword(unqualified_keyword_item):
-    the_kwd, label = unqualified_keyword_item
-    tree = parser.parse(bytes(the_kwd, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    child = root_node.children[0]
-    assert child.type == label
-    assert the_kwd == node_text(the_kwd, child)
+def test_parses_unqualified_keyword(unqual_keyword_item):
+    form_test(unqual_keyword_item)
 
 @settings(verbosity=vb)
 @given(qualified_keyword_items())
 def test_parses_qualified_keyword(qual_keyword_item):
-    the_kwd, label = qual_keyword_item
-    tree = parser.parse(bytes(the_kwd, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    child = root_node.children[0]
-    assert child.type == label
-    assert the_kwd == node_text(the_kwd, child)
+    form_test(qual_keyword_item)
 
 @settings(verbosity=vb)
 @given(unqualified_auto_resolved_keyword_items())
 def test_parses_unqualified_auto_resolved_keyword(unqual_auto_res_keyword_item):
-    the_kwd, label = unqual_auto_res_keyword_item
-    tree = parser.parse(bytes(the_kwd, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    child = root_node.children[0]
-    assert child.type == label
-    assert the_kwd == node_text(the_kwd, child)
+    form_test(unqual_auto_res_keyword_item)
 
 @settings(verbosity=vb)
 @given(qualified_auto_resolved_keyword_items())
 def test_parses_qualified_auto_resolved_keyword(qual_auto_res_keyword_item):
-    the_kwd, label = qual_auto_res_keyword_item
-    tree = parser.parse(bytes(the_kwd, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    child = root_node.children[0]
-    assert child.type == label
-    assert the_kwd == node_text(the_kwd, child)
+    form_test(qual_auto_res_keyword_item)
 
 ## characters
 
 @settings(verbosity=vb)
 @given(any_character_items())
 def test_parses_any_character(any_character_item):
-    the_chr, label = any_character_item
-    tree = parser.parse(bytes(the_chr, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    child = root_node.children[0]
-    assert child.type == label
-    assert the_chr == node_text(the_chr, child)
+    form_test(any_character_item)
 
 @settings(verbosity=vb)
 @given(named_character_items())
 def test_parses_named_character(named_character_item):
-    the_chr, label = named_character_item
-    tree = parser.parse(bytes(the_chr, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    child = root_node.children[0]
-    assert child.type == label
-    assert the_chr == node_text(the_chr, child)
+    form_test(named_character_item)
 
 @settings(verbosity=vb)
 @given(octal_character_items())
 def test_parses_octal_character(octal_character_item):
-    the_chr, label = octal_character_item
-    tree = parser.parse(bytes(the_chr, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    child = root_node.children[0]
-    assert child.type == label
-    assert the_chr == node_text(the_chr, child)
+    form_test(octal_character_item)
 
 @settings(verbosity=vb)
 @given(unicode_quad_character_items())
 def test_parses_unicode_quad_character(unicode_quad_character_item):
-    the_chr, label = unicode_quad_character_item
-    tree = parser.parse(bytes(the_chr, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    child = root_node.children[0]
-    assert child.type == label
-    assert the_chr == node_text(the_chr, child)
+    form_test(unicode_quad_character_item)
 
 @settings(verbosity=vb)
 @given(character_items())
 def test_parses_character(character_item):
-    the_chr, label = character_item
-    tree = parser.parse(bytes(the_chr, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    child = root_node.children[0]
-    assert child.type == label
-    assert the_chr == node_text(the_chr, child)
+    form_test(character_item)
 
 ## strings
 
 @settings(verbosity=vb)
 @given(string_items())
 def test_parses_string(string_item):
-    the_str, label = string_item
-    tree = parser.parse(bytes(the_str, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    child = root_node.children[0]
-    assert child.type == label
-    assert the_str == node_text(the_str, child)
+    form_test(string_item)
 
 ## lists
 
 @settings(verbosity=vb)
 @given(number_list_items())
 def test_parses_number_list(num_list_item):
-    (list_str, label), num_items = num_list_item
-    tree = parser.parse(bytes(list_str, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    the_list_node = root_node.children[0]
-    assert the_list_node.type == label
-    cnt = 0
-    for child in the_list_node.children:
-        if child.is_named:
-            child_text = node_text(list_str, child)
-            a_num, a_type = num_items[cnt]
-            assert child_text == a_num
-            assert child.type == a_type
-            cnt += 1
-    assert len(num_items) == cnt
+    form_test(num_list_item)
 
 @settings(verbosity=vb)
 @given(atom_list_items())
-def test_parses_atom_list(atm_list_item):
-    (list_str, label), atm_items = atm_list_item
-    tree = parser.parse(bytes(list_str, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    the_list_node = root_node.children[0]
-    assert the_list_node.type == label
-    cnt = 0
-    for child in the_list_node.children:
-        if child.is_named:
-            child_text = node_text(list_str, child)
-            an_atm, a_type = atm_items[cnt]
-            assert child_text == an_atm
-            assert child.type == a_type
-            cnt += 1
-    assert len(atm_items) == cnt
+def test_parses_atom_list(atom_list_item):
+    form_test(atom_list_item)
 
 ## vectors
 
 @settings(verbosity=vb)
 @given(number_vector_items())
 def test_parses_number_vector(num_vector_item):
-    (vector_str, label), num_items = num_vector_item
-    tree = parser.parse(bytes(vector_str, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    the_vector_node = root_node.children[0]
-    assert the_vector_node.type == label
-    cnt = 0
-    for child in the_vector_node.children:
-        if child.is_named:
-            child_text = node_text(vector_str, child)
-            a_num, a_type = num_items[cnt]
-            assert child_text == a_num
-            assert child.type == a_type
-            cnt += 1
-    assert len(num_items) == cnt
+    form_test(num_vector_item)
 
 @settings(verbosity=vb)
 @given(atom_vector_items())
-def test_parses_atom_vector(atm_vector_item):
-    (vector_str, label), atm_items = atm_vector_item
-    tree = parser.parse(bytes(vector_str, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    the_vector_node = root_node.children[0]
-    assert the_vector_node.type == label
-    cnt = 0
-    for child in the_vector_node.children:
-        if child.is_named:
-            child_text = node_text(vector_str, child)
-            an_atm, a_type = atm_items[cnt]
-            assert child_text == an_atm
-            assert child.type == a_type
-            cnt += 1
-    assert len(atm_items) == cnt
+def test_parses_atom_vector(atom_vector_item):
+    form_test(atom_vector_item)
 
 ## maps
 
 @settings(verbosity=vb)
 @given(number_map_items())
 def test_parses_number_map(num_map_item):
-    (map_str, label), num_items = num_map_item
-    tree = parser.parse(bytes(map_str, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    the_map_node = root_node.children[0]
-    assert the_map_node.type == label
-    cnt = 0
-    for child in the_map_node.children:
-        if child.is_named:
-            child_text = node_text(map_str, child)
-            a_num, a_type = num_items[cnt]
-            assert child_text == a_num
-            assert child.type == a_type
-            cnt += 1
-    assert len(num_items) == cnt
+    form_test(num_map_item)
 
 @settings(verbosity=vb)
 @given(atom_map_items())
-def test_parses_atom_map(atm_map_item):
-    (map_str, label), atm_items = atm_map_item
-    tree = parser.parse(bytes(map_str, "utf8"))
-    root_node = tree.root_node
-    assert 1 == len(root_node.children)
-    the_map_node = root_node.children[0]
-    assert the_map_node.type == label
-    cnt = 0
-    for child in the_map_node.children:
-        if child.is_named:
-            child_text = node_text(map_str, child)
-            an_atm, a_type = atm_items[cnt]
-            assert child_text == an_atm
-            assert child.type == a_type
-            cnt += 1
-    assert len(atm_items) == cnt
+def test_parses_atom_map(atom_map_item):
+    form_test(atom_map_item)
+
+## metadata
+
+@settings(verbosity=vb)
+@given(atom_vector_with_metadata_items())
+def test_parses_atom_vector_with_metadata(atom_vector_with_metadata_item):
+    form_test(atom_vector_with_metadata_item)
 
 if __name__ == "__main__":
     test_parses_hex_as_number()
@@ -414,3 +407,5 @@ if __name__ == "__main__":
     #
     test_parses_number_map()
     test_parses_atom_map()
+    #
+    test_parses_atom_vector_with_metadata()

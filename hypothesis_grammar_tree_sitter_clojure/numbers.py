@@ -8,52 +8,66 @@ from hypothesis_grammar_clojure.numbers \
            double_as_str, \
            integer_as_str
 
+def build_num_str(item):
+    return item["inputs"]
+
 # XXX: should these specialized characters have specialized labels?
 #      e.g. instead of "number", should the following be labeled
 #      "hex_number"?
 @composite
 def hex_number_items(draw):
-    a_num = draw(hex_number_as_str())
+    a_num_str = draw(hex_number_as_str())
     #
-    return (a_num, "number")
+    return {"inputs": a_num_str,
+            "label": "number",
+            "recipe": build_num_str}
 
 @composite
 def octal_number_items(draw):
-    a_num = draw(octal_number_as_str())
+    a_num_str = draw(octal_number_as_str())
     #
-    return (a_num, "number")
+    return {"inputs": a_num_str,
+            "label": "number",
+            "recipe": build_num_str}
 
 @composite
 def radix_number_items(draw):
-    a_num = draw(radix_number_as_str())
+    a_num_str = draw(radix_number_as_str())
     #
-    return (a_num, "number")
+    return {"inputs": a_num_str,
+            "label": "number",
+            "recipe": build_num_str}
 
 @composite
 def ratio_items(draw):
-    a_num = draw(ratio_as_str())
+    a_num_str = draw(ratio_as_str())
     #
-    return (a_num, "number")
+    return {"inputs": a_num_str,
+            "label": "number",
+            "recipe": build_num_str}
 
 @composite
 def double_items(draw):
-    a_num = draw(double_as_str())
+    a_num_str = draw(double_as_str())
     #
-    return (a_num, "number")
+    return {"inputs": a_num_str,
+            "label": "number",
+            "recipe": build_num_str}
 
 @composite
 def integer_items(draw):
-    a_num = draw(integer_as_str())
+    a_num_str = draw(integer_as_str())
     #
-    return (a_num, "number")
+    return {"inputs": a_num_str,
+            "label": "number",
+            "recipe": build_num_str}
 
 @composite
 def number_items(draw):
-    a_num, label = draw(one_of(radix_number_items(),
-                               hex_number_items(),
-                               octal_number_items(),
-                               ratio_items(),
-                               double_items(),
-                               integer_items()))
-    # XXX: whether label should be passed through...
-    return (a_num, "number")
+    a_num_item = draw(one_of(radix_number_items(),
+                             hex_number_items(),
+                             octal_number_items(),
+                             ratio_items(),
+                             double_items(),
+                             integer_items()))
+    return a_num_item

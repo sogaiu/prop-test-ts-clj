@@ -6,38 +6,48 @@ from hypothesis_grammar_clojure.keywords \
            qualified_auto_resolved_keyword_as_str, \
            qualified_keyword_as_str
 
+def build_kwd_str(item):
+    return item["inputs"]
+
 # XXX: should these specialized characters have specialized labels?
 #      e.g. instead of "keyword", should the following be labeled
 #      "unqualified_auto_resolved_keyword"?
 @composite
 def unqualified_auto_resolved_keyword_items(draw):
-    a_kwd = draw(unqualified_auto_resolved_keyword_as_str())
+    a_kwd_str = draw(unqualified_auto_resolved_keyword_as_str())
     #
-    return (a_kwd, "keyword")
+    return {"inputs": a_kwd_str,
+            "label": "keyword",
+            "recipe": build_kwd_str}
 
 @composite
 def unqualified_keyword_items(draw):
-    a_kwd = draw(unqualified_keyword_as_str())
+    a_kwd_str = draw(unqualified_keyword_as_str())
     #
-    return (a_kwd, "keyword")
+    return {"inputs": a_kwd_str,
+            "label": "keyword",
+            "recipe": build_kwd_str}
 
 @composite
 def qualified_auto_resolved_keyword_items(draw):
-    a_kwd = draw(qualified_auto_resolved_keyword_as_str())
+    a_kwd_str = draw(qualified_auto_resolved_keyword_as_str())
     #
-    return (a_kwd, "keyword")
+    return {"inputs": a_kwd_str,
+            "label": "keyword",
+            "recipe": build_kwd_str}
 
 @composite
 def qualified_keyword_items(draw):
-    a_kwd = draw(qualified_keyword_as_str())
+    a_kwd_str = draw(qualified_keyword_as_str())
     #
-    return (a_kwd, "keyword")
+    return {"inputs": a_kwd_str,
+            "label": "keyword",
+            "recipe": build_kwd_str}
 
 @composite
 def keyword_items(draw):
-    a_kwd, label = draw(one_of(unqualified_auto_resolved_keyword_items(),
-                               unqualified_keyword_items(),
-                               qualified_auto_resolved_keyword_items(),
-                               qualified_keyword_items()))
-    # XXX: whether label should be passed through...
-    return (a_kwd, "keyword")
+    a_kwd_item = draw(one_of(unqualified_auto_resolved_keyword_items(),
+                             unqualified_keyword_items(),
+                             qualified_auto_resolved_keyword_items(),
+                             qualified_keyword_items()))
+    return a_kwd_item
