@@ -12,9 +12,13 @@ from hypothesis_grammar_tree_sitter_clojure.numbers import *
 from hypothesis_grammar_tree_sitter_clojure.strings import *
 from hypothesis_grammar_tree_sitter_clojure.symbols import *
 #
+from hypothesis_grammar_tree_sitter_clojure.atoms import *
+#
 from hypothesis_grammar_tree_sitter_clojure.lists import *
 from hypothesis_grammar_tree_sitter_clojure.maps import *
 from hypothesis_grammar_tree_sitter_clojure.vectors import *
+#
+from hypothesis_grammar_tree_sitter_clojure.collections import *
 #
 from hypothesis_grammar_tree_sitter_clojure.metadata import *
 
@@ -275,6 +279,8 @@ def test_parses_unqualified_symbol(unqual_symbol_item):
 def test_parses_qualified_symbol(qual_symbol_item):
     form_test(qual_symbol_item)
 
+@settings(verbosity=vb)
+@given(symbol_items())
 def test_parses_symbol(symbol_item):
     form_test(symbol_item)
 
@@ -339,6 +345,13 @@ def test_parses_character(character_item):
 def test_parses_string(string_item):
     form_test(string_item)
 
+## atoms
+
+@settings(verbosity=vb)
+@given(atom_items())
+def test_parses_atom(atom_item):
+    form_test(atom_item)
+
 ## lists
 
 @settings(verbosity=vb)
@@ -375,6 +388,13 @@ def test_parses_number_map(num_map_item):
 def test_parses_atom_map(atom_map_item):
     form_test(atom_map_item)
 
+## collections
+
+@settings(verbosity=vb)
+@given(atom_collection_items())
+def test_parses_atom_collection(atom_collection_item):
+    form_test(atom_collection_item)
+
 ## metadata
 
 @settings(verbosity=vb)
@@ -409,6 +429,8 @@ if __name__ == "__main__":
     #
     test_parses_string()
     #
+    test_parses_atom()
+    #
     test_parses_number_list()
     test_parses_atom_list()
     #
@@ -418,4 +440,8 @@ if __name__ == "__main__":
     test_parses_number_map()
     test_parses_atom_map()
     #
+    test_parses_atom_collection()
+    #
     test_parses_atom_vector_with_metadata()
+    #
+

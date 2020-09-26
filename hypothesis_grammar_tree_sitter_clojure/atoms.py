@@ -1,4 +1,3 @@
-from hypothesis.strategies import integers
 from hypothesis.strategies import composite, one_of
 
 from .characters import character_items
