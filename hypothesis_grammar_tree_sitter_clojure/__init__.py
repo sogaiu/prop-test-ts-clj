@@ -26,23 +26,23 @@ __version__ = '0.0.1'
 #   symbolic_value
 #
 # compound (17)
+#   anon_func
+#   deref_form
 #   discard_expr
+#   eval_form
 #   + list
 #   + map
-#   + vector
-#   set
-#   anon_func
+#   namespaced_map
+#   quote_form
 #   read_cond
 #   read_cond_splicing
-#   namespaced_map
-#   var_quote_form
-#   eval_form
-#   tagged_literal
+#   set
 #   syntax_quote_form
-#   quote_form
-#   unquote_splicing_form
+#   tagged_literal
 #   unquote_form
-#   deref_form
+#   unquote_splicing_form
+#   var_quote_form
+#   + vector
 #
 # compound but not standalone (2)
 #   metadata
