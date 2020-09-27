@@ -87,10 +87,10 @@ def symbol_metadata_items(draw):
 
 @composite
 def metadata_items(draw):
-    metadata_item =  draw(one_of(map_metadata_items(),
-                                 keyword_metadata_items(),
-                                 string_metadata_items(),
-                                 symbol_metadata_items()))
+    metadata_item = draw(one_of(map_metadata_items(),
+                                keyword_metadata_items(),
+                                string_metadata_items(),
+                                symbol_metadata_items()))
     return metadata_item
 
 # XXX: starting with a single metadata item, probably want to have
