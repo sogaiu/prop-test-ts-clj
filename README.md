@@ -9,6 +9,8 @@ Early stage.
 ## Setup
 
 ```
+git clone https://github.com/sogaiu/prop-test-ts-clj
+cd prop-test-ts-clj
 mkdir vendor
 cd vendor
 git clone https://github.com/sogaiu/tree-sitter-clojure
