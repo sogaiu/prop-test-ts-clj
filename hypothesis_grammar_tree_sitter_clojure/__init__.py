@@ -45,7 +45,7 @@ __version__ = '0.0.1'
 #   + vector
 #
 # adorned form (7)
-#   deref_form
+#   + deref_form
 #   eval_form
 #   + quote_form
 #   syntax_quote_form
