@@ -1,7 +1,7 @@
 # clone tree-sitter-clojure into vendor dir and follow setup
 # instructions in README for setup before executing this file
 from hypothesis import given
-from hypothesis import note, settings, Verbosity
+from hypothesis import settings, Verbosity
 
 # XXX: clean this up later
 from hypothesis_grammar_tree_sitter_clojure.characters import *
