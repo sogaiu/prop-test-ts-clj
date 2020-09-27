@@ -19,6 +19,7 @@ from hypothesis_grammar_tree_sitter_clojure.vectors import *
 from hypothesis_grammar_tree_sitter_clojure.collections import *
 #
 from hypothesis_grammar_tree_sitter_clojure.deref_forms import *
+from hypothesis_grammar_tree_sitter_clojure.eval_forms import *
 from hypothesis_grammar_tree_sitter_clojure.quote_forms import *
 #
 from hypothesis_grammar_tree_sitter_clojure.metadata import *
@@ -236,6 +237,11 @@ def test_parses_deref_form(deref_form_item):
     form_test(deref_form_item)
 
 @settings(verbosity=vb)
+@given(eval_form_items())
+def test_parses_eval_form(eval_form_item):
+    form_test(eval_form_item)
+
+@settings(verbosity=vb)
 @given(quote_form_items())
 def test_parses_quote_form(quote_form_item):
     form_test(quote_form_item)
@@ -288,6 +294,8 @@ if __name__ == "__main__":
     test_parses_atom_collection()
     #
     test_parses_deref_form()
+    #
+    test_parses_eval_form()
     #
     test_parses_quote_form()
     #
