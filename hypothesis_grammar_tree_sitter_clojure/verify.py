@@ -88,6 +88,68 @@ def verify_node_as_coll(ctx, coll_item):
     else:
         return True
 
+# (source [0, 0] - [1, 0]
+#  (quote_form [0, 0] - [0, 12]
+#    value: (symbol [0, 1] - [0, 12])))
+
+# (source [0, 0] - [1, 0]
+#   (quote_form [0, 0] - [0, 19]
+#     value: (list [0, 1] - [0, 19]
+#       value: (symbol [0, 2] - [0, 6])
+#       value: (symbol [0, 7] - [0, 13])
+#       value: (symbol [0, 14] - [0, 18]))))
+
+def verify_node_as_adorned(ctx, adorned_item):
+    node, source  = \
+        itemgetter('node', 'source')(ctx)
+    form_item, adorned_label = \
+        itemgetter('inputs', 'label')(adorned_item)
+    if node.type != adorned_label:
+        # XXX
+        print("node type mismatch")
+        print("  node:", node.type)
+        print("  expected:", adorned_label)
+        return False
+    # always exactly one
+    form_node = node.child_by_field_name("value")
+    if not form_node:
+        # XXX
+        print("did not find value field")
+        print("  node:", node.sexp())
+        return False
+    # XXX: this test doesn't seem doable w/ py-tree-sitter atm
+    #      goal is to verify there is only one value field,
+    #      but the cursor api doesn't seem to work from an
+    #      arbitrary node
+    # cnt = 0
+    # cursor = form_node.walk()
+    #
+    # XXX: code here for visiting all children, counting
+    #      nodes that correspond to the field "value"
+    #
+    # if 1 != cnt:
+    #     # XXX
+    #     print("did not find exactly one value field")
+    #     print("  cnt:", cnt)
+    #     return False
+    label, recipe = \
+        itemgetter('label', 'recipe')(form_item)
+    form_str = recipe(form_item)
+    if form_node.type != label:
+        # XXX
+        print("node type mismatch")
+        print("  node:", form_node.type)
+        print("  expected:", label)
+        return False
+    text_of_node = node_text(source, form_node)
+    if text_of_node != form_str:
+        # XXX
+        print("node text mismatch")
+        print("  node:", text_of_node)
+        print("  expected:", form_str)
+        return False
+    return True
+
 # XXX: note that there is no value field for this case,
 #      but for all(?) other cases there is
 #

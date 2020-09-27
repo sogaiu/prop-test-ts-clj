@@ -18,6 +18,8 @@ from hypothesis_grammar_tree_sitter_clojure.vectors import *
 #
 from hypothesis_grammar_tree_sitter_clojure.collections import *
 #
+from hypothesis_grammar_tree_sitter_clojure.quote_forms import *
+#
 from hypothesis_grammar_tree_sitter_clojure.metadata import *
 
 vb = Verbosity.verbose
@@ -225,6 +227,13 @@ def test_parses_atom_map(atom_map_item):
 def test_parses_atom_collection(atom_collection_item):
     form_test(atom_collection_item)
 
+## adorned forms
+
+@settings(verbosity=vb)
+@given(quote_form_items())
+def test_parses_quote_form(quote_form_item):
+    form_test(quote_form_item)
+
 ## metadata
 
 @settings(verbosity=vb)
@@ -272,6 +281,7 @@ if __name__ == "__main__":
     #
     test_parses_atom_collection()
     #
+    test_parses_quote_form()
+    #
     test_parses_atom_vector_with_metadata()
     #
-
