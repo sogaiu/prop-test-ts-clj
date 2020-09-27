@@ -7,6 +7,8 @@ from hypothesis_grammar_clojure.characters \
            octal_character_as_str, \
            unicode_quad_character_as_str
 
+from .verify import verify_node_as_atom
+
 def build_chr_str(item):
     return item["inputs"]
 
@@ -21,7 +23,8 @@ def any_character_items(draw):
     #
     return {"inputs": a_chr_str,
             "label": "character",
-            "recipe": build_chr_str}
+            "recipe": build_chr_str,
+            "verify": verify_node_as_atom}
 
 @composite
 def named_character_items(draw):
@@ -29,7 +32,8 @@ def named_character_items(draw):
     #
     return {"inputs": a_chr_str,
             "label": "character",
-            "recipe": build_chr_str}
+            "recipe": build_chr_str,
+            "verify": verify_node_as_atom}
 
 @composite
 def octal_character_items(draw):
@@ -37,7 +41,8 @@ def octal_character_items(draw):
     #
     return {"inputs": a_chr_str,
             "label": "character",
-            "recipe": build_chr_str}
+            "recipe": build_chr_str,
+            "verify": verify_node_as_atom}
 
 @composite
 def unicode_quad_character_items(draw):
@@ -45,7 +50,8 @@ def unicode_quad_character_items(draw):
     #
     return {"inputs": a_chr_str,
             "label": "character",
-            "recipe": build_chr_str}
+            "recipe": build_chr_str,
+            "verify": verify_node_as_atom}
 
 @composite
 def character_items(draw):

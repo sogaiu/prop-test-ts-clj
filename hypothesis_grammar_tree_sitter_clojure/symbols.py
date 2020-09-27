@@ -9,6 +9,8 @@ from hypothesis_grammar_clojure.symbols \
 def build_sym_str(item):
     return item["inputs"]
 
+from .verify import verify_node_as_atom
+
 # XXX: should these specialized characters have specialized labels?
 #      e.g. instead of "symbol", should the following be labeled
 #      "unqualified_symbol"?
@@ -18,7 +20,8 @@ def unqualified_symbol_items(draw):
     #
     return {"inputs": a_sym_str,
             "label": "symbol",
-            "recipe": build_sym_str}
+            "recipe": build_sym_str,
+            "verify": verify_node_as_atom}
 
 @composite
 def qualified_symbol_items(draw):
@@ -26,7 +29,8 @@ def qualified_symbol_items(draw):
     #
     return {"inputs": a_sym_str,
             "label": "symbol",
-            "recipe": build_sym_str}
+            "recipe": build_sym_str,
+            "verify": verify_node_as_atom}
 
 @composite
 def symbol_items(draw):

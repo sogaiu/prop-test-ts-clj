@@ -8,6 +8,8 @@ from hypothesis_grammar_clojure.numbers \
            double_as_str, \
            integer_as_str
 
+from .verify import verify_node_as_atom
+
 def build_num_str(item):
     return item["inputs"]
 
@@ -20,7 +22,8 @@ def hex_number_items(draw):
     #
     return {"inputs": a_num_str,
             "label": "number",
-            "recipe": build_num_str}
+            "recipe": build_num_str,
+            "verify": verify_node_as_atom}
 
 @composite
 def octal_number_items(draw):
@@ -28,7 +31,8 @@ def octal_number_items(draw):
     #
     return {"inputs": a_num_str,
             "label": "number",
-            "recipe": build_num_str}
+            "recipe": build_num_str,
+            "verify": verify_node_as_atom}
 
 @composite
 def radix_number_items(draw):
@@ -36,7 +40,8 @@ def radix_number_items(draw):
     #
     return {"inputs": a_num_str,
             "label": "number",
-            "recipe": build_num_str}
+            "recipe": build_num_str,
+            "verify": verify_node_as_atom}
 
 @composite
 def ratio_items(draw):
@@ -44,7 +49,8 @@ def ratio_items(draw):
     #
     return {"inputs": a_num_str,
             "label": "number",
-            "recipe": build_num_str}
+            "recipe": build_num_str,
+            "verify": verify_node_as_atom}
 
 @composite
 def double_items(draw):
@@ -52,7 +58,8 @@ def double_items(draw):
     #
     return {"inputs": a_num_str,
             "label": "number",
-            "recipe": build_num_str}
+            "recipe": build_num_str,
+            "verify": verify_node_as_atom}
 
 @composite
 def integer_items(draw):
@@ -60,7 +67,8 @@ def integer_items(draw):
     #
     return {"inputs": a_num_str,
             "label": "number",
-            "recipe": build_num_str}
+            "recipe": build_num_str,
+            "verify": verify_node_as_atom}
 
 @composite
 def number_items(draw):

@@ -11,6 +11,10 @@ from .symbols import symbol_items
 # metadatee-related (maps and symbols from above would be too)
 from .atoms import atom_items
 from .vectors import atom_vector_items, build_vector_str
+# XXX: clean up later
+from .verify import verify_node_as_atom, \
+    verify_node_as_coll, \
+    verify_node_with_metadata
 
 # XXX: alternative ways of providing separation between elements?
 #      obvious way is whitespace, but could also have:
@@ -52,7 +56,8 @@ def keyword_metadata_items(draw):
     #
     return {"inputs": keyword_item,
             "label": "metadata",
-            "recipe": build_metadata_str}
+            "recipe": build_metadata_str,
+            "verify": verify_node_as_atom}
 
 # (source [0, 0] - [1, 0]
 #   (vector [0, 0] - [0, 12]
@@ -67,7 +72,8 @@ def map_metadata_items(draw):
     #
     return {"inputs": map_item,
             "label": "metadata",
-            "recipe": build_metadata_str}
+            "recipe": build_metadata_str,
+            "verify": verify_node_as_coll}
 
 @composite
 def string_metadata_items(draw):
@@ -75,7 +81,8 @@ def string_metadata_items(draw):
     #
     return {"inputs": string_item,
             "label": "metadata",
-            "recipe": build_metadata_str}
+            "recipe": build_metadata_str,
+            "verify": verify_node_as_atom}
 
 @composite
 def symbol_metadata_items(draw):
@@ -83,7 +90,8 @@ def symbol_metadata_items(draw):
     #
     return {"inputs": symbol_item,
             "label": "metadata",
-            "recipe": build_metadata_str}
+            "recipe": build_metadata_str,
+            "verify": verify_node_as_atom}
 
 @composite
 def metadata_items(draw):
@@ -110,4 +118,5 @@ def atom_vector_with_metadata_items(draw):
     return {"inputs": atm_items,
             "label": "vector",
             "recipe": build_vector_with_metadata_str,
+            "verify": verify_node_with_metadata,
             "metadata": md_items}

@@ -6,6 +6,8 @@ from hypothesis_grammar_clojure.keywords \
            qualified_auto_resolved_keyword_as_str, \
            qualified_keyword_as_str
 
+from .verify import verify_node_as_atom
+
 def build_kwd_str(item):
     return item["inputs"]
 
@@ -18,7 +20,8 @@ def unqualified_auto_resolved_keyword_items(draw):
     #
     return {"inputs": a_kwd_str,
             "label": "keyword",
-            "recipe": build_kwd_str}
+            "recipe": build_kwd_str,
+            "verify": verify_node_as_atom}
 
 @composite
 def unqualified_keyword_items(draw):
@@ -26,7 +29,8 @@ def unqualified_keyword_items(draw):
     #
     return {"inputs": a_kwd_str,
             "label": "keyword",
-            "recipe": build_kwd_str}
+            "recipe": build_kwd_str,
+            "verify": verify_node_as_atom}
 
 @composite
 def qualified_auto_resolved_keyword_items(draw):
@@ -34,7 +38,8 @@ def qualified_auto_resolved_keyword_items(draw):
     #
     return {"inputs": a_kwd_str,
             "label": "keyword",
-            "recipe": build_kwd_str}
+            "recipe": build_kwd_str,
+            "verify": verify_node_as_atom}
 
 @composite
 def qualified_keyword_items(draw):
@@ -42,7 +47,8 @@ def qualified_keyword_items(draw):
     #
     return {"inputs": a_kwd_str,
             "label": "keyword",
-            "recipe": build_kwd_str}
+            "recipe": build_kwd_str,
+            "verify": verify_node_as_atom}
 
 @composite
 def keyword_items(draw):

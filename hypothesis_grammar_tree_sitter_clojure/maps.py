@@ -8,6 +8,8 @@ from .numbers import number_items
 from .strings import string_items
 from .symbols import symbol_items
 
+from .verify import verify_node_as_coll
+
 # XXX: alternative ways of providing separation between elements?
 #      obvious way is whitespace, but could also have:
 #
@@ -36,7 +38,8 @@ def number_map_items(draw):
     #
     return {"inputs": num_items,
             "label": "map",
-            "recipe": build_map_str}
+            "recipe": build_map_str,
+            "verify": verify_node_as_coll}
 
 @composite
 def atom_map_items(draw):
@@ -48,4 +51,5 @@ def atom_map_items(draw):
     #
     return {"inputs": atm_items,
             "label": "map",
-            "recipe": build_map_str}
+            "recipe": build_map_str,
+            "verify": verify_node_as_coll}
