@@ -10,6 +10,12 @@ def node_text(source, node):
     return \
         bytes(source, "utf8")[node.start_byte:node.end_byte].decode("utf-8")
 
+# (source [0, 0] - [1, 0]
+#   (keyword [0, 0] - [0, 2]))
+
+# (source [0, 0] - [1, 0]
+#   (symbol [0, 0] - [0, 6]))
+
 def verify_node_as_atom(ctx, item):
     node, source = \
         itemgetter('node', 'source')(ctx)
@@ -31,6 +37,12 @@ def verify_node_as_atom(ctx, item):
         return False
     return True
 
+# (source [0, 0] - [1, 0]
+#   (vector [0, 0] - [0, 10]
+#     value: (keyword [0, 1] - [0, 3])
+#     value: (keyword [0, 4] - [0, 6])
+#     value: (keyword [0, 7] - [0, 9])))
+
 def verify_node_as_coll(ctx, coll_item):
     node, source  = \
         itemgetter('node', 'source')(ctx)
@@ -51,7 +63,7 @@ def verify_node_as_coll(ctx, coll_item):
             else:
                 label, recipe = \
                     itemgetter('label', 'recipe')(items[cnt])
-                coll_str = recipe(items[cnt])
+                elt_str = recipe(items[cnt])
                 if child.type != label:
                     # XXX
                     print("node type mismatch")
@@ -59,11 +71,11 @@ def verify_node_as_coll(ctx, coll_item):
                     print("  expected:", label)
                     return False
                 text_of_node = node_text(source, child)
-                if text_of_node != coll_str:
+                if text_of_node != elt_str:
                     # XXX
                     print("node text mismatch")
                     print("  node:", text_of_node)
-                    print("  expected:", coll_str)
+                    print("  expected:", elt_str)
                     return False
                 cnt += 1
     expected_cnt = len(items)
@@ -75,6 +87,36 @@ def verify_node_as_coll(ctx, coll_item):
         return False
     else:
         return True
+
+# XXX: note that there is no value field for this case,
+#      but for all(?) other cases there is
+#
+# (source [0, 0] - [1, 0]
+#   (symbol [0, 0] - [0, 12]
+#     metadata: (metadata [0, 0] - [0, 5]
+#       (keyword [0, 1] - [0, 5]))))
+
+# (source [0, 0] - [1, 0]
+#   (vector [0, 0] - [0, 12]
+#     metadata: (metadata [0, 0] - [0, 7]
+#       (map [0, 1] - [0, 7]
+#         value: (keyword [0, 2] - [0, 4])
+#         value: (number [0, 5] - [0, 6])))
+#     value: (keyword [0, 9] - [0, 11])))
+
+# (source [0, 0] - [1, 0]
+#   (quote_form [0, 0] - [0, 14]
+#     metadata: (metadata [0, 0] - [0, 5]
+#       (keyword [0, 1] - [0, 5]))
+#     value: (vector [0, 7] - [0, 14]
+#       value: (keyword [0, 8] - [0, 10])
+#       value: (keyword [0, 11] - [0, 13]))))
+
+# (source [0, 0] - [1, 0]
+#   (quote_form [0, 0] - [0, 10]
+#     metadata: (metadata [0, 0] - [0, 5]
+#       (keyword [0, 1] - [0, 5]))
+#     value: (symbol [0, 7] - [0, 10])))
 
 # XXX: only handles one pieces of metadata
 #      eventually handle multiple?

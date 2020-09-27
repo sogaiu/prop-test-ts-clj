@@ -59,13 +59,6 @@ def keyword_metadata_items(draw):
             "recipe": build_metadata_str,
             "verify": verify_node_as_atom}
 
-# (source [0, 0] - [1, 0]
-#   (vector [0, 0] - [0, 12]
-#     metadata: (metadata [0, 0] - [0, 7]
-#       (map [0, 1] - [0, 7]
-#         value: (keyword [0, 2] - [0, 4])
-#         value: (number [0, 5] - [0, 6])))
-#     value: (keyword [0, 9] - [0, 11])))
 @composite
 def map_metadata_items(draw):
     map_item = draw(atom_map_items())
