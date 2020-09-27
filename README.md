@@ -9,8 +9,11 @@ Early stage.
 ## Setup
 
 ```
+# clone this repository
 git clone https://github.com/sogaiu/prop-test-ts-clj
 cd prop-test-ts-clj
+
+# prepare tree-sitter-clojure
 mkdir vendor
 cd vendor
 git clone https://github.com/sogaiu/tree-sitter-clojure
@@ -20,7 +23,9 @@ npx tree-sitter generate
 npx node-gyp configure
 npx node-gyp rebuild
 cd ../..
-# before doing the following, please consider using pyenv, virtualenv, etc.
+
+# install hypothesis, py-tree-sitter, etc.
+# N.B. before doing the following, please consider using pyenv, virtualenv, etc.
 pip install -r requirements.txt
 ```
 
