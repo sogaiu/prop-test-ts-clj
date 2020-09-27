@@ -118,7 +118,7 @@ def verify_node_as_coll(ctx, coll_item):
 #       (keyword [0, 1] - [0, 5]))
 #     value: (symbol [0, 7] - [0, 10])))
 
-# XXX: only handles one pieces of metadata
+# XXX: only handles one piece of metadata
 #      eventually handle multiple?
 def verify_node_metadata(ctx, item):
     node, source = \
