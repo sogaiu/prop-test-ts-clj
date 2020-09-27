@@ -173,7 +173,7 @@ def verify_node_metadata(ctx, item):
                                             "label": md_inputs["label"],
                                             "recipe": md_inputs["recipe"]})
 
+# XXX: this only works for nodes that are collections
 def verify_node_with_metadata(ctx, item):
     return verify_node_metadata(ctx, item) and \
         verify_node_as_coll(ctx, item)
-
