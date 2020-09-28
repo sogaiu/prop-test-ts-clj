@@ -4,6 +4,8 @@ from hypothesis import given
 from hypothesis import settings, Verbosity
 
 # XXX: clean this up later
+from hypothesis_grammar_tree_sitter_clojure.comments import *
+#
 from hypothesis_grammar_tree_sitter_clojure.characters import *
 from hypothesis_grammar_tree_sitter_clojure.keywords import *
 from hypothesis_grammar_tree_sitter_clojure.numbers import *
@@ -64,6 +66,13 @@ def form_test(item):
     ctx = {"node": get_lone_node(form_str),
            "source": form_str}
     assert item["verify"](ctx, item)
+
+## comments
+
+@settings(verbosity=vb)
+@given(comment_items())
+def test_parses_comment(comment_item):
+    form_test(comment_item)
 
 ## numbers
 
@@ -267,6 +276,8 @@ def test_parses_atom_vector_with_metadata(atom_vector_with_metadata_item):
     form_test(atom_vector_with_metadata_item)
 
 if __name__ == "__main__":
+    test_parses_comment()
+    #
     test_parses_hex_as_number()
     test_parses_octal_as_number()
     test_parses_radix_as_number()
