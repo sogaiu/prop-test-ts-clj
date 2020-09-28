@@ -18,7 +18,7 @@ from .verify import verify_node_as_adorned
 #      "spacing" or "separation" units
 #
 #      there is one separator of interest and that is potentially
-#      between ^ and the rest of the form.  the default here is
+#      between #= and the rest of the form.  the default here is
 #      no separator.
 def build_eval_form_str(item):
     inputs = item["inputs"]
