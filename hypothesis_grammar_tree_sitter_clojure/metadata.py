@@ -11,6 +11,9 @@ from .symbols import symbol_items
 # metadatee-related (maps and symbols from above would be too)
 from .atoms import atom_items
 from .vectors import atom_vector_items, build_vector_str
+
+from .separators import separator_strings
+
 # XXX: clean up later
 from .verify import verify_node_as_atom, \
     verify_node_as_coll, \
@@ -102,6 +105,9 @@ def atom_vector_with_metadata_items(draw):
     #
     atm_items = draw(lists(elements=atom_items(),
                            min_size=n, max_size=n))
+    #
+    sep_strs = draw(lists(elements=separator_strings(),
+                          min_size=n, max_size=n))
     # XXX: tweak these numbers eventually
     m = draw(integers(min_value=1, max_value=1))
     #
@@ -112,4 +118,5 @@ def atom_vector_with_metadata_items(draw):
             "label": "vector",
             "recipe": build_vector_with_metadata_str,
             "verify": verify_node_with_metadata,
-            "metadata": md_items}
+            "metadata": md_items,
+            "separators": sep_strs}

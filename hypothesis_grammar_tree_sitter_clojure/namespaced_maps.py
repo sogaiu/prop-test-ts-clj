@@ -5,30 +5,24 @@ from .atoms import atom_items
 from .keywords import keyword_items
 from .numbers import number_items
 
+from .separators import separator_strings
+
 from .verify import verify_node_as_atom, \
     verify_node_as_coll, \
     verify_node_with_prefix
 
-# XXX: alternative ways of providing separation between elements?
-#      obvious way is whitespace, but could also have:
-#
-#      * line comment that extends to end of line
-#      * discard form
-#      * combination
-#
-#      perhaps better to have a strategy for generating such
-#      "spacing" or "separation" units
-#
-#      could also have stuff before and after delimiters
+# XXX: could also have stuff before and after delimiters
 def build_namespaced_map_str(namespaced_map_item):
     items = namespaced_map_item["inputs"]
+    seps = namespaced_map_item["separators"]
+    ns_map_elts = []
+    for i, s in zip(items, seps):
+        ns_map_elts += i["recipe"](i) + s
+    #
     prefix = namespaced_map_item["prefix"]
-    return \
-        "#" + \
-        prefix["recipe"](prefix) + \
-        "{" + \
-        " ".join([item["recipe"](item) for item in items]) + \
-        "}"
+    prefix_str = prefix["recipe"](prefix)
+    #
+    return "#" + prefix_str + "{" + "".join(ns_map_elts) + "}"
 
 def build_auto_res_marker_str(item):
     # this is just "::"
@@ -61,11 +55,15 @@ def number_namespaced_map_items(draw):
     #
     prefix_item = draw(prefix_items())
     #
+    sep_strs = draw(lists(elements=separator_strings(),
+                          min_size=m, max_size=m))
+    #
     return {"inputs": num_items,
             "label": "namespaced_map",
             "recipe": build_namespaced_map_str,
             "verify": verify_node_with_prefix,
-            "prefix": prefix_item}
+            "prefix": prefix_item,
+            "separators": sep_strs}
 
 @composite
 def atom_namespaced_map_items(draw):
@@ -77,8 +75,12 @@ def atom_namespaced_map_items(draw):
     #
     prefix_item = draw(prefix_items())
     #
+    sep_strs = draw(lists(elements=separator_strings(),
+                          min_size=m, max_size=m))
+    #
     return {"inputs": atm_items,
             "label": "namespaced_map",
             "recipe": build_namespaced_map_str,
             "verify": verify_node_with_prefix,
-            "prefix": prefix_item}
+            "prefix": prefix_item,
+            "separators": sep_strs}
