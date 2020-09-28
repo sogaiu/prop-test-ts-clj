@@ -20,7 +20,7 @@ __version__ = '0.0.1'
 # grammatical pieces
 #
 # subatomic (1)
-#   auto_res_marker
+#   + auto_res_marker
 #
 # atomic (10)
 #   boolean
@@ -38,7 +38,7 @@ __version__ = '0.0.1'
 #   anon_func
 #   + list
 #   + map
-#   namespaced_map
+#   + namespaced_map
 #   read_cond
 #   read_cond_splicing
 #   set
