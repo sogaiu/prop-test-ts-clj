@@ -54,16 +54,28 @@ def verify_node_as_coll(ctx, coll_item):
         print("  node:", node.type)
         print("  expected:", coll_label)
         return False
-    cnt = 0
-    for child in node.children:
-        if child.is_named:
-            # XXX: is this logic correct?
-            if child.type == "metadata":
-                pass
-            else:
+    first_value_node = node.child_by_field_name("value")
+    n_children = len(node.children)
+    # if there was at least one value node, verify all value nodes
+    if first_value_node:
+        cnt = 0
+        # find the index of the value node just found
+        while (cnt < n_children):
+            # must succeed given definition of first_value_node
+            if first_value_node == node.children[cnt]:
+                break
+            cnt += 1
+        first_value_node_idx = cnt
+        value_node_cnt = 0
+        # start verifying from first value node
+        for idx in range(first_value_node_idx, n_children):
+            child = node.children[idx]
+            # assumes that after first value node, all named nodes are
+            # value nodes (node which is associated with field "value")
+            if child.is_named:
                 label, recipe = \
-                    itemgetter('label', 'recipe')(items[cnt])
-                elt_str = recipe(items[cnt])
+                    itemgetter('label', 'recipe')(items[value_node_cnt])
+                elt_str = recipe(items[value_node_cnt])
                 if child.type != label:
                     # XXX
                     print("node type mismatch")
@@ -77,16 +89,15 @@ def verify_node_as_coll(ctx, coll_item):
                     print("  node:", text_of_node)
                     print("  expected:", elt_str)
                     return False
-                cnt += 1
-    expected_cnt = len(items)
-    if expected_cnt != cnt:
-        # XXX
-        print("unexpected number of element nodes")
-        print("  actual:", cnt)
-        print("  expected:", expected_cnt)
-        return False
-    else:
-        return True
+                value_node_cnt += 1
+        expected_cnt = len(items)
+        if expected_cnt != value_node_cnt:
+            # XXX
+            print("unexpected number of element nodes")
+            print("  actual:", child_cnt)
+            print("  expected:", expected_cnt)
+            return False
+    return True
 
 # (source [0, 0] - [1, 0]
 #  (quote_form [0, 0] - [0, 12]
