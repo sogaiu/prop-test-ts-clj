@@ -1,5 +1,3 @@
-import re
-
 from hypothesis.strategies import composite, one_of
 
 from hypothesis_grammar_clojure.symbols \
