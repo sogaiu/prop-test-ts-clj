@@ -14,6 +14,7 @@ from hypothesis_grammar_tree_sitter_clojure.atoms import *
 #
 from hypothesis_grammar_tree_sitter_clojure.lists import *
 from hypothesis_grammar_tree_sitter_clojure.maps import *
+from hypothesis_grammar_tree_sitter_clojure.namespaced_maps import *
 from hypothesis_grammar_tree_sitter_clojure.vectors import *
 #
 from hypothesis_grammar_tree_sitter_clojure.collections import *
@@ -222,6 +223,18 @@ def test_parses_number_map(num_map_item):
 def test_parses_atom_map(atom_map_item):
     form_test(atom_map_item)
 
+## namespaced maps
+
+@settings(verbosity=vb)
+@given(number_namespaced_map_items())
+def test_parses_number_namespaced_map(num_namespaced_map_item):
+    form_test(num_namespaced_map_item)
+
+@settings(verbosity=vb)
+@given(atom_namespaced_map_items())
+def test_parses_atom_namespaced_map(atom_namespaced_map_item):
+    form_test(atom_namespaced_map_item)
+
 ## collections
 
 @settings(verbosity=vb)
@@ -290,6 +303,9 @@ if __name__ == "__main__":
     #
     test_parses_number_map()
     test_parses_atom_map()
+    #
+    test_parses_number_namespaced_map()
+    test_parses_atom_namespaced_map()
     #
     test_parses_atom_collection()
     #

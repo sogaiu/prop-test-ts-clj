@@ -250,3 +250,80 @@ def verify_node_metadata(ctx, item):
 def verify_node_with_metadata(ctx, item):
     return verify_node_metadata(ctx, item) and \
         verify_node_as_coll(ctx, item)
+
+def verify_node_prefix(ctx, item):
+    node, source = \
+        itemgetter('node', 'source')(ctx)
+    prefix_node = node.child_by_field_name("prefix")
+    if prefix_node == None:
+        # XXX
+        print("no prefix found")
+        return False
+    # verify there is only one prefix field
+    cnt = 0
+    # https://github.com/tree-sitter/tree-sitter/issues/567
+    cursor = node.walk() # must start at parent "containing" field
+    cursor.goto_first_child()
+    if cursor.current_field_name() == "prefix":
+        cnt += 1
+    while cursor.goto_next_sibling():
+        if cursor.current_field_name() == "prefix":
+            cnt += 1
+    if 1 != cnt:
+        # XXX
+        print("did not find exactly one prefix field")
+        print("  cnt:", cnt)
+        return False
+    prefix_item = item["prefix"]
+    prefix_inputs, prefix_label, prefix_recipe = \
+        itemgetter('inputs', 'label', 'recipe')(prefix_item)
+    if prefix_node.type != prefix_label:
+        # XXX
+        print("prefix node type mismatch")
+        print("  node:", prefix_node.type)
+        print("  expected:", prefix_label)
+        return False
+    #
+    return prefix_item["verify"]({"node": prefix_node,
+                                  "source": source},
+                                 prefix_item)
+
+# #::{}
+#
+# (source [0, 0] - [1, 0]
+#   (namespaced_map [0, 0] - [0, 5]
+#     prefix: (auto_res_marker [0, 1] - [0, 3])))
+
+# #::{:a 1}
+#
+# (source [0, 0] - [1, 0]
+#   (namespaced_map [0, 0] - [0, 9]
+#     prefix: (auto_res_marker [0, 1] - [0, 3])
+#     value: (keyword [0, 4] - [0, 6])
+#     value: (number [0, 7] - [0, 8])))
+
+# #:hello{}
+#
+# (source [0, 0] - [1, 0]
+#   (namespaced_map [0, 0] - [0, 9]
+#     prefix: (keyword [0, 1] - [0, 7])))
+
+# #:hello{:a 1}
+
+# (source [0, 0] - [1, 0]
+#   (namespaced_map [0, 0] - [0, 13]
+#     prefix: (keyword [0, 1] - [0, 7])
+#     value: (keyword [0, 8] - [0, 10])
+#     value: (number [0, 11] - [0, 12])))
+
+# #:hello/there{:a 1}
+#
+# (source [0, 0] - [1, 0]
+#   (namespaced_map [0, 0] - [0, 19]
+#     prefix: (keyword [0, 1] - [0, 13])
+#     value: (keyword [0, 14] - [0, 16])
+#     value: (number [0, 17] - [0, 18])))
+
+def verify_node_with_prefix(ctx, item):
+    return verify_node_prefix(ctx, item) and \
+        verify_node_as_coll(ctx, item)
