@@ -6,10 +6,10 @@ from hypothesis_grammar_clojure.symbols \
     import unqualified_symbol_as_str, \
            qualified_symbol_as_str
 
+from .verify import verify_node_as_atom
+
 def build_sym_str(item):
     return item["inputs"]
-
-from .verify import verify_node_as_atom
 
 # XXX: should these specialized characters have specialized labels?
 #      e.g. instead of "symbol", should the following be labeled
