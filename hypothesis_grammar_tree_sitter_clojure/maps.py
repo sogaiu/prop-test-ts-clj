@@ -2,11 +2,7 @@ from hypothesis.strategies import integers
 from hypothesis.strategies import composite, lists
 
 from .atoms import atom_items
-from .characters import character_items
-from .keywords import keyword_items
 from .numbers import number_items
-from .strings import string_items
-from .symbols import symbol_items
 
 from .verify import verify_node_as_coll
 
