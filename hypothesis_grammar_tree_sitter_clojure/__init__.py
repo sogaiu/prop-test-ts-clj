@@ -29,7 +29,7 @@ __version__ = '0.0.1'
 # atomic (10)
 #   boolean
 #   + character
-#   comment
+#   + comment
 #   + keyword
 #   nil
 #   + number
