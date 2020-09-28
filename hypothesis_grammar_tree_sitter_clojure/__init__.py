@@ -32,6 +32,10 @@ __version__ = '0.0.1'
 
 # XXX: look into the "recursive" and "data" strategies
 
+# XXX: split prop-test-ts-clj.py into pieces to make running individual /
+#      sets of tests easier?  currently a lot of commenting / uncommenting
+#      takes place
+
 # grammatical pieces
 #
 # subatomic (1)
