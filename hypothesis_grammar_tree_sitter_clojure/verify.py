@@ -128,21 +128,21 @@ def verify_node_as_adorned(ctx, adorned_item):
         print("did not find value field")
         print("  node:", node.sexp())
         return False
-    # XXX: this test doesn't seem doable w/ py-tree-sitter atm
-    #      goal is to verify there is only one value field,
-    #      but the cursor api doesn't seem to work from an
-    #      arbitrary node
-    # cnt = 0
-    # cursor = form_node.walk()
-    #
-    # XXX: code here for visiting all children, counting
-    #      nodes that correspond to the field "value"
-    #
-    # if 1 != cnt:
-    #     # XXX
-    #     print("did not find exactly one value field")
-    #     print("  cnt:", cnt)
-    #     return False
+    # verify there is only one value field
+    cnt = 0
+    # https://github.com/tree-sitter/tree-sitter/issues/567
+    cursor = node.walk() # must start at parent "containing" field
+    cursor.goto_first_child()
+    if cursor.current_field_name() == "value":
+        cnt += 1
+    while cursor.goto_next_sibling():
+        if cursor.current_field_name() == "value":
+            cnt += 1
+    if 1 != cnt:
+        # XXX
+        print("did not find exactly one value field")
+        print("  cnt:", cnt)
+        return False
     label, recipe = \
         itemgetter('label', 'recipe')(form_item)
     form_str = recipe(form_item)
