@@ -30,7 +30,8 @@ __version__ = '0.0.1'
 #      basically the same sorts of things as for separators can go before
 #      or after things...need to track down possible locations
 
-# XXX: look into the "recursive" and "data" strategies
+# XXX: look into the "recursive" and "data" strategies -- also consider
+#      whether circular import issues may arise
 
 # XXX: split prop-test-ts-clj.py into pieces to make running individual /
 #      sets of tests easier?  currently a lot of commenting / uncommenting
