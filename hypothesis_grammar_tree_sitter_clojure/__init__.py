@@ -17,6 +17,10 @@ __version__ = '0.0.1'
 #      * discard expression
 #      * line comment (+ newline, if that's not considered part of comment)
 
+# XXX: related to separators is the idea of leading or trailing "space"
+#      basically the same sorts of things as for separators can go before
+#      or after things...
+
 # grammatical pieces
 #
 # subatomic (1)
