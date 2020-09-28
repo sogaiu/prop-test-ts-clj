@@ -9,17 +9,28 @@ __version__ = '0.0.1'
 # XXX: numeric constants being used in strategies are hard-wired -> change?
 
 # XXX: label strings could be factored out (e.g. "map", "number", etc.)
+#      perhaps these can be placed in a central look-up table to
+#      make changing them later easier (e.g. as a consequence of
+#      changing the tree-sitter grammar "grammar symbols")
 
-# XXX: whether to test a variety of "separators" -- e.g. instead of just
+# XXX: test a variety of "separators" -- e.g. instead of just
 #      a single space:
 #
 #      * different types and amounts of whitespace,
 #      * discard expression
 #      * line comment (+ newline, if that's not considered part of comment)
+#
+#      once the separators strategies is built, need to go around
+#      "deploying" it.
+#
+#      this may lead to changes in the various verify_* functions
+#      as "comment" and "discard_expr" nodes will start showing up.
 
 # XXX: related to separators is the idea of leading or trailing "space"
 #      basically the same sorts of things as for separators can go before
-#      or after things...
+#      or after things...need to track down possible locations
+
+# XXX: look into the "recursive" and "data" strategies
 
 # grammatical pieces
 #
