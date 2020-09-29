@@ -19,17 +19,16 @@ from .verify import verify_node_as_atom, \
     verify_node_as_coll, \
     verify_node_with_metadata
 
-# XXX: alternative ways of providing separation between elements?
-#      obvious way is whitespace, but could also have:
-#
-#      * line comment that extends to end of line
-#      * discard form
-#      * combination
-#
-#      perhaps better to have a strategy for generating such
-#      "spacing" or "separation" units
-#
-#      there is one separator of interest and that is potentially
+# metadata: $ =>
+#   seq("^",
+#       repeat($._non_form),
+#       choice($.read_cond,
+#              $.map,
+#              $.string,
+#              $.keyword,
+#              $.symbol)),
+
+# XXX: there is one separator of interest and that is potentially
 #      between ^ and the rest of the form.  the default here is
 #      no separator.
 def build_metadata_str(md_item):

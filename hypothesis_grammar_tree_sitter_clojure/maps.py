@@ -8,6 +8,18 @@ from .separators import separator_strings
 
 from .verify import verify_node_as_coll
 
+# map: $ =>
+#   seq(repeat(choice(field('metadata', $.metadata),
+#                     field('old_metadata', $.old_metadata),
+#                     $._non_form)),
+#       $._bare_map),
+#
+# _bare_map: $ =>
+#   seq("{",
+#       repeat(choice(field('value', $._form),
+#                     $._non_form)),
+#       "}"),
+
 # XXX: could also have stuff before and after delimiters
 def build_map_str(map_item):
     items = map_item["inputs"]

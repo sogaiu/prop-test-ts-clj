@@ -5,6 +5,9 @@ from .verify import verify_node_as_atom
 from hypothesis_grammar_clojure.comments \
     import comment_as_str
 
+# comment: $ =>
+#   token(/(;|(#!)).*/),
+
 def build_comment_str(item):
     return item["inputs"]
 

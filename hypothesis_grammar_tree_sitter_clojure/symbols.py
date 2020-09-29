@@ -6,6 +6,10 @@ from hypothesis_grammar_clojure.symbols \
 
 from .verify import verify_node_as_atom
 
+# const SYMBOL =
+#       token(seq(SYMBOL_HEAD,
+#                 repeat(SYMBOL_BODY)));
+
 def build_sym_str(item):
     return item["inputs"]
 

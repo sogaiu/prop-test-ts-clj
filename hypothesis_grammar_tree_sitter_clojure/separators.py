@@ -4,6 +4,11 @@ from hypothesis.strategies import composite, lists, one_of, sampled_from
 from .comments import comment_items
 #from .discard_exprs import discard_expr_items
 
+# _non_form: $ =>
+#   choice($._whitespace,
+#          $.comment,
+#          $.discard_expr),
+
 # XXX: move to hypothesis_grammar_clojure.whitespace?
 @composite
 def whitespace_strings(draw):

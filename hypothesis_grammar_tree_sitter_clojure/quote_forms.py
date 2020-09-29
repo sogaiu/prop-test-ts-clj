@@ -4,17 +4,15 @@ from .forms import form_items
 
 from .verify import verify_node_as_adorned
 
-# XXX: alternative ways of providing separation between elements?
-#      obvious way is whitespace, but could also have:
-#
-#      * line comment that extends to end of line
-#      * discard form
-#      * combination
-#
-#      perhaps better to have a strategy for generating such
-#      "spacing" or "separation" units
-#
-#      there is one separator of interest and that is potentially
+# quote_form: $ =>
+#   seq(repeat(choice(field('metadata', $.metadata),
+#                     field('old_metadata', $.old_metadata),
+#                     $._non_form)),
+#       "'",
+#       repeat($._non_form),
+#       field('value', $._form)),
+
+# XXX: there is one separator of interest and that is potentially
 #      between ' and the rest of the form.  the default here is
 #      no separator.
 def build_quote_form_str(item):

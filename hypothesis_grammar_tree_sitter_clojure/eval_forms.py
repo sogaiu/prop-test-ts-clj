@@ -7,17 +7,15 @@ from .symbols import symbol_items
 
 from .verify import verify_node_as_adorned
 
-# XXX: alternative ways of providing separation between elements?
-#      obvious way is whitespace, but could also have:
-#
-#      * line comment that extends to end of line
-#      * discard form
-#      * combination
-#
-#      perhaps better to have a strategy for generating such
-#      "spacing" or "separation" units
-#
-#      there is one separator of interest and that is potentially
+# eval_form: $ =>
+#   seq("#=",
+#       repeat($._non_form),
+#       field('value', choice($.list,
+#                             $.read_cond,
+#                             // #= ^:a java.lang.String
+#                             $.symbol))),
+
+# XXX: there is one separator of interest and that is potentially
 #      between #= and the rest of the form.  the default here is
 #      no separator.
 def build_eval_form_str(item):

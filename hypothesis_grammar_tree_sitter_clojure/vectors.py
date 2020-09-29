@@ -12,6 +12,18 @@ from .separators import separator_strings
 
 from .verify import verify_node_as_coll
 
+# vector: $ =>
+#   seq(repeat(choice(field('metadata', $.metadata),
+#                     field('old_metadata', $.old_metadata),
+#                     $._non_form)),
+#       $._bare_vector),
+#
+# _bare_vector: $ =>
+#   seq("[",
+#       repeat(choice(field('value', $._form),
+#                     $._non_form)),
+#       "]"),
+
 # XXX: could also have stuff before and after delimiters
 def build_vector_str(vector_item):
     items = vector_item["inputs"]

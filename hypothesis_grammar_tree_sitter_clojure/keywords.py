@@ -8,6 +8,19 @@ from hypothesis_grammar_clojure.keywords \
 
 from .verify import verify_node_as_atom
 
+# const KEYWORD =
+#       token(choice(// :my-ns/hi
+#                    // :a
+#                    // :/ is neither invalid nor valid, but repl accepts
+#                    seq(":",
+#                        choice("/",
+#                              KEYWORD_NO_SIGIL)),
+#                    // ::my-alias/hi
+#                    // ::a
+#                    // ::/ is invalid
+#                    seq(AUTO_RESOLVE_MARKER,
+#                        KEYWORD_NO_SIGIL)));
+
 def build_kwd_str(item):
     return item["inputs"]
 

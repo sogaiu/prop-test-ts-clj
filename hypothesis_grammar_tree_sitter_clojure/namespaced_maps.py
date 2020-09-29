@@ -11,6 +11,19 @@ from .verify import verify_node_as_atom, \
     verify_node_as_coll, \
     verify_node_with_prefix
 
+# auto_res_marker: $ =>
+#   AUTO_RESOLVE_MARKER,
+#
+# namespaced_map: $ =>
+#   seq(repeat(choice(field('metadata', $.metadata),
+#                     field('old_metadata', $.old_metadata),
+#                     $._non_form)),
+#       "#",
+#       field('prefix', choice($.auto_res_marker,
+#                              $.keyword)),
+#       repeat($._non_form),
+#       $._bare_map),
+
 # XXX: could also have stuff before and after delimiters
 def build_namespaced_map_str(namespaced_map_item):
     items = namespaced_map_item["inputs"]
