@@ -1,7 +1,7 @@
 # clone tree-sitter-clojure into vendor dir and follow setup
 # instructions in README for setup before executing this file
 from hypothesis import given
-from hypothesis import settings, Verbosity
+from hypothesis import settings, HealthCheck, Verbosity
 
 # XXX: clean this up later
 from hypothesis_grammar_tree_sitter_clojure.comments import *
@@ -198,12 +198,14 @@ def test_parses_atom(atom_item):
 
 ## lists
 
-@settings(verbosity=vb)
+#@settings(verbosity=vb, suppress_health_check=HealthCheck.all())
+
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow])
 @given(number_list_items())
 def test_parses_number_list(num_list_item):
     form_test(num_list_item)
 
-@settings(verbosity=vb)
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow])
 @given(atom_list_items())
 def test_parses_atom_list(atom_list_item):
     form_test(atom_list_item)
