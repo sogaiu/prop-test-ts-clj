@@ -4,7 +4,7 @@ __version__ = '0.0.1'
 
 # XXX: could have assertions for checking has_error?
 
-# XXX: may be py-tree-sitter doesn't provide access to is_missing?
+# XXX: py-tree-sitter now has is_missing, so could check for it
 
 # XXX: numeric constants being used in strategies are hard-wired -> change?
 
