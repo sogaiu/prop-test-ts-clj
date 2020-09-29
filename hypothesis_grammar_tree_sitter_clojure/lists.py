@@ -30,7 +30,7 @@ def build_list_str(list_item):
     seps = list_item["separators"]
     list_elts = []
     for i, s in zip(items, seps):
-        list_elts += i["recipe"](i) + s
+        list_elts += i["to_str"](i) + s
     return "(" + "".join(list_elts) + ")"
 
 @composite
@@ -45,7 +45,7 @@ def number_list_items(draw):
     #
     return {"inputs": num_items,
             "label": "list",
-            "recipe": build_list_str,
+            "to_str": build_list_str,
             "verify": verify_node_as_coll,
             "separators": sep_strs}
 
@@ -61,6 +61,6 @@ def atom_list_items(draw):
     #
     return {"inputs": atm_items,
             "label": "list",
-            "recipe": build_list_str,
+            "to_str": build_list_str,
             "verify": verify_node_as_coll,
             "separators": sep_strs}

@@ -19,15 +19,15 @@ def node_text(source, node):
 def verify_node_as_atom(ctx, item):
     node, source = \
         itemgetter('node', 'source')(ctx)
-    label, recipe = \
-        itemgetter('label', 'recipe')(item)
+    label, to_str = \
+        itemgetter('label', 'to_str')(item)
     if node.type != label:
         # XXX
         print("node type mismatch")
         print("  node:", node.type)
         print("  expected:", label)
         return False
-    atom_str = recipe(item)
+    atom_str = to_str(item)
     text_of_node = node_text(source, node)
     if text_of_node != atom_str:
         # XXX
@@ -68,9 +68,9 @@ def verify_node_as_coll(ctx, coll_item):
                 value_nodes.append(cursor.node)
         cnt = 0
         for value_node in value_nodes:
-            label, recipe = \
-                itemgetter('label', 'recipe')(items[cnt])
-            elt_str = recipe(items[cnt])
+            label, to_str = \
+                itemgetter('label', 'to_str')(items[cnt])
+            elt_str = to_str(items[cnt])
             if value_node.type != label:
                 # XXX
                 print("node type mismatch")
@@ -138,9 +138,9 @@ def verify_node_as_adorned(ctx, adorned_item):
         print("did not find exactly one value field")
         print("  cnt:", cnt)
         return False
-    label, recipe = \
-        itemgetter('label', 'recipe')(form_item)
-    form_str = recipe(form_item)
+    label, to_str = \
+        itemgetter('label', 'to_str')(form_item)
+    form_str = to_str(form_item)
     if form_node.type != label:
         # XXX
         print("node type mismatch")
@@ -205,8 +205,8 @@ def verify_node_metadata(ctx, item):
         print("more than one piece of metadata found")
         return False
     # XXX: currently only one metadata item
-    md_inputs, md_label, md_recipe = \
-        itemgetter('inputs', 'label', 'recipe')(item["metadata"][0])
+    md_inputs, md_label, md_to_str = \
+        itemgetter('inputs', 'label', 'to_str')(item["metadata"][0])
     for child in node.children:
         if child.is_named:
             # XXX: is this logic correct?
@@ -239,7 +239,7 @@ def verify_node_metadata(ctx, item):
                                             "source": source},
                                            {"inputs": md_inputs["inputs"],
                                             "label": md_inputs["label"],
-                                            "recipe": md_inputs["recipe"]})
+                                            "to_str": md_inputs["to_str"]})
 
 # XXX: this only works for nodes that are collections
 def verify_node_with_metadata(ctx, item):
@@ -270,8 +270,8 @@ def verify_node_prefix(ctx, item):
         print("  cnt:", cnt)
         return False
     prefix_item = item["prefix"]
-    prefix_inputs, prefix_label, prefix_recipe = \
-        itemgetter('inputs', 'label', 'recipe')(prefix_item)
+    prefix_inputs, prefix_label, prefix_to_str = \
+        itemgetter('inputs', 'label', 'to_str')(prefix_item)
     if prefix_node.type != prefix_label:
         # XXX
         print("prefix node type mismatch")

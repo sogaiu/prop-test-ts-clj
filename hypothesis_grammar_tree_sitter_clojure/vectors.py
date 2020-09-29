@@ -30,7 +30,7 @@ def build_vector_str(vector_item):
     seps = vector_item["separators"]
     vector_elts = []
     for i, s in zip(items, seps):
-        vector_elts += i["recipe"](i) + s
+        vector_elts += i["to_str"](i) + s
     return "[" + "".join(vector_elts) + "]"
 
 @composite
@@ -45,7 +45,7 @@ def number_vector_items(draw):
     #
     return {"inputs": num_items,
             "label": "vector",
-            "recipe": build_vector_str,
+            "to_str": build_vector_str,
             "verify": verify_node_as_coll,
             "separators": sep_strs}
 
@@ -61,6 +61,6 @@ def atom_vector_items(draw):
     #
     return {"inputs": atm_items,
             "label": "vector",
-            "recipe": build_vector_str,
+            "to_str": build_vector_str,
             "verify": verify_node_as_coll,
             "separators": sep_strs}

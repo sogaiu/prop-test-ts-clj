@@ -22,7 +22,7 @@ def unqualified_symbol_items(draw):
     #
     return {"inputs": a_sym_str,
             "label": "symbol",
-            "recipe": build_sym_str,
+            "to_str": build_sym_str,
             "verify": verify_node_as_atom}
 
 @composite
@@ -31,7 +31,7 @@ def qualified_symbol_items(draw):
     #
     return {"inputs": a_sym_str,
             "label": "symbol",
-            "recipe": build_sym_str,
+            "to_str": build_sym_str,
             "verify": verify_node_as_atom}
 
 @composite

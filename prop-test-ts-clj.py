@@ -62,7 +62,7 @@ def get_lone_node(form_str):
     return children[0]
 
 def form_test(item):
-    form_str = item["recipe"](item)
+    form_str = item["to_str"](item)
     ctx = {"node": get_lone_node(form_str),
            "source": form_str}
     assert item["verify"](ctx, item)

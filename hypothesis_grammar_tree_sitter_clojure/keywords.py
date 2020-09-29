@@ -33,7 +33,7 @@ def unqualified_auto_resolved_keyword_items(draw):
     #
     return {"inputs": a_kwd_str,
             "label": "keyword",
-            "recipe": build_kwd_str,
+            "to_str": build_kwd_str,
             "verify": verify_node_as_atom}
 
 @composite
@@ -42,7 +42,7 @@ def unqualified_keyword_items(draw):
     #
     return {"inputs": a_kwd_str,
             "label": "keyword",
-            "recipe": build_kwd_str,
+            "to_str": build_kwd_str,
             "verify": verify_node_as_atom}
 
 @composite
@@ -51,7 +51,7 @@ def qualified_auto_resolved_keyword_items(draw):
     #
     return {"inputs": a_kwd_str,
             "label": "keyword",
-            "recipe": build_kwd_str,
+            "to_str": build_kwd_str,
             "verify": verify_node_as_atom}
 
 @composite
@@ -60,7 +60,7 @@ def qualified_keyword_items(draw):
     #
     return {"inputs": a_kwd_str,
             "label": "keyword",
-            "recipe": build_kwd_str,
+            "to_str": build_kwd_str,
             "verify": verify_node_as_atom}
 
 @composite

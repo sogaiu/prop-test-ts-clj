@@ -26,7 +26,7 @@ def build_map_str(map_item):
     seps = map_item["separators"]
     map_elts = []
     for i, s in zip(items, seps):
-        map_elts += i["recipe"](i) + s
+        map_elts += i["to_str"](i) + s
     return "{" + "".join(map_elts) + "}"
 
 @composite
@@ -42,7 +42,7 @@ def number_map_items(draw):
     #
     return {"inputs": num_items,
             "label": "map",
-            "recipe": build_map_str,
+            "to_str": build_map_str,
             "verify": verify_node_as_coll,
             "separators": sep_strs}
 
@@ -59,6 +59,6 @@ def atom_map_items(draw):
     #
     return {"inputs": atm_items,
             "label": "map",
-            "recipe": build_map_str,
+            "to_str": build_map_str,
             "verify": verify_node_as_coll,
             "separators": sep_strs}

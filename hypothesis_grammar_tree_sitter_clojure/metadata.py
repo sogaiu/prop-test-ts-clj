@@ -33,7 +33,7 @@ from .verify import verify_node_as_atom, \
 #      no separator.
 def build_metadata_str(md_item):
     inner_item = md_item["inputs"]
-    return f'^{inner_item["recipe"](inner_item)}'
+    return f'^{inner_item["to_str"](inner_item)}'
 
 # XXX: factor out?
 def attach_metadata(metadata_str, metadatee_str):
@@ -58,7 +58,7 @@ def keyword_metadata_items(draw):
     #
     return {"inputs": keyword_item,
             "label": "metadata",
-            "recipe": build_metadata_str,
+            "to_str": build_metadata_str,
             "verify": verify_node_as_atom}
 
 @composite
@@ -67,7 +67,7 @@ def map_metadata_items(draw):
     #
     return {"inputs": map_item,
             "label": "metadata",
-            "recipe": build_metadata_str,
+            "to_str": build_metadata_str,
             "verify": verify_node_as_coll}
 
 @composite
@@ -76,7 +76,7 @@ def string_metadata_items(draw):
     #
     return {"inputs": string_item,
             "label": "metadata",
-            "recipe": build_metadata_str,
+            "to_str": build_metadata_str,
             "verify": verify_node_as_atom}
 
 @composite
@@ -85,7 +85,7 @@ def symbol_metadata_items(draw):
     #
     return {"inputs": symbol_item,
             "label": "metadata",
-            "recipe": build_metadata_str,
+            "to_str": build_metadata_str,
             "verify": verify_node_as_atom}
 
 @composite
@@ -115,7 +115,7 @@ def atom_vector_with_metadata_items(draw):
     #
     return {"inputs": atm_items,
             "label": "vector",
-            "recipe": build_vector_with_metadata_str,
+            "to_str": build_vector_with_metadata_str,
             "verify": verify_node_with_metadata,
             "metadata": md_items,
             "separators": sep_strs}

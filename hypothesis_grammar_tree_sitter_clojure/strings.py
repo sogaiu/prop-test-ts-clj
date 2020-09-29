@@ -22,5 +22,5 @@ def string_items(draw):
     #
     return {"inputs": a_str_str,
             "label": "string",
-            "recipe": build_string_str,
+            "to_str": build_string_str,
             "verify": verify_node_as_atom}

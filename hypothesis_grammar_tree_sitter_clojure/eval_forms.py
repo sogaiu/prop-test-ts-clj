@@ -20,7 +20,7 @@ from .verify import verify_node_as_adorned
 #      no separator.
 def build_eval_form_str(item):
     inputs = item["inputs"]
-    return "#=" + inputs["recipe"](inputs)
+    return "#=" + inputs["to_str"](inputs)
 
 @composite
 def eval_form_items(draw):
@@ -30,5 +30,5 @@ def eval_form_items(draw):
     #
     return {"inputs": legal_item,
             "label": "eval_form",
-            "recipe": build_eval_form_str,
+            "to_str": build_eval_form_str,
             "verify": verify_node_as_adorned}

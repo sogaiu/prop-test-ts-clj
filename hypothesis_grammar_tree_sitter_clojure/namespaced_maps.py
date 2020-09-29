@@ -30,10 +30,10 @@ def build_namespaced_map_str(namespaced_map_item):
     seps = namespaced_map_item["separators"]
     ns_map_elts = []
     for i, s in zip(items, seps):
-        ns_map_elts += i["recipe"](i) + s
+        ns_map_elts += i["to_str"](i) + s
     #
     prefix = namespaced_map_item["prefix"]
-    prefix_str = prefix["recipe"](prefix)
+    prefix_str = prefix["to_str"](prefix)
     #
     return "#" + prefix_str + "{" + "".join(ns_map_elts) + "}"
 
@@ -47,7 +47,7 @@ def auto_res_marker_items(draw):
     #
     return {"inputs": arm_item,
             "label": "auto_res_marker",
-            "recipe": build_auto_res_marker_str,
+            "to_str": build_auto_res_marker_str,
             # looks like this happens to work
             "verify": verify_node_as_atom}
 
@@ -73,7 +73,7 @@ def number_namespaced_map_items(draw):
     #
     return {"inputs": num_items,
             "label": "namespaced_map",
-            "recipe": build_namespaced_map_str,
+            "to_str": build_namespaced_map_str,
             "verify": verify_node_with_prefix,
             "prefix": prefix_item,
             "separators": sep_strs}
@@ -93,7 +93,7 @@ def atom_namespaced_map_items(draw):
     #
     return {"inputs": atm_items,
             "label": "namespaced_map",
-            "recipe": build_namespaced_map_str,
+            "to_str": build_namespaced_map_str,
             "verify": verify_node_with_prefix,
             "prefix": prefix_item,
             "separators": sep_strs}

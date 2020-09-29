@@ -30,7 +30,7 @@ def any_character_items(draw):
     #
     return {"inputs": a_chr_str,
             "label": "character",
-            "recipe": build_chr_str,
+            "to_str": build_chr_str,
             "verify": verify_node_as_atom}
 
 @composite
@@ -39,7 +39,7 @@ def named_character_items(draw):
     #
     return {"inputs": a_chr_str,
             "label": "character",
-            "recipe": build_chr_str,
+            "to_str": build_chr_str,
             "verify": verify_node_as_atom}
 
 @composite
@@ -48,7 +48,7 @@ def octal_character_items(draw):
     #
     return {"inputs": a_chr_str,
             "label": "character",
-            "recipe": build_chr_str,
+            "to_str": build_chr_str,
             "verify": verify_node_as_atom}
 
 @composite
@@ -57,7 +57,7 @@ def unicode_quad_character_items(draw):
     #
     return {"inputs": a_chr_str,
             "label": "character",
-            "recipe": build_chr_str,
+            "to_str": build_chr_str,
             "verify": verify_node_as_atom}
 
 @composite

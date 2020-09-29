@@ -17,5 +17,5 @@ def comment_items(draw):
     #
     return {"inputs": cmt_str,
             "label": "comment",
-            "recipe": build_comment_str,
+            "to_str": build_comment_str,
             "verify": verify_node_as_atom}

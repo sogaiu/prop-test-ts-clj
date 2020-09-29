@@ -28,14 +28,14 @@ def whitespace_strings(draw):
 def comment_and_nl_strings(draw):
     cmt_item = draw(comment_items())
     #
-    return cmt_item["recipe"](cmt_item) + "\n"
+    return cmt_item["to_str"](cmt_item) + "\n"
 
 # space is appended so result can be used safely as a separator
 # @composite
 # def discard_expr_and_ws_strings(draw):
 #     de_item = draw(discard_expr_items())
 #     #
-#     return de_item["recipe"](de_item) + " "
+#     return de_item["to_str"](de_item) + " "
 
 @composite
 def separator_strings(draw):
