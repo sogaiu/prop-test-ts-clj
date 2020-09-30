@@ -322,3 +322,63 @@ def verify_node_prefix(ctx, item):
 def verify_node_with_prefix(ctx, item):
     return verify_node_prefix(ctx, item) and \
         verify_node_as_coll(ctx, item)
+
+# (source [0, 0] - [1, 0]
+#   (tagged_literal [0, 0] - [0, 44]
+#     tag: (symbol [0, 1] - [0, 5])
+#     value: (string [0, 6] - [0, 44])))
+
+def verify_node_tag(ctx, item):
+    node, source = \
+        itemgetter('node', 'source')(ctx)
+    tag_node = node.child_by_field_name("tag")
+    if tag_node == None:
+        # XXX
+        print("no tag found")
+        return False
+    # verify there is only one tag field
+    cnt = 0
+    # https://github.com/tree-sitter/tree-sitter/issues/567
+    cursor = node.walk() # must start at parent "containing" field
+    cursor.goto_first_child()
+    if cursor.current_field_name() == "tag":
+        cnt += 1
+    while cursor.goto_next_sibling():
+        if cursor.current_field_name() == "tag":
+            cnt += 1
+    if 1 != cnt:
+        # XXX
+        print("did not find exactly one tag field")
+        print("  cnt:", cnt)
+        return False
+    tag_item = item["tag"]
+    tag_inputs, tag_label, tag_to_str = \
+        itemgetter('inputs', 'label', 'to_str')(tag_item)
+    if tag_node.type != tag_label:
+        # XXX
+        print("tag node type mismatch")
+        print("  node:", tag_node.type)
+        print("  expected:", tag_label)
+        return False
+    #
+    return tag_item["verify"]({"node": tag_node,
+                               "source": source},
+                              tag_item)
+
+# XXX: possibly want to change verify_node_as_adorned
+#      to have a different name or split out common functionality
+def verify_node_with_tag(ctx, item):
+    return verify_node_tag(ctx, item) and \
+        verify_node_as_adorned(ctx, item)
+
+# XXX: incomplete
+def verify_node_as_form(ctx, item):
+    return True
+
+# XXX: incomplete
+def verify_node_leads_with(ctx, item):
+    return True
+
+def verify_node_as_discard_expr(ctx, item):
+    return verify_node_leads_with(ctx, item) and \
+        verify_node_as_form(ctx, item)
