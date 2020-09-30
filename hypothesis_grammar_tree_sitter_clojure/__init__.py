@@ -75,7 +75,7 @@ __version__ = '0.0.1'
 #
 # other (2)
 #   + discard_expr
-#   tagged_literal
+#   + tagged_literal
 #
 # compound but not standalone (2)
 #   metadata
