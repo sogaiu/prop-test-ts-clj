@@ -37,6 +37,14 @@ __version__ = '0.0.1'
 #      sets of tests easier?  currently a lot of commenting / uncommenting
 #      takes place
 
+# XXX: similarities among:
+#
+#        verify_node_with_metadata
+#        verfiy_node_with_prefix
+#        verfiy_node_with_tag
+#
+#      worth trying to make a general function for some / all?
+
 # grammatical pieces
 #
 # subatomic (1)
