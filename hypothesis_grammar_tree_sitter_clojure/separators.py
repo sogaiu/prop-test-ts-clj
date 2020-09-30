@@ -34,10 +34,10 @@ def comment_and_nl_strings(draw):
 @composite
 def discard_expr_and_ws_strings(draw):
     de_item = draw(discard_expr_items())
-    # XXX: prepend single space until the following is fixed?
-    #
-    #        https://github.com/sogaiu/tree-sitter-clojure/issues/7
-    #
+    # XXX: prepend a space because it turns out that although for
+    #      numbers (and collections?) it is not necessary, for
+    #      keywords, symbols, characters, and possibly other things,
+    #      it appears to be
     #return de_item["to_str"](de_item) + " "
     return " " + de_item["to_str"](de_item) + " "
 
