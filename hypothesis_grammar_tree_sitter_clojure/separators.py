@@ -1,6 +1,7 @@
 from hypothesis.strategies import integers
 from hypothesis.strategies import composite, lists, one_of, sampled_from
 
+from .whitespace import whitespace_items
 from .comments import comment_items
 from .discard_exprs import discard_expr_items
 
@@ -12,16 +13,9 @@ from .discard_exprs import discard_expr_items
 # XXX: move to hypothesis_grammar_clojure.whitespace?
 @composite
 def whitespace_strings(draw):
-    allowed = ["\f", "\n", "\r", "\t", ",", " "]
+    ws_item = draw(whitespace_items())
     #
-    n = draw(integers(min_value=1, max_value=19))
-    #
-    ws_chars = \
-        draw(lists(elements=sampled_from(allowed),
-                   min_size=n, max_size=n))
-    ws_str = "".join(ws_chars)
-    #
-    return ws_str
+    return ws_item["to_str"](ws_item)
 
 # newline is appended so result can be used as a separator
 @composite
