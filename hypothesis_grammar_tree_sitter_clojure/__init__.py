@@ -74,7 +74,7 @@ __version__ = '0.0.1'
 #   var_quote_form
 #
 # other (2)
-#   discard_expr
+#   + discard_expr
 #   tagged_literal
 #
 # compound but not standalone (2)
