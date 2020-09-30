@@ -40,3 +40,4 @@ python prop-test-ts-clj.py
 * DRMacIver and hypothesis maintainers and contributors
 * gfredericks and test.check maintainers and contributors
 * py-tree-sitter maintainers and contributors
+* pyrmont - discussion
