@@ -21,20 +21,12 @@ def verify_node_as_atom(ctx, item):
         itemgetter('node', 'source')(ctx)
     label, to_str = \
         itemgetter('label', 'to_str')(item)
-    if node.type != label:
-        # XXX
-        print("node type mismatch")
-        print("  node:", node.type)
-        print("  expected:", label)
-        return False
+    assert node.type == label, \
+        f'node.type != label: {node.type}, {label}'
     atom_str = to_str(item)
     text_of_node = node_text(source, node)
-    if text_of_node != atom_str:
-        # XXX
-        print("node text mismatch")
-        print("  node:", text_of_node)
-        print("  expected:", atom_str)
-        return False
+    assert text_of_node == atom_str, \
+        f'text_of_node != atom_str: {text_of_node}, {atom_str}'
     return True
 
 # (source [0, 0] - [1, 0]
@@ -48,12 +40,8 @@ def verify_node_as_coll(ctx, coll_item):
         itemgetter('node', 'source')(ctx)
     items, coll_label = \
         itemgetter('inputs', 'label')(coll_item)
-    if node.type != coll_label:
-        # XXX
-        print("node type mismatch")
-        print("  node:", node.type)
-        print("  expected:", coll_label)
-        return False
+    assert node.type == coll_label, \
+        f'node.type != coll_label: {node.type}, {coll_label}'
     first_value_node = node.child_by_field_name("value")
     # if there was at least one value node, verify all value nodes
     if first_value_node:
@@ -71,27 +59,15 @@ def verify_node_as_coll(ctx, coll_item):
             label, to_str = \
                 itemgetter('label', 'to_str')(items[cnt])
             elt_str = to_str(items[cnt])
-            if value_node.type != label:
-                # XXX
-                print("node type mismatch")
-                print("  value_node:", value_node.type)
-                print("  expected:", label)
-                return False
+            assert value_node.type == label, \
+                f'value_node.type != label: {value_node.type}, {label}'
             text_of_node = node_text(source, value_node)
-            if text_of_node != elt_str:
-                # XXX
-                print("node text mismatch")
-                print("  value_node:", text_of_node)
-                print("  expected:", elt_str)
-                return False
+            assert text_of_node == elt_str, \
+                f'text_of_node != elt_str: {text_of_node}, {elt_str}'
             cnt += 1
         expected_cnt = len(items)
-        if expected_cnt != cnt:
-            # XXX
-            print("unexpected number of value nodes")
-            print("  actual:", cnt)
-            print("  expected:", expected_cnt)
-            return False
+        assert expected_cnt == cnt, \
+            f'expected_cnt != cnt: {expected_cnt}, {cnt}'
     return True
 
 # (source [0, 0] - [1, 0]
@@ -110,19 +86,12 @@ def verify_node_as_adorned(ctx, adorned_item):
         itemgetter('node', 'source')(ctx)
     form_item, adorned_label = \
         itemgetter('inputs', 'label')(adorned_item)
-    if node.type != adorned_label:
-        # XXX
-        print("node type mismatch")
-        print("  node:", node.type)
-        print("  expected:", adorned_label)
-        return False
+    assert node.type == adorned_label, \
+        f'node.type != adorned_label: {node.type}, {adorned_label}'
     # always exactly one
     form_node = node.child_by_field_name("value")
-    if not form_node:
-        # XXX
-        print("did not find value field")
-        print("  node:", node.sexp())
-        return False
+    assert form_node, \
+        f'no form_node: {node.sexp()}'
     # verify there is only one value field
     cnt = 0
     # https://github.com/tree-sitter/tree-sitter/issues/567
@@ -133,27 +102,16 @@ def verify_node_as_adorned(ctx, adorned_item):
     while cursor.goto_next_sibling():
         if cursor.current_field_name() == "value":
             cnt += 1
-    if 1 != cnt:
-        # XXX
-        print("did not find exactly one value field")
-        print("  cnt:", cnt)
-        return False
+    assert 1 == cnt, \
+        f'did not find exactly one value field: {cnt}'
     label, to_str = \
         itemgetter('label', 'to_str')(form_item)
     form_str = to_str(form_item)
-    if form_node.type != label:
-        # XXX
-        print("node type mismatch")
-        print("  node:", form_node.type)
-        print("  expected:", label)
-        return False
+    assert form_node.type == label, \
+        f'form_node.type != label: {form_node.type}, {label}'
     text_of_node = node_text(source, form_node)
-    if text_of_node != form_str:
-        # XXX
-        print("node text mismatch")
-        print("  node:", text_of_node)
-        print("  expected:", form_str)
-        return False
+    assert text_of_node == form_str, \
+        f'text_of_node != form_str: {text_of_node}, {form_str}'
     return True
 
 # XXX: note that there is no value field for this case,
@@ -192,18 +150,14 @@ def verify_node_metadata(ctx, item):
     node, source = \
         itemgetter('node', 'source')(ctx)
     md_node = node.child_by_field_name("metadata")
-    if md_node == None:
-        # XXX
-        print("no metadata found")
-        return False
+    assert md_node, \
+      f'no metadata found: {node.sexp()}'
     mcnt = 0
     for child in node.children:
         if child.type == "metadata":
             mcnt += 1
-    if mcnt > 1:
-        # XXX
-        print("more than one piece of metadata found")
-        return False
+    assert mcnt == 1, \
+      f'expected one piece of metadata, found: {mcnt}'
     # XXX: currently only one metadata item
     md_inputs, md_label, md_to_str = \
         itemgetter('inputs', 'label', 'to_str')(item["metadata"][0])
@@ -216,23 +170,17 @@ def verify_node_metadata(ctx, item):
                 for gchild in gchildren:
                     if gchild.is_named:
                         n_gchildren += 1
-                if n_gchildren != 1:
-                    # XXX
-                    print("metadata doesn't have exactly 1 child")
-                    print(n_gchildren)
-                    return False
+                assert n_gchildren == 1, \
+                    f'expected 1 child for metadata, found: {n_gchildren}'
                 target_idx = 0
                 for gchild in gchildren:
                     if gchild.is_named:
                         break
                     target_idx += 1
                 target_node = gchildren[target_idx]
-                if target_node.type != md_inputs["label"]:
-                    # XXX
-                    print("metadata child node type mismatch")
-                    print("  node:", target_node.type)
-                    print("  expected:", md_inputs["label"])
-                    return False
+                assert target_node.type == md_inputs["label"], \
+                   f'target_node.type != md_inputs["label"]: ' + \
+                   f'{target_node.type}, {md_inputs["label"]}'
                 #
                 # XXX: may need to inherit metadata info too at some point?
                 return md_inputs["verify"]({"node": target_node,
@@ -245,6 +193,37 @@ def verify_node_metadata(ctx, item):
 def verify_node_with_metadata(ctx, item):
     return verify_node_metadata(ctx, item) and \
         verify_node_as_coll(ctx, item)
+
+def make_single_verifier(single_name):
+    def verifier(ctx, item):
+        node, source = \
+            itemgetter('node', 'source')(ctx)
+        single_node = node.child_by_field_name(single_name)
+        assert single_node, \
+            f'no target single found: {node.sexp()}'
+        # verify there is only one field with name single_name
+        cnt = 0
+        # https://github.com/tree-sitter/tree-sitter/issues/567
+        cursor = node.walk() # must start at parent "containing" field
+        cursor.goto_first_child()
+        if cursor.current_field_name() == single_name:
+            cnt += 1
+        while cursor.goto_next_sibling():
+            if cursor.current_field_name() == single_name:
+                cnt += 1
+        assert 1 == cnt, \
+            f'expected exactly one field named {single_name}, found: {cnt}'
+        single_item = item[single_name]
+        single_inputs, single_label, single_to_str = \
+            itemgetter('inputs', 'label', 'to_str')(single_item)
+        assert single_node.type == single_label, \
+            f'single_node.type != single_label: ' + \
+            f'{single_node.type}, {single_label}'
+        #
+        return single_item["verify"]({"node": single_node,
+                                      "source": source},
+                                     single_item)
+    return verifier
 
 # #::{}
 #
@@ -282,42 +261,7 @@ def verify_node_with_metadata(ctx, item):
 #     value: (keyword [0, 14] - [0, 16])
 #     value: (number [0, 17] - [0, 18])))
 
-def verify_node_prefix(ctx, item):
-    node, source = \
-        itemgetter('node', 'source')(ctx)
-    prefix_node = node.child_by_field_name("prefix")
-    if prefix_node == None:
-        # XXX
-        print("no prefix found")
-        return False
-    # verify there is only one prefix field
-    cnt = 0
-    # https://github.com/tree-sitter/tree-sitter/issues/567
-    cursor = node.walk() # must start at parent "containing" field
-    cursor.goto_first_child()
-    if cursor.current_field_name() == "prefix":
-        cnt += 1
-    while cursor.goto_next_sibling():
-        if cursor.current_field_name() == "prefix":
-            cnt += 1
-    if 1 != cnt:
-        # XXX
-        print("did not find exactly one prefix field")
-        print("  cnt:", cnt)
-        return False
-    prefix_item = item["prefix"]
-    prefix_inputs, prefix_label, prefix_to_str = \
-        itemgetter('inputs', 'label', 'to_str')(prefix_item)
-    if prefix_node.type != prefix_label:
-        # XXX
-        print("prefix node type mismatch")
-        print("  node:", prefix_node.type)
-        print("  expected:", prefix_label)
-        return False
-    #
-    return prefix_item["verify"]({"node": prefix_node,
-                                  "source": source},
-                                 prefix_item)
+verify_node_prefix = make_single_verifier("prefix")
 
 def verify_node_with_prefix(ctx, item):
     return verify_node_prefix(ctx, item) and \
@@ -328,42 +272,7 @@ def verify_node_with_prefix(ctx, item):
 #     tag: (symbol [0, 1] - [0, 5])
 #     value: (string [0, 6] - [0, 44])))
 
-def verify_node_tag(ctx, item):
-    node, source = \
-        itemgetter('node', 'source')(ctx)
-    tag_node = node.child_by_field_name("tag")
-    if tag_node == None:
-        # XXX
-        print("no tag found")
-        return False
-    # verify there is only one tag field
-    cnt = 0
-    # https://github.com/tree-sitter/tree-sitter/issues/567
-    cursor = node.walk() # must start at parent "containing" field
-    cursor.goto_first_child()
-    if cursor.current_field_name() == "tag":
-        cnt += 1
-    while cursor.goto_next_sibling():
-        if cursor.current_field_name() == "tag":
-            cnt += 1
-    if 1 != cnt:
-        # XXX
-        print("did not find exactly one tag field")
-        print("  cnt:", cnt)
-        return False
-    tag_item = item["tag"]
-    tag_inputs, tag_label, tag_to_str = \
-        itemgetter('inputs', 'label', 'to_str')(tag_item)
-    if tag_node.type != tag_label:
-        # XXX
-        print("tag node type mismatch")
-        print("  node:", tag_node.type)
-        print("  expected:", tag_label)
-        return False
-    #
-    return tag_item["verify"]({"node": tag_node,
-                               "source": source},
-                              tag_item)
+verify_node_tag = make_single_verifier("tag")
 
 # XXX: possibly want to change verify_node_as_adorned
 #      to have a different name or split out common functionality

@@ -52,22 +52,16 @@ def get_lone_node(form_str):
     root_node = tree.root_node
     children = root_node.children
     n_children = len(children)
-    if n_children != 1:
-        # XXX
-        print("did not find exactly 1 child")
-        print("  n_children:", n_children)
-        print("  form_str:", form_str)
-        for child in children:
-           print(f'  {child}')
-           print(f'  {child.sexp()}')
-    assert 1 == n_children
+    assert 1 == n_children, \
+        f'expected 1 child, found: {n_children} for: {form_str}'
     return children[0]
 
 def form_test(item):
     form_str = item["to_str"](item)
     ctx = {"node": get_lone_node(form_str),
            "source": form_str}
-    assert item["verify"](ctx, item)
+    assert item["verify"](ctx, item), \
+        f'verify failed for: {form_str}'
 
 ## comments
 
