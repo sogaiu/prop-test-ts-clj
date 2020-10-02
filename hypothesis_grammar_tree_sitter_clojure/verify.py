@@ -21,6 +21,30 @@ def count_child_nodes_with_field_name(node, name):
             cnt += 1
     return cnt
 
+def verify_node_type(ctx, item):
+    node = \
+        itemgetter('node')(ctx)
+    label = \
+        itemgetter('label')(item)
+    assert node.type == label, \
+        f'unexpected node type: {node.type}, not {label}'
+    return True
+
+def verify_node_text(ctx, item):
+    node, source = \
+        itemgetter('node', 'source')(ctx)
+    to_str = \
+        itemgetter('to_str')(item)
+    as_str = to_str(item)
+    text_of_node = node_text(source, node)
+    assert text_of_node == as_str, \
+        f'unexpected node text: {text_of_node}, not {as_str}'
+    return True
+
+def verify_node_type_and_text(ctx, item):
+    return verify_node_type(ctx, item) and \
+        verify_node_text(ctx, item)
+
 # (source [0, 0] - [1, 0]
 #   (keyword [0, 0] - [0, 2]))
 
@@ -28,17 +52,8 @@ def count_child_nodes_with_field_name(node, name):
 #   (symbol [0, 0] - [0, 6]))
 
 def verify_node_as_atom(ctx, item):
-    node, source = \
-        itemgetter('node', 'source')(ctx)
-    label, to_str = \
-        itemgetter('label', 'to_str')(item)
-    assert node.type == label, \
-        f'node.type != label: {node.type}, {label}'
-    atom_str = to_str(item)
-    text_of_node = node_text(source, node)
-    assert text_of_node == atom_str, \
-        f'text_of_node != atom_str: {text_of_node}, {atom_str}'
-    return True
+    return verify_node_type(ctx, item) and \
+        verify_node_text(ctx, item)
 
 # (source [0, 0] - [1, 0]
 #   (vector [0, 0] - [0, 10]
@@ -49,10 +64,9 @@ def verify_node_as_atom(ctx, item):
 def verify_node_as_coll(ctx, coll_item):
     node, source  = \
         itemgetter('node', 'source')(ctx)
-    items, coll_label = \
-        itemgetter('inputs', 'label')(coll_item)
-    assert node.type == coll_label, \
-        f'node.type != coll_label: {node.type}, {coll_label}'
+    items = \
+        itemgetter('inputs')(coll_item)
+    verify_node_type(ctx, coll_item)
     first_value_node = node.child_by_field_name("value")
     # if there was at least one value node, verify all value nodes
     if first_value_node:
@@ -83,17 +97,8 @@ def verify_node_as_coll(ctx, coll_item):
 
 # XXX: essentially same as verify_node_as_atom...
 def verify_node_as_form(ctx, form_item):
-    node, source  = \
-        itemgetter('node', 'source')(ctx)
-    label, to_str = \
-        itemgetter('label', 'to_str')(form_item)
-    assert node.type == label, \
-        f'node.type != label: {node.type}, {label}'
-    form_str = to_str(form_item)
-    text_of_node = node_text(source, node)
-    assert text_of_node == form_str, \
-        f'text_of_node != form_str: {text_of_node}, {form_str}'
-    return True
+    return verify_node_type(ctx, form_item) and \
+        verify_node_text(ctx, form_item)
 
 # (source [0, 0] - [1, 0]
 #  (quote_form [0, 0] - [0, 12]
@@ -111,8 +116,7 @@ def verify_node_as_adorned(ctx, adorned_item):
         itemgetter('node', 'source')(ctx)
     form_item, adorned_label = \
         itemgetter('inputs', 'label')(adorned_item)
-    assert node.type == adorned_label, \
-        f'node.type != adorned_label: {node.type}, {adorned_label}'
+    verify_node_type(ctx, adorned_item)
     # always exactly one
     form_node = node.child_by_field_name("value")
     assert form_node, \
@@ -219,15 +223,11 @@ def make_single_verifier(single_name):
         assert 1 == cnt, \
             f'expected exactly one field named {single_name}, found: {cnt}'
         single_item = item[single_name]
-        single_inputs, single_label, single_to_str = \
-            itemgetter('inputs', 'label', 'to_str')(single_item)
-        assert single_node.type == single_label, \
-            f'single_node.type != single_label: ' + \
-            f'{single_node.type}, {single_label}'
-        #
-        return single_item["verify"]({"node": single_node,
-                                      "source": source},
-                                     single_item)
+        single_label = itemgetter('label')(single_item)
+        single_ctx = {"node": single_node,
+                      "source": source}
+        verify_node_type(single_ctx, single_item)
+        return single_item["verify"](single_ctx, single_item)
     return verifier
 
 # #::{}
