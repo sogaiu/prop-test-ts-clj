@@ -25,19 +25,15 @@ def count_child_nodes_with_field_name(node, name):
     return len(child_nodes_with_field_name(node, name))
 
 def verify_node_type(ctx, item):
-    node = \
-        itemgetter('node')(ctx)
-    label = \
-        itemgetter('label')(item)
+    node = itemgetter('node')(ctx)
+    label = itemgetter('label')(item)
     assert node.type == label, \
         f'unexpected node type: {node.type}, not {label}'
     return True
 
 def verify_node_text(ctx, item):
-    node, source = \
-        itemgetter('node', 'source')(ctx)
-    to_str = \
-        itemgetter('to_str')(item)
+    node, source = itemgetter('node', 'source')(ctx)
+    to_str = itemgetter('to_str')(item)
     as_str = to_str(item)
     text_of_node = node_text(source, node)
     assert text_of_node == as_str, \
@@ -212,7 +208,7 @@ def make_single_verifier(single_name):
             itemgetter('node', 'source')(ctx)
         single_node = node.child_by_field_name(single_name)
         assert single_node, \
-            f'no target single found: {node.sexp()}'
+            f'no field with name: {single_name} found: {node.sexp()}'
         # verify there is only one field with name single_name
         cnt = count_child_nodes_with_field_name(node, single_name)
         assert 1 == cnt, \
