@@ -2,9 +2,11 @@
 
 __version__ = '0.0.1'
 
-# XXX: could have assertions for checking has_error?
+# XXX: could have assertions for checking that has_error does not
+#      apply
 
-# XXX: py-tree-sitter now has is_missing, so could check for it
+# XXX: py-tree-sitter now has is_missing, so could verify that
+#      resulting nodes are not "is_missing"
 
 # XXX: numeric constants being used in strategies are hard-wired -> change?
 
@@ -35,14 +37,6 @@ __version__ = '0.0.1'
 # XXX: split prop-test-ts-clj.py into pieces to make running individual /
 #      sets of tests easier?  currently a lot of commenting / uncommenting
 #      takes place
-
-# XXX: similarities among:
-#
-#        verify_node_with_metadata
-#        verfiy_node_with_prefix
-#        verfiy_node_with_tag
-#
-#      worth trying to make a general function for some / all?
 
 # grammatical pieces
 #
