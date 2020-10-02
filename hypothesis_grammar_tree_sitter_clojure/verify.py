@@ -256,6 +256,10 @@ def verify_node_with_tag(ctx, item):
 def verify_node_leads_with(ctx, item):
     return True
 
+# (source [0, 0] - [1, 0]
+#   (discard_expr [0, 0] - [0, 4]
+#     value: (number [0, 3] - [0, 4])))
+
 def verify_node_as_discard_expr(ctx, item):
     return verify_node_leads_with(ctx, item) and \
         verify_node_as_form(ctx, item)
