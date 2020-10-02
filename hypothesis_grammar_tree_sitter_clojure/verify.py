@@ -94,14 +94,12 @@ def verify_node_as_adorned(ctx, adorned_item):
     node, source = itemgetter('node', 'source')(ctx)
     form_item, adorned_label = itemgetter('inputs', 'label')(adorned_item)
     verify_node_type(ctx, adorned_item)
-    # always exactly one
-    form_node = node.child_by_field_name("value")
-    assert form_node, \
-        f'no form_node in: {node.sexp()}'
     # verify there is only one value field
     cnt = len(child_nodes_with_field_name(node, "value"))
     assert 1 == cnt, \
         f'expected 1 value field, got: {cnt}'
+    # must succeed given previous lines
+    form_node = node.child_by_field_name("value")
     verify_node_as_form({"node": form_node,
                          "source": source},
                         form_item)
