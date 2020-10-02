@@ -81,6 +81,20 @@ def verify_node_as_coll(ctx, coll_item):
             f'expected_cnt != cnt: {expected_cnt}, {cnt}'
     return True
 
+# XXX: essentially same as verify_node_as_atom...
+def verify_node_as_form(ctx, form_item):
+    node, source  = \
+        itemgetter('node', 'source')(ctx)
+    label, to_str = \
+        itemgetter('label', 'to_str')(form_item)
+    assert node.type == label, \
+        f'node.type != label: {node.type}, {label}'
+    form_str = to_str(form_item)
+    text_of_node = node_text(source, node)
+    assert text_of_node == form_str, \
+        f'text_of_node != form_str: {text_of_node}, {form_str}'
+    return True
+
 # (source [0, 0] - [1, 0]
 #  (quote_form [0, 0] - [0, 12]
 #    value: (symbol [0, 1] - [0, 12])))
@@ -107,14 +121,9 @@ def verify_node_as_adorned(ctx, adorned_item):
     cnt = count_child_nodes_with_field_name(node, "value")
     assert 1 == cnt, \
         f'did not find exactly one value field: {cnt}'
-    label, to_str = \
-        itemgetter('label', 'to_str')(form_item)
-    form_str = to_str(form_item)
-    assert form_node.type == label, \
-        f'form_node.type != label: {form_node.type}, {label}'
-    text_of_node = node_text(source, form_node)
-    assert text_of_node == form_str, \
-        f'text_of_node != form_str: {text_of_node}, {form_str}'
+    verify_node_as_form({"node": form_node,
+                         "source": source},
+                        form_item)
     return True
 
 # XXX: note that there is no value field for this case,
@@ -194,6 +203,10 @@ def verify_node_with_metadata(ctx, item):
     return verify_node_metadata(ctx, item) and \
         verify_node_as_coll(ctx, item)
 
+# examples of single_name:
+#
+# * prefix
+# * tag
 def make_single_verifier(single_name):
     def verifier(ctx, item):
         node, source = \
@@ -273,8 +286,8 @@ def verify_node_with_tag(ctx, item):
         verify_node_as_adorned(ctx, item)
 
 # XXX: incomplete
-def verify_node_as_form(ctx, item):
-    return True
+#def verify_node_as_form(ctx, item):
+#    return True
 
 # XXX: incomplete
 def verify_node_leads_with(ctx, item):
