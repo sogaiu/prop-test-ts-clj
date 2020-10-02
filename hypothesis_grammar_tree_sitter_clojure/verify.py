@@ -153,8 +153,12 @@ def verify_node_metadata(ctx, item):
     assert md_node, \
       f'no metadata found: {node.sexp()}'
     mcnt = 0
-    for child in node.children:
-        if child.type == "metadata":
+    cursor = node.walk() # must start at parent "containing" field
+    cursor.goto_first_child()
+    if cursor.current_field_name() == "metadata":
+        mcnt += 1
+    while cursor.goto_next_sibling():
+        if cursor.current_field_name() == "metadata":
             mcnt += 1
     assert mcnt == 1, \
       f'expected one piece of metadata, found: {mcnt}'
