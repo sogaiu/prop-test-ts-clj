@@ -61,10 +61,8 @@ def verify_node_as_atom(ctx, item):
 #     value: (keyword [0, 7] - [0, 9])))
 
 def verify_node_as_coll(ctx, coll_item):
-    node, source  = \
-        itemgetter('node', 'source')(ctx)
-    items = \
-        itemgetter('inputs')(coll_item)
+    node, source  = itemgetter('node', 'source')(ctx)
+    items = itemgetter('inputs')(coll_item)
     verify_node_type(ctx, coll_item)
     first_value_node = node.child_by_field_name("value")
     # if there was at least one value node, verify all value nodes
@@ -72,8 +70,7 @@ def verify_node_as_coll(ctx, coll_item):
         value_nodes = child_nodes_with_field_name(node, "value")
         cnt = 0
         for value_node in value_nodes:
-            label, to_str = \
-                itemgetter('label', 'to_str')(items[cnt])
+            label, to_str = itemgetter('label', 'to_str')(items[cnt])
             elt_str = to_str(items[cnt])
             assert value_node.type == label, \
                 f'value_node.type != label: {value_node.type}, {label}'
@@ -103,10 +100,8 @@ def verify_node_as_form(ctx, form_item):
 #       value: (symbol [0, 14] - [0, 18]))))
 
 def verify_node_as_adorned(ctx, adorned_item):
-    node, source  = \
-        itemgetter('node', 'source')(ctx)
-    form_item, adorned_label = \
-        itemgetter('inputs', 'label')(adorned_item)
+    node, source = itemgetter('node', 'source')(ctx)
+    form_item, adorned_label = itemgetter('inputs', 'label')(adorned_item)
     verify_node_type(ctx, adorned_item)
     # always exactly one
     form_node = node.child_by_field_name("value")
@@ -154,8 +149,7 @@ def verify_node_as_adorned(ctx, adorned_item):
 # XXX: only handles one piece of metadata
 #      eventually handle multiple?
 def verify_node_metadata(ctx, item):
-    node, source = \
-        itemgetter('node', 'source')(ctx)
+    node, source = itemgetter('node', 'source')(ctx)
     md_node = node.child_by_field_name("metadata")
     assert md_node, \
       f'no metadata found: {node.sexp()}'
@@ -204,8 +198,7 @@ def verify_node_with_metadata(ctx, item):
 # * tag
 def make_single_verifier(single_name):
     def verifier(ctx, item):
-        node, source = \
-            itemgetter('node', 'source')(ctx)
+        node, source = itemgetter('node', 'source')(ctx)
         single_node = node.child_by_field_name(single_name)
         assert single_node, \
             f'no field with name: {single_name} found: {node.sexp()}'
