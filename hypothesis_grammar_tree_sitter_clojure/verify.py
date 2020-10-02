@@ -10,6 +10,17 @@ def node_text(source, node):
     return \
         bytes(source, "utf8")[node.start_byte:node.end_byte].decode("utf-8")
 
+def count_child_nodes_with_field_name(node, name):
+    cnt = 0
+    cursor = node.walk()
+    cursor.goto_first_child()
+    if cursor.current_field_name() == name:
+        cnt += 1
+    while cursor.goto_next_sibling():
+        if cursor.current_field_name() == name:
+            cnt += 1
+    return cnt
+
 # (source [0, 0] - [1, 0]
 #   (keyword [0, 0] - [0, 2]))
 
@@ -93,15 +104,7 @@ def verify_node_as_adorned(ctx, adorned_item):
     assert form_node, \
         f'no form_node: {node.sexp()}'
     # verify there is only one value field
-    cnt = 0
-    # https://github.com/tree-sitter/tree-sitter/issues/567
-    cursor = node.walk() # must start at parent "containing" field
-    cursor.goto_first_child()
-    if cursor.current_field_name() == "value":
-        cnt += 1
-    while cursor.goto_next_sibling():
-        if cursor.current_field_name() == "value":
-            cnt += 1
+    cnt = count_child_nodes_with_field_name(node, "value")
     assert 1 == cnt, \
         f'did not find exactly one value field: {cnt}'
     label, to_str = \
@@ -152,14 +155,7 @@ def verify_node_metadata(ctx, item):
     md_node = node.child_by_field_name("metadata")
     assert md_node, \
       f'no metadata found: {node.sexp()}'
-    mcnt = 0
-    cursor = node.walk() # must start at parent "containing" field
-    cursor.goto_first_child()
-    if cursor.current_field_name() == "metadata":
-        mcnt += 1
-    while cursor.goto_next_sibling():
-        if cursor.current_field_name() == "metadata":
-            mcnt += 1
+    mcnt = count_child_nodes_with_field_name(node, "metadata")
     assert mcnt == 1, \
       f'expected one piece of metadata, found: {mcnt}'
     # XXX: currently only one metadata item
@@ -206,15 +202,7 @@ def make_single_verifier(single_name):
         assert single_node, \
             f'no target single found: {node.sexp()}'
         # verify there is only one field with name single_name
-        cnt = 0
-        # https://github.com/tree-sitter/tree-sitter/issues/567
-        cursor = node.walk() # must start at parent "containing" field
-        cursor.goto_first_child()
-        if cursor.current_field_name() == single_name:
-            cnt += 1
-        while cursor.goto_next_sibling():
-            if cursor.current_field_name() == single_name:
-                cnt += 1
+        cnt = count_child_nodes_with_field_name(node, single_name)
         assert 1 == cnt, \
             f'expected exactly one field named {single_name}, found: {cnt}'
         single_item = item[single_name]
