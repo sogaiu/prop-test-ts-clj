@@ -13,9 +13,7 @@ from .separators import separator_strings
 from .verify import verify_node_as_coll
 
 # list: $ =>
-#   seq(repeat(choice(field('metadata', $.metadata),
-#                     field('old_metadata', $.old_metadata),
-#                     $._non_form)),
+#   seq(repeat($._metadata),
 #       $._bare_list),
 #
 # _bare_list: $ =>

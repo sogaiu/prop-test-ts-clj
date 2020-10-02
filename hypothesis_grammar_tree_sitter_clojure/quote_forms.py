@@ -5,9 +5,7 @@ from .forms import form_items
 from .verify import verify_node_as_adorned
 
 # quote_form: $ =>
-#   seq(repeat(choice(field('metadata', $.metadata),
-#                     field('old_metadata', $.old_metadata),
-#                     $._non_form)),
+#   seq(repeat($._metadata),
 #       "'",
 #       repeat($._non_form),
 #       field('value', $._form)),

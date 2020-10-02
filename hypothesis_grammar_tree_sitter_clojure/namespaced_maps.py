@@ -15,9 +15,7 @@ from .verify import verify_node_as_atom, \
 #   AUTO_RESOLVE_MARKER,
 #
 # namespaced_map: $ =>
-#   seq(repeat(choice(field('metadata', $.metadata),
-#                     field('old_metadata', $.old_metadata),
-#                     $._non_form)),
+#   seq(repeat($._metadata),
 #       "#",
 #       field('prefix', choice($.auto_res_marker,
 #                              $.keyword)),

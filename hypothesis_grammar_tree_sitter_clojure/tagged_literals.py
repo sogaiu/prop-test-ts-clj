@@ -10,9 +10,7 @@ from .separators import separator_strings
 from .verify import verify_node_with_tag
 
 # tagged_literal: $ =>
-#   seq(repeat(choice(field('metadata', $.metadata),
-#                     field('old_metadata', $.old_metadata),
-#                     $._non_form)),
+#   seq(repeat($._metadata),
 #       "#",
 #       // # uuid "00000000-0000-0000-0000-000000000000"
 #       // # #_ 1 uuid "00000000-0000-0000-0000-000000000000"
