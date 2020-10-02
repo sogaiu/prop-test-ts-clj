@@ -2,6 +2,11 @@
 
 __version__ = '0.0.1'
 
+# XXX: if node.text gets merged in py-tree-sitter and it's usable,
+#      consider moving over to that instead of using node_text.
+#      n.b. that may require switching from strings to bytes --
+#      i.e. use b'hello' instead of 'hello'
+
 # XXX: could have assertions for checking that has_error does not
 #      apply
 
