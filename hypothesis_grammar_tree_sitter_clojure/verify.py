@@ -21,14 +21,11 @@ def child_nodes_with_field_name(node, name):
             value_nodes.append(cursor.node)
     return value_nodes
 
-def count_child_nodes_with_field_name(node, name):
-    return len(child_nodes_with_field_name(node, name))
-
 def verify_node_type(ctx, item):
     node = itemgetter('node')(ctx)
     label = itemgetter('label')(item)
     assert node.type == label, \
-        f'unexpected node type: {node.type}, not {label}'
+        f'expected node type: {node.type}, got: {label}'
     return True
 
 def verify_node_text(ctx, item):
@@ -37,7 +34,7 @@ def verify_node_text(ctx, item):
     as_str = to_str(item)
     text_of_node = node_text(source, node)
     assert text_of_node == as_str, \
-        f'unexpected node text: {text_of_node}, not {as_str}'
+        f'expected node text: {text_of_node}, got: {as_str}'
     return True
 
 def verify_node_type_and_text(ctx, item):
@@ -68,19 +65,13 @@ def verify_node_as_coll(ctx, coll_item):
     # if there was at least one value node, verify all value nodes
     if first_value_node:
         value_nodes = child_nodes_with_field_name(node, "value")
-        cnt = 0
-        for value_node in value_nodes:
-            label, to_str = itemgetter('label', 'to_str')(items[cnt])
-            elt_str = to_str(items[cnt])
-            assert value_node.type == label, \
-                f'value_node.type != label: {value_node.type}, {label}'
-            text_of_node = node_text(source, value_node)
-            assert text_of_node == elt_str, \
-                f'text_of_node != elt_str: {text_of_node}, {elt_str}'
-            cnt += 1
-        expected_cnt = len(items)
-        assert expected_cnt == cnt, \
-            f'expected_cnt != cnt: {expected_cnt}, {cnt}'
+        n_value_nodes = len(value_nodes)
+        assert len(items) == n_value_nodes, \
+            f'expected: {len(items)} node(s), got: {n_value_nodes}'
+        for idx in range(0, n_value_nodes):
+            verify_node_type_and_text({"node": value_nodes[idx],
+                                       "source": source},
+                                      items[idx])
     return True
 
 # XXX: essentially same as verify_node_as_atom...
@@ -106,11 +97,11 @@ def verify_node_as_adorned(ctx, adorned_item):
     # always exactly one
     form_node = node.child_by_field_name("value")
     assert form_node, \
-        f'no form_node: {node.sexp()}'
+        f'no form_node in: {node.sexp()}'
     # verify there is only one value field
-    cnt = count_child_nodes_with_field_name(node, "value")
+    cnt = len(child_nodes_with_field_name(node, "value"))
     assert 1 == cnt, \
-        f'did not find exactly one value field: {cnt}'
+        f'expected 1 value field, got: {cnt}'
     verify_node_as_form({"node": form_node,
                          "source": source},
                         form_item)
@@ -153,39 +144,38 @@ def verify_node_metadata(ctx, item):
     md_node = node.child_by_field_name("metadata")
     assert md_node, \
       f'no metadata found: {node.sexp()}'
-    mcnt = count_child_nodes_with_field_name(node, "metadata")
+    mcnt = len(child_nodes_with_field_name(node, "metadata"))
     assert mcnt == 1, \
-      f'expected one piece of metadata, found: {mcnt}'
+      f'expected one piece of metadata, got: {mcnt}'
     # XXX: currently only one metadata item
     md_inputs, md_label, md_to_str = \
         itemgetter('inputs', 'label', 'to_str')(item["metadata"][0])
     for child in node.children:
-        if child.is_named:
-            # XXX: is this logic correct?
-            if child.type == "metadata":
-                gchildren = child.children
-                n_gchildren = 0
-                for gchild in gchildren:
-                    if gchild.is_named:
-                        n_gchildren += 1
-                assert n_gchildren == 1, \
-                    f'expected 1 child for metadata, found: {n_gchildren}'
-                target_idx = 0
-                for gchild in gchildren:
-                    if gchild.is_named:
-                        break
-                    target_idx += 1
-                target_node = gchildren[target_idx]
-                assert target_node.type == md_inputs["label"], \
-                   f'target_node.type != md_inputs["label"]: ' + \
-                   f'{target_node.type}, {md_inputs["label"]}'
-                #
-                # XXX: may need to inherit metadata info too at some point?
-                return md_inputs["verify"]({"node": target_node,
-                                            "source": source},
-                                           {"inputs": md_inputs["inputs"],
-                                            "label": md_inputs["label"],
-                                            "to_str": md_inputs["to_str"]})
+        # XXX: is this logic correct?
+        if child.type == "metadata":
+            gchildren = child.children
+            n_gchildren = 0
+            for gchild in gchildren:
+                if gchild.is_named:
+                    n_gchildren += 1
+            assert n_gchildren == 1, \
+                f'expected 1 child for metadata, got: {n_gchildren}'
+            target_idx = 0
+            for gchild in gchildren:
+                if gchild.is_named:
+                    break
+                target_idx += 1
+            target_node = gchildren[target_idx]
+            assert target_node.type == md_inputs["label"], \
+                f'target_node.type != md_inputs["label"]: ' + \
+                f'{target_node.type}, {md_inputs["label"]}'
+            #
+            # XXX: may need to inherit metadata info too at some point?
+            return md_inputs["verify"]({"node": target_node,
+                                        "source": source},
+                                       {"inputs": md_inputs["inputs"],
+                                        "label": md_inputs["label"],
+                                        "to_str": md_inputs["to_str"]})
 
 # XXX: this only works for nodes that are collections
 def verify_node_with_metadata(ctx, item):
@@ -201,15 +191,15 @@ def make_single_verifier(single_name):
         node, source = itemgetter('node', 'source')(ctx)
         single_node = node.child_by_field_name(single_name)
         assert single_node, \
-            f'no field with name: {single_name} found: {node.sexp()}'
+            f'no field with name: {single_name} for: {node.sexp()}'
         # verify there is only one field with name single_name
-        cnt = count_child_nodes_with_field_name(node, single_name)
+        cnt = len(child_nodes_with_field_name(node, single_name))
         assert 1 == cnt, \
-            f'expected exactly one field named {single_name}, found: {cnt}'
+            f'expected exactly one field named {single_name}, got: {cnt}'
         single_item = item[single_name]
-        single_label = itemgetter('label')(single_item)
         single_ctx = {"node": single_node,
                       "source": source}
+        # XXX: doesn't the line after the next include this?
         verify_node_type(single_ctx, single_item)
         return single_item["verify"](single_ctx, single_item)
     return verifier
