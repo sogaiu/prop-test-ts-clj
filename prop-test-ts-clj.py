@@ -265,7 +265,7 @@ def test_parses_atom_collection(atom_collection_item):
 def test_parses_deref_form(deref_form_item):
     form_test(deref_form_item)
 
-@settings(verbosity=vb)
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow])
 @given(eval_form_items())
 def test_parses_eval_form(eval_form_item):
     form_test(eval_form_item)
