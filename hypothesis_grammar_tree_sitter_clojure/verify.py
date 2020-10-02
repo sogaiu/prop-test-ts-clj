@@ -190,8 +190,8 @@ def make_single_verifier(single_name):
         single_item = item[single_name]
         single_ctx = {"node": single_node,
                       "source": source}
-        # XXX: doesn't the line after the next include this?
         verify_node_type(single_ctx, single_item)
+        # XXX: doesn't the following line include the previous line?
         return single_item["verify"](single_ctx, single_item)
     return verifier
 
