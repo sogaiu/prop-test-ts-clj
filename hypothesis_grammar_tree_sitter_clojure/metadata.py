@@ -36,19 +36,17 @@ def build_metadata_str(md_item):
     return f'^{inner_item["to_str"](inner_item)}'
 
 # XXX: factor out?
-def attach_metadata(metadata_str, metadatee_str):
+def attach_metadata(metadata_strs, metadatee_str):
     # XXX: another "what to do about separator" location
-    return metadata_str + " " + metadatee_str
+    return " ".join(metadata_strs + [metadatee_str])
 
-# XXX: only handles single piece of metadata atm
 def build_vector_with_metadata_str(item):
     vec_str = build_vector_str(item)
     #
     md_items = item["metadata"]
-    # XXX: only handles single piece of metadata atm
-    md_str = build_metadata_str(md_items[0])
+    md_item_strs = [md_item["to_str"](md_item) for md_item in md_items]
     #
-    return attach_metadata(md_str, vec_str)
+    return attach_metadata(md_item_strs, vec_str)
 
 # XXX: only non-auto-resolved-keywords are valid
 @composite
@@ -96,8 +94,6 @@ def metadata_items(draw):
                                 symbol_metadata_items()))
     return metadata_item
 
-# XXX: starting with a single metadata item, probably want to have
-#      multiple eventually
 @composite
 def atom_vector_with_metadata_items(draw):
     n = draw(integers(min_value=0, max_value=20))
@@ -108,7 +104,7 @@ def atom_vector_with_metadata_items(draw):
     sep_strs = draw(lists(elements=separator_strings(),
                           min_size=n, max_size=n))
     # XXX: tweak these numbers eventually
-    m = draw(integers(min_value=1, max_value=1))
+    m = draw(integers(min_value=1, max_value=3))
     #
     md_items = draw(lists(elements=metadata_items(),
                           min_size=m, max_size=m))

@@ -137,45 +137,36 @@ def verify_node_as_adorned(ctx, adorned_item):
 #       (keyword [0, 1] - [0, 5]))
 #     value: (symbol [0, 7] - [0, 10])))
 
-# XXX: only handles one piece of metadata
-#      eventually handle multiple?
+# once a node with field "metadata" is found:
+
+# (metadata [0, 0] - [0, 7]
+#   (map [0, 1] - [0, 7]
+#     value: (keyword [0, 2] - [0, 4])
+#     value: (number [0, 5] - [0, 6])))
+
+# (metadata [0, 0] - [0, 5]
+#   (keyword [0, 1] - [0, 5]))
+
 def verify_node_metadata(ctx, item):
     node, source = itemgetter('node', 'source')(ctx)
     md_node = node.child_by_field_name("metadata")
     assert md_node, \
       f'no metadata found: {node.sexp()}'
-    mcnt = len(child_nodes_with_field_name(node, "metadata"))
-    assert mcnt == 1, \
-      f'expected one piece of metadata, got: {mcnt}'
-    # XXX: currently only one metadata item
-    md_inputs, md_label, md_to_str = \
-        itemgetter('inputs', 'label', 'to_str')(item["metadata"][0])
-    for child in node.children:
-        # XXX: is this logic correct?
-        if child.type == "metadata":
-            gchildren = child.children
-            n_gchildren = 0
-            for gchild in gchildren:
-                if gchild.is_named:
-                    n_gchildren += 1
-            assert n_gchildren == 1, \
-                f'expected 1 child for metadata, got: {n_gchildren}'
-            target_idx = 0
-            for gchild in gchildren:
-                if gchild.is_named:
-                    break
-                target_idx += 1
-            target_node = gchildren[target_idx]
-            assert target_node.type == md_inputs["label"], \
-                f'target_node.type != md_inputs["label"]: ' + \
-                f'{target_node.type}, {md_inputs["label"]}'
-            #
-            # XXX: may need to inherit metadata info too at some point?
-            return md_inputs["verify"]({"node": target_node,
-                                        "source": source},
-                                       {"inputs": md_inputs["inputs"],
-                                        "label": md_inputs["label"],
-                                        "to_str": md_inputs["to_str"]})
+    md_nodes = child_nodes_with_field_name(node, "metadata")
+    n_md_nodes = len(md_nodes)
+    md_items = item["metadata"]
+    assert n_md_nodes == len(md_items), \
+        f'expected {len(md_items)} metadata nodes, got: {n_md_nodes}'
+    # XXX: could probably be improved for clarity
+    for idx in range(0, n_md_nodes):
+        md_item = md_items[idx]
+        md_node = md_nodes[idx]
+        assert md_node.type == "metadata"
+        assert md_node.named_child_count == 1
+        md_item["verify"]({"node": md_node,
+                           "source": source},
+                          md_item)
+    return True
 
 # XXX: this only works for nodes that are collections
 def verify_node_with_metadata(ctx, item):
