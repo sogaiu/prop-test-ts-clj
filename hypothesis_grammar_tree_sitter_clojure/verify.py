@@ -10,16 +10,19 @@ def node_text(source, node):
     return \
         bytes(source, "utf8")[node.start_byte:node.end_byte].decode("utf-8")
 
-def count_child_nodes_with_field_name(node, name):
-    cnt = 0
+def child_nodes_with_field_name(node, name):
     cursor = node.walk()
     cursor.goto_first_child()
+    value_nodes = []
     if cursor.current_field_name() == name:
-        cnt += 1
+        value_nodes.append(cursor.node)
     while cursor.goto_next_sibling():
         if cursor.current_field_name() == name:
-            cnt += 1
-    return cnt
+            value_nodes.append(cursor.node)
+    return value_nodes
+
+def count_child_nodes_with_field_name(node, name):
+    return len(child_nodes_with_field_name(node, name))
 
 def verify_node_type(ctx, item):
     node = \
@@ -70,15 +73,7 @@ def verify_node_as_coll(ctx, coll_item):
     first_value_node = node.child_by_field_name("value")
     # if there was at least one value node, verify all value nodes
     if first_value_node:
-        # https://github.com/tree-sitter/tree-sitter/issues/567
-        cursor = node.walk() # must start at parent "containing" field
-        cursor.goto_first_child()
-        value_nodes = []
-        if cursor.current_field_name() == "value":
-            value_nodes.append(cursor.node)
-        while cursor.goto_next_sibling():
-            if cursor.current_field_name() == "value":
-                value_nodes.append(cursor.node)
+        value_nodes = child_nodes_with_field_name(node, "value")
         cnt = 0
         for value_node in value_nodes:
             label, to_str = \
