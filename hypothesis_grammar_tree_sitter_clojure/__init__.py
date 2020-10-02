@@ -85,5 +85,5 @@ __version__ = '0.0.1'
 #   + tagged_literal
 #
 # compound but not standalone (2)
-#   metadata
+#   + metadata
 #   old_metadata
