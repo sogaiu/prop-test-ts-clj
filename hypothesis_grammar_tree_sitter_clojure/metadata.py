@@ -1,6 +1,8 @@
 from hypothesis.strategies import integers, lists
 from hypothesis.strategies import composite, one_of
 
+from .parameters import coll_max, metadata_max
+
 # XXX: clean up later
 # XXX: add reader conditionals at some point?
 from .keywords import *
@@ -96,7 +98,7 @@ def metadata_items(draw):
 
 @composite
 def atom_vector_with_metadata_items(draw):
-    n = draw(integers(min_value=0, max_value=20))
+    n = draw(integers(min_value=0, max_value=coll_max))
     #
     atm_items = draw(lists(elements=atom_items(),
                            min_size=n, max_size=n))
@@ -104,7 +106,7 @@ def atom_vector_with_metadata_items(draw):
     sep_strs = draw(lists(elements=separator_strings(),
                           min_size=n, max_size=n))
     # XXX: tweak these numbers eventually
-    m = draw(integers(min_value=1, max_value=3))
+    m = draw(integers(min_value=1, max_value=metadata_max))
     #
     md_items = draw(lists(elements=metadata_items(),
                           min_size=m, max_size=m))

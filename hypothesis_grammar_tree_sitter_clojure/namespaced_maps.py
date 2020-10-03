@@ -1,6 +1,8 @@
 from hypothesis.strategies import integers
 from hypothesis.strategies import composite, just, lists, one_of
 
+from .parameters import coll_max
+
 from .atoms import atom_items
 from .keywords import keyword_items
 from .numbers import number_items
@@ -58,7 +60,7 @@ def prefix_items(draw):
 
 @composite
 def number_namespaced_map_items(draw):
-    n = draw(integers(min_value=0, max_value=10))
+    n = draw(integers(min_value=0, max_value=coll_max/2))
     m = n * 2
     #
     num_items = draw(lists(elements=number_items(),
@@ -78,7 +80,7 @@ def number_namespaced_map_items(draw):
 
 @composite
 def atom_namespaced_map_items(draw):
-    n = draw(integers(min_value=0, max_value=10))
+    n = draw(integers(min_value=0, max_value=coll_max/2))
     m = 2 * n
     #
     atm_items = draw(lists(elements=atom_items(),

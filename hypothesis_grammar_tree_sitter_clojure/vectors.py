@@ -1,6 +1,8 @@
 from hypothesis.strategies import integers
 from hypothesis.strategies import composite, lists
 
+from .parameters import coll_max
+
 from .atoms import atom_items
 from .characters import character_items
 from .keywords import keyword_items
@@ -33,7 +35,7 @@ def build_vector_str(vector_item):
 
 @composite
 def number_vector_items(draw):
-    n = draw(integers(min_value=0, max_value=20))
+    n = draw(integers(min_value=0, max_value=coll_max))
     #
     num_items = draw(lists(elements=number_items(),
                            min_size=n, max_size=n))
@@ -49,7 +51,7 @@ def number_vector_items(draw):
 
 @composite
 def atom_vector_items(draw):
-    n = draw(integers(min_value=0, max_value=20))
+    n = draw(integers(min_value=0, max_value=coll_max))
     #
     atm_items = draw(lists(elements=atom_items(),
                            min_size=n, max_size=n))
