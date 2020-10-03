@@ -67,7 +67,7 @@ __version__ = '0.0.1'
 #   + namespaced_map
 #   read_cond
 #   read_cond_splicing
-#   set
+#   + set
 #   + vector
 #
 # adorned form (7)
