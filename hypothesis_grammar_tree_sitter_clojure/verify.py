@@ -58,7 +58,7 @@ def verify_node_as_atom(ctx, item):
 #     value: (keyword [0, 7] - [0, 9])))
 
 def verify_node_as_coll(ctx, coll_item):
-    node, source  = itemgetter('node', 'source')(ctx)
+    node, source = itemgetter('node', 'source')(ctx)
     items = itemgetter('inputs')(coll_item)
     verify_node_type(ctx, coll_item)
     first_value_node = node.child_by_field_name("value")
