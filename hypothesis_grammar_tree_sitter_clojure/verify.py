@@ -161,9 +161,13 @@ def verify_node_metadata(ctx, item):
         md_node = md_nodes[idx]
         assert md_node.type == "metadata"
         assert md_node.named_child_count == 1
-        md_item["verify"]({"node": md_node,
-                           "source": source},
-                          md_item)
+        inner_item = md_item["inputs"]
+        assert inner_item
+        inner_node = md_node.child_by_field_name("value")
+        assert inner_node
+        inner_item["verify"]({"node": inner_node,
+                              "source": source},
+                             inner_item)
     return True
 
 # XXX: this only works for nodes that are collections
