@@ -153,7 +153,7 @@ def verify_node_metadata(ctx, item):
     md_nodes = child_nodes_with_field_name(node, "metadata")
     n_md_nodes = len(md_nodes)
     md_items = item["metadata"]
-    assert n_md_nodes == len(md_items), \
+    assert len(md_items) == n_md_nodes, \
         f'expected {len(md_items)} metadata nodes, got: {n_md_nodes}'
     # XXX: could probably be improved for clarity
     for idx in range(0, n_md_nodes):
