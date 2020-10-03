@@ -22,11 +22,11 @@ from .verify import verify_node_as_atom, \
 # metadata: $ =>
 #   seq("^",
 #       repeat($._non_form),
-#       choice($.read_cond,
-#              $.map,
-#              $.string,
-#              $.keyword,
-#              $.symbol)),
+#       field('value', choice($.read_cond,
+#                             $.map,
+#                             $.string,
+#                             $.keyword,
+#                             $.symbol))),
 
 # XXX: there is one separator of interest and that is potentially
 #      between ^ and the rest of the form.  the default here is
