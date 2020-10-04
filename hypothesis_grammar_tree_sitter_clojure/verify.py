@@ -82,6 +82,18 @@ def verify_node_as_adorned(ctx, adorned_item):
                         form_item)
     return True
 
+def verify_node_metadatum(ctx, item):
+    node, source = itemgetter('node', 'source')(ctx)
+    verify_node_type(ctx, item)
+    assert node.named_child_count == 1
+    inner_item = item["inputs"]
+    assert inner_item
+    inner_node = node.child_by_field_name("value")
+    assert inner_node
+    inner_item["verify"]({"node": inner_node,
+                          "source": source},
+                         inner_item)
+    return True
 
 def verify_node_metadata(ctx, item):
     node, source = itemgetter('node', 'source')(ctx)
@@ -93,19 +105,10 @@ def verify_node_metadata(ctx, item):
     md_items = item["metadata"]
     assert len(md_items) == n_md_nodes, \
         f'expected {len(md_items)} metadata nodes, got: {n_md_nodes}'
-    # XXX: could probably be improved for clarity
     for idx in range(0, n_md_nodes):
-        md_item = md_items[idx]
-        md_node = md_nodes[idx]
-        assert md_node.type == "metadata"
-        assert md_node.named_child_count == 1
-        inner_item = md_item["inputs"]
-        assert inner_item
-        inner_node = md_node.child_by_field_name("value")
-        assert inner_node
-        inner_item["verify"]({"node": inner_node,
+        verify_node_metadatum({"node": md_nodes[idx],
                               "source": source},
-                             inner_item)
+                              md_items[idx])
     return True
 
 # XXX: this only works for nodes that are collections
