@@ -25,25 +25,25 @@ def build_sym_str(item):
 #      "unqualified_symbol"?
 @composite
 def unqualified_symbol_items(draw):
-    a_sym_str = draw(unqualified_symbol_as_str())
+    sym_str = draw(unqualified_symbol_as_str())
     #
-    return {"inputs": a_sym_str,
+    return {"inputs": sym_str,
             "label": "symbol",
             "to_str": build_sym_str,
             "verify": verify_node_as_atom}
 
 @composite
 def qualified_symbol_items(draw):
-    a_sym_str = draw(qualified_symbol_as_str())
+    sym_str = draw(qualified_symbol_as_str())
     #
-    return {"inputs": a_sym_str,
+    return {"inputs": sym_str,
             "label": "symbol",
             "to_str": build_sym_str,
             "verify": verify_node_as_atom}
 
 @composite
 def symbol_items(draw):
-    a_sym_item = draw(one_of(unqualified_symbol_items(),
-                             qualified_symbol_items()))
+    sym_item = draw(one_of(unqualified_symbol_items(),
+                           qualified_symbol_items()))
     #
-    return a_sym_item
+    return sym_item
