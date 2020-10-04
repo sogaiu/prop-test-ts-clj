@@ -292,6 +292,12 @@ def test_parses_quote_form(quote_form_item):
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
+@given(symbol_with_metadata_items())
+def test_parses_symbol_with_metadata(symbol_with_metadata_item):
+    form_test(symbol_with_metadata_item)
+
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
+                                               HealthCheck.filter_too_much])
 @given(atom_vector_with_metadata_items())
 def test_parses_atom_vector_with_metadata(atom_vector_with_metadata_item):
     form_test(atom_vector_with_metadata_item)
@@ -358,6 +364,7 @@ if __name__ == "__main__":
     #
     test_parses_quote_form()
     #
+    test_parses_symbol_with_metadata()
     test_parses_atom_vector_with_metadata()
     #
     test_parses_tagged_literal()

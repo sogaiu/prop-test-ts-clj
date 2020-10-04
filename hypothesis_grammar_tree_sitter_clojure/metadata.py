@@ -9,7 +9,7 @@ from .keywords import *
 # XXX: want generic (i.e. not just atoms) map_items eventually?
 from .maps import atom_map_items
 from .strings import string_items
-from .symbols import symbol_items
+from .symbols import symbol_items, build_sym_str
 # metadatee-related (maps and symbols from above would be too)
 from .atoms import atom_items
 from .vectors import atom_vector_items, build_vector_str
@@ -19,7 +19,8 @@ from .separators import separator_strings
 # XXX: clean up later
 from .verify import verify_node_as_atom, \
     verify_node_as_coll, \
-    verify_node_with_metadata
+    verify_symbol_node_with_metadata, \
+    verify_coll_node_with_metadata
 
 # metadata: $ =>
 #   seq("^",
@@ -49,6 +50,14 @@ def build_vector_with_metadata_str(item):
     md_item_strs = [md_item["to_str"](md_item) for md_item in md_items]
     #
     return attach_metadata(md_item_strs, vec_str)
+
+def build_symbol_with_metadata_str(item):
+    sym_str = build_sym_str(item)
+    #
+    md_items = item["metadata"]
+    md_item_strs = [md_item["to_str"](md_item) for md_item in md_items]
+    #
+    return attach_metadata(md_item_strs, sym_str)
 
 # XXX: only non-auto-resolved-keywords are valid
 @composite
@@ -114,6 +123,23 @@ def atom_vector_with_metadata_items(draw):
     return {"inputs": atm_items,
             "label": "vector",
             "to_str": build_vector_with_metadata_str,
-            "verify": verify_node_with_metadata,
+            "verify": verify_coll_node_with_metadata,
             "metadata": md_items,
             "separators": sep_strs}
+
+@composite
+def symbol_with_metadata_items(draw):
+    sym_item = draw(symbol_items())
+    # XXX: not sure about this approach
+    sym_str = sym_item["to_str"](sym_item)
+    #
+    m = draw(integers(min_value=1, max_value=metadata_max))
+    #
+    md_items = draw(lists(elements=metadata_items(),
+                          min_size=m, max_size=m))
+    #
+    return {"inputs": sym_str,
+            "label": "symbol",
+            "to_str": build_symbol_with_metadata_str,
+            "verify": verify_symbol_node_with_metadata,
+            "metadata": md_items}
