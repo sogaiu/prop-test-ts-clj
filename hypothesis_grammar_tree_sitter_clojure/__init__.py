@@ -7,6 +7,9 @@ __version__ = '0.0.1'
 #      grammar that the tests apply to ought to be recorded and
 #      tracked.
 
+# XXX: create clojure samples so that s-expression output can be
+#      programmatically generated from them when the grammar changes.
+
 # XXX: consider approach of flattening or converting tree-sitter tree
 #      to some other structure for comparison with expected information.
 #      expected information having an analogous structure might
