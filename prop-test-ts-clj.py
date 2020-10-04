@@ -273,7 +273,7 @@ def test_parses_atom_collection(atom_collection_item):
 
 ## adorned forms
 
-@settings(verbosity=vb)
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow])
 @given(deref_form_items())
 def test_parses_deref_form(deref_form_item):
     form_test(deref_form_item)
@@ -283,7 +283,7 @@ def test_parses_deref_form(deref_form_item):
 def test_parses_eval_form(eval_form_item):
     form_test(eval_form_item)
 
-@settings(verbosity=vb)
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow])
 @given(quote_form_items())
 def test_parses_quote_form(quote_form_item):
     form_test(quote_form_item)
