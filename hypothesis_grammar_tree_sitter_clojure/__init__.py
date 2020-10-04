@@ -3,7 +3,9 @@
 __version__ = '0.0.1'
 
 # XXX: reminder that grammar is in flux so pasted in info in comments
-#      needs to be kept up-to-date
+#      needs to be kept up-to-date.  exactly which commit of the
+#      grammar that the tests apply to ought to be recorded and
+#      tracked.
 
 # XXX: consider approach of flattening or converting tree-sitter tree
 #      to some other structure for comparison with expected information.
