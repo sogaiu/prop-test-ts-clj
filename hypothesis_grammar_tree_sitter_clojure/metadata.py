@@ -105,7 +105,7 @@ def atom_vector_with_metadata_items(draw):
     #
     sep_strs = draw(lists(elements=separator_strings(),
                           min_size=n, max_size=n))
-    # XXX: tweak these numbers eventually
+    #
     m = draw(integers(min_value=1, max_value=metadata_max))
     #
     md_items = draw(lists(elements=metadata_items(),
