@@ -2,6 +2,9 @@
 
 __version__ = '0.0.1'
 
+# XXX: reminder that grammar is in flux so pasted in info in comments
+#      needs to be kept up-to-date
+
 # XXX: if node.text gets merged in py-tree-sitter and it's usable,
 #      consider moving over to that instead of using node_text.
 #      n.b. that may require switching from strings to bytes --
