@@ -37,16 +37,23 @@ def verify_node_text(ctx, item):
         f'expected node text: {text_of_node}, got: {as_str}'
     return True
 
-def verify_node_type_and_text(ctx, item):
-    return verify_node_type(ctx, item) and \
+def verify_node_no_error(ctx):
+    assert not ctx["node"].has_error
+    return True
+
+def verify_node_type_text_and_no_error(ctx, item):
+    return verify_node_no_error(ctx) and \
+        verify_node_type(ctx, item) and \
         verify_node_text(ctx, item)
 
 def verify_node_as_atom(ctx, item):
-    return verify_node_type(ctx, item) and \
+    return verify_node_no_error(ctx) and \
+        verify_node_type(ctx, item) and \
         verify_node_text(ctx, item)
 
 def verify_node_as_coll(ctx, coll_item):
     node, source = itemgetter('node', 'source')(ctx)
+    verify_node_no_error(ctx)
     items = itemgetter('inputs')(coll_item)
     verify_node_type(ctx, coll_item)
     first_value_node = node.child_by_field_name("value")
@@ -57,14 +64,15 @@ def verify_node_as_coll(ctx, coll_item):
         assert len(items) == n_value_nodes, \
             f'expected: {len(items)} node(s), got: {n_value_nodes}'
         for idx in range(0, n_value_nodes):
-            verify_node_type_and_text({"node": value_nodes[idx],
-                                       "source": source},
-                                      items[idx])
+            verify_node_type_text_and_no_error({"node": value_nodes[idx],
+                                                "source": source},
+                                               items[idx])
     return True
 
 # XXX: essentially same as verify_node_as_atom...
 def verify_node_as_form(ctx, form_item):
-    return verify_node_type(ctx, form_item) and \
+    return verify_node_no_error(ctx) and \
+        verify_node_type(ctx, form_item) and \
         verify_node_text(ctx, form_item)
 
 def verify_node_as_adorned(ctx, adorned_item):
@@ -84,6 +92,7 @@ def verify_node_as_adorned(ctx, adorned_item):
 
 def verify_node_metadatum(ctx, item):
     node, source = itemgetter('node', 'source')(ctx)
+    verify_node_no_error(ctx)
     verify_node_type(ctx, item)
     assert node.named_child_count == 1
     inner_item = item["inputs"]
