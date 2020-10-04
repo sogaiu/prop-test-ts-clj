@@ -27,8 +27,6 @@ __version__ = '0.0.1'
 # XXX: py-tree-sitter now has is_missing, so could verify that
 #      resulting nodes are not "is_missing"
 
-# XXX: numeric constants being used in strategies are hard-wired -> change?
-
 # XXX: label strings could be factored out (e.g. "map", "number", etc.)
 #      perhaps these can be placed in a central look-up table to
 #      make changing them later easier (e.g. as a consequence of
