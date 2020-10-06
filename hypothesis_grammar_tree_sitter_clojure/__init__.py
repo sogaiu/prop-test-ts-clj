@@ -81,7 +81,7 @@ __version__ = '0.0.1'
 #   + list
 #   + map
 #   + namespaced_map
-#   read_cond
+#   + read_cond
 #   read_cond_splicing
 #   + set
 #   + vector
