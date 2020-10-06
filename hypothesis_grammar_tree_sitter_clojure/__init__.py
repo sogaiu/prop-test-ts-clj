@@ -84,7 +84,7 @@ __version__ = '0.0.1'
 #   syntax_quote_form
 #   unquote_form
 #   unquote_splicing_form
-#   var_quote_form
+#   + var_quote_form
 #
 # other (2)
 #   + discard_expr
