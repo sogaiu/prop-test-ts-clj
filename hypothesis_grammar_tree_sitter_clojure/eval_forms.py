@@ -8,7 +8,8 @@ from .symbols import symbol_items
 from .verify import verify_node_as_adorned
 
 # eval_form: $ =>
-#   seq("#=",
+#   seq(repeat($._metadata), // ^:x #=(vector 1)
+#       "#=",
 #       repeat($._non_form),
 #       field('value', choice($.list,
 #                             $.read_cond,
