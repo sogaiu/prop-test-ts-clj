@@ -32,6 +32,9 @@ __version__ = '0.0.1'
 #        unquote_form
 #        deref_form
 
+# XXX: one piece of tagged_literals.py (tag_items) might have a better
+#      home in hypothesis_grammar_clojure.<something>
+
 # XXX: create clojure samples so that s-expression output can be
 #      programmatically generated from them when the grammar changes.
 
