@@ -10,6 +10,13 @@ __version__ = '0.0.1'
 # XXX: create clojure samples so that s-expression output can be
 #      programmatically generated from them when the grammar changes.
 
+# XXX: the leading portions of certain forms (e.g. #', @, etc.) are
+#      not currently checked.  consider checking them?
+
+# XXX: min_size 0 seems worth testing sometimes, but may be it
+#      makes sense to have 2 runs of tests, one with min_size 0
+#      and another with min_size 1
+
 # XXX: forms.py needs to be filled out.
 
 # XXX: if node.text gets merged in py-tree-sitter and it's usable,
