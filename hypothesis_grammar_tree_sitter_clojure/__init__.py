@@ -6,7 +6,7 @@ __version__ = '0.0.1'
 #      ought to be recorded and tracked.  preferably this could be
 #      expressed programmatically as a dependency.  for the moment:
 #
-#        569cdd8025415077472ef0ba50f8b733f9f1d989
+#        ab2f869f395a502a8c1b6683cdd68395e62fa96f
 
 # XXX: reminder that grammar is in flux so pasted in info in comments
 #      needs to be kept up-to-date.
@@ -24,7 +24,6 @@ __version__ = '0.0.1'
 #        discard_expr
 #        regex
 #        symbolic_value
-#        eval_form
 #
 #      in the case of metadata (and old_metadata), check ^ and #^
 
