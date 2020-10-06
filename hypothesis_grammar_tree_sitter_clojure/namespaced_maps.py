@@ -59,19 +59,18 @@ def prefix_items(draw):
     return prefix_item
 
 @composite
-def number_namespaced_map_items(draw):
-    n = draw(integers(min_value=0, max_value=coll_max/2))
-    m = n * 2
+def namespaced_map_items(draw, elements):
+    n = 2 * draw(integers(min_value=0, max_value=coll_max/2))
     #
-    num_items = draw(lists(elements=number_items(),
-                           min_size=m, max_size=m))
+    items = draw(lists(elements=number_items(),
+                       min_size=n, max_size=n))
     #
     prefix_item = draw(prefix_items())
     #
     sep_strs = draw(lists(elements=separator_strings(),
-                          min_size=m, max_size=m))
+                          min_size=n, max_size=n))
     #
-    return {"inputs": num_items,
+    return {"inputs": items,
             "label": "namespaced_map",
             "to_str": build_namespaced_map_str,
             "verify": verify_node_with_prefix,
@@ -79,21 +78,13 @@ def number_namespaced_map_items(draw):
             "separators": sep_strs}
 
 @composite
+def number_namespaced_map_items(draw):
+    number_ns_map_item = draw(namespaced_map_items(elements=number_items()))
+    #
+    return number_ns_map_item
+
+@composite
 def atom_namespaced_map_items(draw):
-    n = draw(integers(min_value=0, max_value=coll_max/2))
-    m = 2 * n
+    atom_ns_map_item = draw(namespaced_map_items(elements=atom_items()))
     #
-    atm_items = draw(lists(elements=atom_items(),
-                           min_size=m, max_size=m))
-    #
-    prefix_item = draw(prefix_items())
-    #
-    sep_strs = draw(lists(elements=separator_strings(),
-                          min_size=m, max_size=m))
-    #
-    return {"inputs": atm_items,
-            "label": "namespaced_map",
-            "to_str": build_namespaced_map_str,
-            "verify": verify_node_with_prefix,
-            "prefix": prefix_item,
-            "separators": sep_strs}
+    return atom_ns_map_item

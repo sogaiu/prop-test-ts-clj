@@ -4,11 +4,7 @@ from hypothesis.strategies import composite, lists
 from .parameters import coll_max
 
 from .atoms import atom_items
-from .characters import character_items
-from .keywords import keyword_items
 from .numbers import number_items
-from .strings import string_items
-from .symbols import symbol_items
 
 from .separators import separator_strings
 
@@ -34,33 +30,28 @@ def build_set_str(set_item):
     return "#{" + "".join(set_elts) + "}"
 
 @composite
-def number_set_items(draw):
+def set_items(draw, elements):
     n = draw(integers(min_value=0, max_value=coll_max))
     #
-    num_items = draw(lists(elements=number_items(),
-                           min_size=n, max_size=n))
+    items = draw(lists(elements, min_size=n, max_size=n))
     #
     sep_strs = draw(lists(elements=separator_strings(),
                           min_size=n, max_size=n))
     #
-    return {"inputs": num_items,
+    return {"inputs": items,
             "label": "set",
             "to_str": build_set_str,
             "verify": verify_node_as_coll,
             "separators": sep_strs}
 
 @composite
+def number_set_items(draw):
+    number_set_item = draw(set_items(elements=number_items()))
+    #
+    return number_set_item
+
+@composite
 def atom_set_items(draw):
-    n = draw(integers(min_value=0, max_value=coll_max))
+    atom_set_item = draw(set_items(elements=atom_items()))
     #
-    atm_items = draw(lists(elements=atom_items(),
-                           min_size=n, max_size=n))
-    #
-    sep_strs = draw(lists(elements=separator_strings(),
-                          min_size=n, max_size=n))
-    #
-    return {"inputs": atm_items,
-            "label": "set",
-            "to_str": build_set_str,
-            "verify": verify_node_as_coll,
-            "separators": sep_strs}
+    return atom_set_item
