@@ -11,7 +11,18 @@ __version__ = '0.0.1'
 #      programmatically generated from them when the grammar changes.
 
 # XXX: the leading portions of certain forms (e.g. #', @, etc.) are
-#      not currently checked.  consider checking them?
+#      not currently checked.  possibly this is a sequence of characters
+#      that come after metadata (if there is any metadata).
+#
+#      things that have leading sequences of characters that don't
+#      have leading optional metadata include:
+#
+#        discard_expr
+#        regex
+#        symbolic_value
+#        eval_form
+#
+#      in the case of metadata (and old_metadata), check ^ and #^
 
 # XXX: min_size 0 seems worth testing sometimes, but may be it
 #      makes sense to have 2 runs of tests, one with min_size 0
