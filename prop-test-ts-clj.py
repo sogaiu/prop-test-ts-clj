@@ -271,6 +271,12 @@ def test_parses_atom_set(atom_set_item):
 def test_parses_atom_collection(atom_collection_item):
     form_test(atom_collection_item)
 
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
+                                               HealthCheck.filter_too_much])
+@given(recursive_collection_items())
+def test_parses_recursive_collection(rec_coll_item):
+    form_test(rec_coll_item)
+
 ## adorned forms
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow])
@@ -357,6 +363,7 @@ if __name__ == "__main__":
     test_parses_atom_set()
     #
     test_parses_atom_collection()
+    test_parses_recursive_collection()
     #
     test_parses_deref_form()
     #
