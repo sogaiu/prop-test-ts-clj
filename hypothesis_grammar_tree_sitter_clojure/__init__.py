@@ -2,10 +2,14 @@
 
 __version__ = '0.0.1'
 
+# XXX: exactly which commit of the grammar that the tests apply to
+#      ought to be recorded and tracked.  preferably this could be
+#      expressed programmatically as a dependency.  for the moment:
+#
+#        569cdd8025415077472ef0ba50f8b733f9f1d989
+
 # XXX: reminder that grammar is in flux so pasted in info in comments
-#      needs to be kept up-to-date.  exactly which commit of the
-#      grammar that the tests apply to ought to be recorded and
-#      tracked.
+#      needs to be kept up-to-date.
 
 # XXX: create clojure samples so that s-expression output can be
 #      programmatically generated from them when the grammar changes.
