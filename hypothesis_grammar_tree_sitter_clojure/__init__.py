@@ -8,6 +8,9 @@ __version__ = '0.0.1'
 #
 #        ab2f869f395a502a8c1b6683cdd68395e62fa96f
 
+# XXX: periodically go through source looking for comments related
+#      to unfinished or temporary bits
+
 # XXX: reminder that grammar is in flux so pasted in info in comments
 #      needs to be kept up-to-date.
 
