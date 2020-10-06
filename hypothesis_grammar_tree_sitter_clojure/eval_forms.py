@@ -2,7 +2,7 @@ from hypothesis.strategies import composite, one_of
 
 # XXX: change to generic list_items once that exists
 from .lists import atom_list_items
-# XXX: add reader conditional eventually
+from .read_conds import read_cond_items
 from .symbols import symbol_items
 
 from .verify import verify_node_as_adorned
@@ -25,8 +25,8 @@ def build_eval_form_str(item):
 @composite
 def eval_form_items(draw):
     legal_item = draw(one_of(atom_list_items(),
-                            #read_cond_items(),
-                            symbol_items()))
+                             read_cond_items(),
+                             symbol_items()))
     #
     return {"inputs": legal_item,
             "label": "eval_form",
