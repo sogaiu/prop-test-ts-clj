@@ -11,6 +11,24 @@ __version__ = '0.0.1'
 # XXX: reminder that grammar is in flux so pasted in info in comments
 #      needs to be kept up-to-date.
 
+# XXX: metadata support still needed for:
+#
+#        list
+#        map
+#        set
+#        anon_func
+#        read_cond
+#        read_cond_splicing
+#        namespaced_map
+#        var_quote_form
+#        eval_form
+#        tagged_literal
+#        syntax_quote_form
+#        quote_form
+#        unquote_splicing_form
+#        unquote_form
+#        deref_form
+
 # XXX: create clojure samples so that s-expression output can be
 #      programmatically generated from them when the grammar changes.
 
