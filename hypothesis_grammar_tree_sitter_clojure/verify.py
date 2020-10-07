@@ -178,7 +178,3 @@ def verify_node_marker(ctx, item):
     assert text_of_node == marker, \
         f'expected marker: {marker}, got: {text_of_node}'
     return True
-
-def verify_node_as_discard_expr(ctx, item):
-    return verify_node_marker(ctx, item) and \
-        verify_node_as_form(ctx, item)

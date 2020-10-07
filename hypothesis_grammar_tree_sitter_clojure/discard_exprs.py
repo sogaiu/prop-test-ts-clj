@@ -1,6 +1,7 @@
 from hypothesis.strategies import composite
 
-from .verify import verify_node_as_discard_expr
+from .verify import verify_node_marker, \
+    verify_node_as_form
 
 # discard_expr: $ =>
 #   seq("#_",
@@ -16,6 +17,10 @@ def build_discard_expr_str(item):
     #      also be empty string
     return marker + " " + form_item["to_str"](form_item)
 
+def verify(ctx, item):
+    return verify_node_marker(ctx, item) and \
+        verify_node_as_form(ctx, item)
+
 # XXX: make another key-value pair for the repeat non_form?
 @composite
 def discard_expr_items(draw):
@@ -27,5 +32,5 @@ def discard_expr_items(draw):
     return {"inputs": form_item,
             "label": "discard_expr",
             "to_str": build_discard_expr_str,
-            "verify": verify_node_as_discard_expr,
+            "verify": verify,
             "marker": marker}
