@@ -74,6 +74,7 @@ def verify_coll_node_with_metadata(ctx, item):
     return verify_node_metadata(ctx, item) and \
         verify_node_as_coll(ctx, item)
 
+# XXX: generic vector at some point?
 @composite
 def atom_vector_with_metadata_items(draw):
     # avoid circular dependency
