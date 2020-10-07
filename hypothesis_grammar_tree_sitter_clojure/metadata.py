@@ -51,6 +51,7 @@ def keyword_metadata_items(draw):
 
 @composite
 def map_metadata_items(draw):
+    # XXX: needs generalization?
     map_item = draw(atom_map_items())
     #
     return {"inputs": map_item,
