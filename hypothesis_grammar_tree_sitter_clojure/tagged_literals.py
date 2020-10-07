@@ -7,7 +7,8 @@ from .forms import form_items
 
 from .separators import separator_strings
 
-from .verify import verify_node_with_tag
+from .verify import verify_node_as_adorned, \
+    make_single_verifier
 
 marker = '#'
 
@@ -66,6 +67,10 @@ def tag_items(draw):
     #
     return tag_item
 
+def verify(ctx, item):
+    return make_single_verifier("tag")(ctx, item) and \
+        verify_node_as_adorned(ctx, item)
+
 @composite
 def tagged_literal_items(draw):
     form_item = draw(form_items())
@@ -78,7 +83,7 @@ def tagged_literal_items(draw):
     return {"inputs": form_item,
             "label": "tagged_literal",
             "to_str": build_tagged_literal_str,
-            "verify": verify_node_with_tag,
+            "verify": verify,
             "tag": tag_item,
             "separators": sep_strs,
             "marker": marker}

@@ -151,20 +151,6 @@ def make_single_verifier(single_name):
         return single_item["verify"](single_ctx, single_item)
     return verifier
 
-verify_node_prefix = make_single_verifier("prefix")
-
-def verify_node_with_prefix(ctx, item):
-    return verify_node_prefix(ctx, item) and \
-        verify_node_as_coll(ctx, item)
-
-verify_node_tag = make_single_verifier("tag")
-
-# XXX: possibly want to change verify_node_as_adorned
-#      to have a different name or split out common functionality
-def verify_node_with_tag(ctx, item):
-    return verify_node_tag(ctx, item) and \
-        verify_node_as_adorned(ctx, item)
-
 def verify_node_marker(ctx, item):
     node, source = itemgetter('node', 'source')(ctx)
     marker = item["marker"]

@@ -11,7 +11,7 @@ from .separators import separator_strings
 
 from .verify import verify_node_as_atom, \
     verify_node_as_coll, \
-    verify_node_with_prefix
+    make_single_verifier
 
 # auto_res_marker: $ =>
 #   AUTO_RESOLVE_MARKER,
@@ -58,6 +58,10 @@ def prefix_items(draw):
     #
     return prefix_item
 
+def verify(ctx, item):
+    return make_single_verifier("prefix")(ctx, item) and \
+        verify_node_as_coll(ctx, item)
+
 @composite
 def namespaced_map_items(draw, elements):
     n = 2 * draw(integers(min_value=0, max_value=coll_max/2))
@@ -73,7 +77,7 @@ def namespaced_map_items(draw, elements):
     return {"inputs": items,
             "label": "namespaced_map",
             "to_str": build_namespaced_map_str,
-            "verify": verify_node_with_prefix,
+            "verify": verify,
             "prefix": prefix_item,
             "separators": sep_strs}
 
