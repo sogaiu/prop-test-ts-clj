@@ -32,6 +32,8 @@ from hypothesis_grammar_tree_sitter_clojure.quote_forms import *
 from hypothesis_grammar_tree_sitter_clojure.tagged_literals import *
 #
 from hypothesis_grammar_tree_sitter_clojure.metadata import *
+#
+from hypothesis_grammar_tree_sitter_clojure.discard_exprs import *
 
 vb = Verbosity.verbose
 #vb = Verbosity.normal
@@ -324,6 +326,14 @@ def test_parses_atom_vector_with_metadata(atom_vector_with_metadata_item):
 def test_parses_tagged_literal(tagged_literal_item):
     form_test(tagged_literal_item)
 
+## discard expressions
+
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
+                                               HealthCheck.filter_too_much])
+@given(discard_expr_items())
+def test_parses_discard_expr(discard_expr_item):
+    form_test(discard_expr_item)
+
 if __name__ == "__main__":
     test_parses_comment()
     #
@@ -385,4 +395,6 @@ if __name__ == "__main__":
     test_parses_atom_vector_with_metadata()
     #
     test_parses_tagged_literal()
+    #
+    test_parses_discard_expr()
     #

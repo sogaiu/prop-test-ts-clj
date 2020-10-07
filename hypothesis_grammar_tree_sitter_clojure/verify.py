@@ -164,8 +164,18 @@ def verify_node_with_tag(ctx, item):
     return verify_node_tag(ctx, item) and \
         verify_node_as_adorned(ctx, item)
 
-# XXX: incomplete
 def verify_node_leads_with(ctx, item):
+    node, source = itemgetter('node', 'source')(ctx)
+    marker = item["marker"]
+    for child in node.children:
+        if not(child.is_named):
+            first_unnamed = child
+            break
+    assert first_unnamed, \
+        f'expected at least one unnamed node, but found none: {source}'
+    text_of_node = node_text(source, first_unnamed)
+    assert text_of_node == marker, \
+        f'expected marker: {marker}, got: {text_of_node}'
     return True
 
 def verify_node_as_discard_expr(ctx, item):
