@@ -35,6 +35,12 @@ __version__ = '0.0.1'
 #        unquote_form
 #        deref_form
 
+# XXX: consider placing definitions for verify functions in each
+#      form-specific file
+
+# XXX: consider making the "verify" key's value a list of functions
+#      which are meant to be used for verification
+
 # XXX: one piece of tagged_literals.py (tag_items) might have a better
 #      home in hypothesis_grammar_clojure.<something>
 
@@ -45,12 +51,9 @@ __version__ = '0.0.1'
 #      currently checked.  possibly this is a sequence of characters
 #      that come after metadata (if there is any metadata).
 #
-#      things that have leading sequences of characters that don't
-#      have leading optional metadata include:
-#
-#        discard_expr
-#        regex
-#        symbolic_value
+#      it appears that the marker for a node (if any) can be located
+#      by finding the first anonymous node.  verify that this
+#      assertion is correct.
 #
 #      in the case of metadata (and old_metadata), check ^ and #^
 
