@@ -1,7 +1,6 @@
 from hypothesis.strategies import composite, one_of
 
-# XXX: change to generic list_items once that exists
-from .lists import atom_list_items
+from .lists import list_items
 from .read_conds import read_cond_items
 from .symbols import symbol_items
 
@@ -27,7 +26,9 @@ def build_eval_form_str(item):
 
 @composite
 def eval_form_items(draw):
-    legal_item = draw(one_of(atom_list_items(),
+    from .forms import form_items
+    #
+    legal_item = draw(one_of(list_items(elements=form_items()),
                              read_cond_items(),
                              symbol_items()))
     #
