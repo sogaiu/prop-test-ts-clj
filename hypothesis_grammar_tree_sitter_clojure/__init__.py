@@ -145,7 +145,7 @@ __version__ = '0.0.1'
 #   + character
 #   + comment
 #   + keyword
-#   nil
+#   + nil
 #   + number
 #   + regex
 #   + string
