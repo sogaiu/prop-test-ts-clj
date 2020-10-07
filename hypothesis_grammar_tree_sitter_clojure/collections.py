@@ -38,11 +38,5 @@ def recursive_collection_items(draw):
     rec_coll_item = draw(recursive(atom_items(), collection_items))
     # XXX: without this seems to test too many degenerate cases?
     assume(len(rec_coll_item["inputs"]) > 0)
-    # XXX: would rather not do this but don't have better ideas atm
-    assume((rec_coll_item["label"] == "list") or
-           (rec_coll_item["label"] == "map") or
-           (rec_coll_item["label"] == "namespaced_map") or
-           (rec_coll_item["label"] == "set") or
-           (rec_coll_item["label"] == "vector"))
     #
     return rec_coll_item
