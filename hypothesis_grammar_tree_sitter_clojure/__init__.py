@@ -130,6 +130,9 @@ __version__ = '0.0.1'
 #      make changing them later easier (e.g. as a consequence of
 #      changing the tree-sitter grammar "grammar symbols")
 
+# XXX: there could also be a lookup table for markers, but this
+#      somehow doesn't seem too useful
+
 # XXX: create clojure samples so that s-expression output can be
 #      programmatically generated from them when the grammar changes.
 
