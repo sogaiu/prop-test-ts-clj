@@ -56,6 +56,9 @@ __version__ = '0.0.1'
 #      assertion is correct.
 #
 #      in the case of metadata (and old_metadata), check ^ and #^
+#
+#      currently, markers for collections may not be verified.
+#      consider addressing this.
 
 # XXX: min_size 0 seems worth testing sometimes, but may be it
 #      makes sense to have 2 runs of tests, one with min_size 0
