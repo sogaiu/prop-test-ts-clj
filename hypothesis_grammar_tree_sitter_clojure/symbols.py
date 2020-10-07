@@ -75,10 +75,10 @@ def symbol_with_metadata_items(draw):
     # XXX: not sure about this approach
     sym_str = sym_item["to_str"](sym_item)
     #
-    m = draw(integers(min_value=1, max_value=metadata_max))
+    n = draw(integers(min_value=1, max_value=metadata_max))
     #
     md_items = draw(lists(elements=metadata_items(),
-                          min_size=m, max_size=m))
+                          min_size=n, max_size=n))
     #
     return {"inputs": sym_str,
             "label": "symbol",

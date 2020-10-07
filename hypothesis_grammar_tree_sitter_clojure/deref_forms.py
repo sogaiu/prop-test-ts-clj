@@ -57,10 +57,10 @@ def deref_form_with_metadata_items(draw):
     #
     deref_form_item = draw(deref_form_items())
     #
-    m = draw(integers(min_value=1, max_value=metadata_max))
+    n = draw(integers(min_value=1, max_value=metadata_max))
     #
     md_items = draw(lists(elements=metadata_items(),
-                          min_size=m, max_size=m))
+                          min_size=n, max_size=n))
     #
     return {"inputs": deref_form_item,
             "label": "deref_form",
