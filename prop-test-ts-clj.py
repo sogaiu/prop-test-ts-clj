@@ -11,6 +11,7 @@ from hypothesis_grammar_tree_sitter_clojure.keywords import *
 from hypothesis_grammar_tree_sitter_clojure.numbers import *
 from hypothesis_grammar_tree_sitter_clojure.strings import *
 from hypothesis_grammar_tree_sitter_clojure.symbols import *
+from hypothesis_grammar_tree_sitter_clojure.symbolic_values import *
 #
 from hypothesis_grammar_tree_sitter_clojure.atoms import *
 #
@@ -196,6 +197,13 @@ def test_parses_character(character_item):
 @given(string_items())
 def test_parses_string(string_item):
     form_test(string_item)
+
+## symbolic values
+
+@settings(verbosity=vb)
+@given(symbolic_value_items())
+def test_parses_symbolic_value(symbolic_value_item):
+    form_test(symbolic_value_item)
 
 ## atoms
 
@@ -405,6 +413,8 @@ if __name__ == "__main__":
     test_parses_character()
     #
     test_parses_string()
+    #
+    test_parses_symbolic_value()
     #
     test_parses_atom()
     #
