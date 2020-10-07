@@ -8,7 +8,6 @@ from .verify import verify_node_marker, \
 #       repeat($._non_form),
 #       field('value', $._form)),
 
-# XXX: could use a lookup table for all markers that's keyed by label?
 marker = '#_'
 
 def build_discard_expr_str(item):

@@ -24,9 +24,6 @@ from .verify import verify_node_as_atom
 def build_kwd_str(item):
     return item["inputs"]
 
-# XXX: should these specialized characters have specialized labels?
-#      e.g. instead of "keyword", should the following be labeled
-#      "unqualified_auto_resolved_keyword"?
 @composite
 def unqualified_auto_resolved_keyword_items(draw):
     a_kwd_str = draw(unqualified_auto_resolved_keyword_as_str())

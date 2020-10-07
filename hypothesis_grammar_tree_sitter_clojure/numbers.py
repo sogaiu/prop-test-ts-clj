@@ -22,9 +22,6 @@ from .verify import verify_node_as_atom
 def build_num_str(item):
     return item["inputs"]
 
-# XXX: should these specialized characters have specialized labels?
-#      e.g. instead of "number", should the following be labeled
-#      "hex_number"?
 @composite
 def hex_number_items(draw):
     a_num_str = draw(hex_number_as_str())

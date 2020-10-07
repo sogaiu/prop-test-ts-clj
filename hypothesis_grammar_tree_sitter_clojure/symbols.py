@@ -20,9 +20,6 @@ from .verify import verify_node_as_atom
 def build_sym_str(item):
     return item["inputs"]
 
-# XXX: should these specialized characters have specialized labels?
-#      e.g. instead of "symbol", should the following be labeled
-#      "unqualified_symbol"?
 @composite
 def unqualified_symbol_items(draw):
     sym_str = draw(unqualified_symbol_as_str())
