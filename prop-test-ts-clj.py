@@ -41,8 +41,6 @@ from hypothesis_grammar_tree_sitter_clojure.unquote_splicing_forms import *
 #
 from hypothesis_grammar_tree_sitter_clojure.tagged_literals import *
 #
-from hypothesis_grammar_tree_sitter_clojure.metadata import *
-#
 from hypothesis_grammar_tree_sitter_clojure.discard_exprs import *
 #
 from hypothesis_grammar_tree_sitter_clojure.forms import *
