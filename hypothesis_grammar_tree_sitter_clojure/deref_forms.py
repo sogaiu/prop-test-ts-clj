@@ -1,4 +1,7 @@
-from hypothesis.strategies import composite
+from hypothesis.strategies import integers
+from hypothesis.strategies import composite, lists
+
+from .parameters import metadata_max
 
 from .forms import form_items
 
@@ -27,4 +30,41 @@ def deref_form_items(draw):
             "label": "deref_form",
             "to_str": build_deref_form_str,
             "verify": verify_node_as_adorned,
+            "marker": marker}
+
+def build_deref_form_with_metadata_str(item):
+    # avoid circular dependency
+    from .metadata import attach_metadata
+    #
+    deref_form_str = build_deref_form_str(item)
+    #
+    md_items = item["metadata"]
+    md_item_strs = [md_item["to_str"](md_item) for md_item in md_items]
+    #
+    return attach_metadata(md_item_strs, deref_form_str)
+
+def verify_deref_form_node_with_metadata(ctx, item):
+    # avoid circular dependency
+    from .verify import verify_node_metadata
+    #
+    return verify_node_metadata(ctx, item) and \
+        verify_node_as_adorned(ctx, item)
+
+@composite
+def deref_form_with_metadata_items(draw):
+    # avoid circular dependency
+    from .metadata import metadata_items
+    #
+    deref_form_item = draw(deref_form_items())
+    #
+    m = draw(integers(min_value=1, max_value=metadata_max))
+    #
+    md_items = draw(lists(elements=metadata_items(),
+                          min_size=m, max_size=m))
+    #
+    return {"inputs": deref_form_item,
+            "label": "deref_form",
+            "to_str": build_deref_form_with_metadata_str,
+            "verify": verify_deref_form_node_with_metadata,
+            "metadata": md_items,
             "marker": marker}
