@@ -108,6 +108,7 @@ def verify_node_metadatum(ctx, item):
 def verify_node_metadata(ctx, item):
     node, source = itemgetter('node', 'source')(ctx)
     # XXX: redundant, but doesn't work sometimes and may be tree-sitter bug
+    #      happened with deref_form_with_metadata_items() strategy
 #    md_node = node.child_by_field_name("metadata")
 #    assert md_node, \
 #      f'no metadata found: {node.sexp()}, {source}'
