@@ -1,6 +1,8 @@
 from hypothesis.strategies import integers
 from hypothesis.strategies import composite, lists, one_of, sampled_from
 
+from .parameters import sep_max
+
 from .whitespace import whitespace_items
 from .comments import comment_items
 from .discard_exprs import discard_expr_items
@@ -37,7 +39,7 @@ def discard_expr_and_ws_strings(draw):
 
 @composite
 def separator_strings(draw):
-    n = draw(integers(min_value=1, max_value=10))
+    n = draw(integers(min_value=1, max_value=sep_max))
     #
     seps = \
         draw(lists(elements=one_of(whitespace_strings(),
