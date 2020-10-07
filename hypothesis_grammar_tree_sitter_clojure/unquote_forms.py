@@ -17,7 +17,12 @@ marker = "~"
 #      no separator.
 def build_unquote_form_str(item):
     inputs = item["inputs"]
-    return marker + inputs["to_str"](inputs)
+    form_str = inputs["to_str"](inputs)
+    # to avoid misinterpretation, the following is done
+    sep = ""
+    if form_str[0] == "@":
+        sep = " "
+    return marker + sep + form_str
 
 @composite
 def unquote_form_items(draw):
