@@ -118,12 +118,12 @@ __version__ = '0.0.1'
 #   symbolic_value
 #
 # collection-like (8)
-#   anon_func
+#   + anon_func
 #   + list
 #   + map
 #   + namespaced_map
 #   + read_cond
-#   read_cond_splicing
+#   + read_cond_splicing
 #   + set
 #   + vector
 #
