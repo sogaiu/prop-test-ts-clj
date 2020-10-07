@@ -48,20 +48,52 @@ __version__ = '0.0.1'
 #      programmatically generated from them when the grammar changes.
 
 # XXX: the markers of certain forms (e.g. #', @, etc.) are not
-#      currently checked.  possibly this is a sequence of characters
-#      that come after metadata (if there is any metadata).
+#      currently checked.
 #
 #      it appears that the marker for a node (if any) can be located
 #      by finding the first anonymous node.  verify that this
 #      assertion is correct.
 #
-#      in the case of metadata (and old_metadata), check ^ and #^
-#
 #      currently, markers for collections may not be verified.
 #      consider addressing this.
 #
-#      enumerate all forms that should have markers checked --
-#      e.g. symbols have no marker so would not be in this list.
+#      all things that should have markers checked:
+#
+#        discard_expr
+#        anon_func
+#        regex
+#        read_cond
+#        read_cond_splicing
+#        var_quote_form
+#        symbolic_value
+#        eval_form
+#        tagged_literal
+#        syntax_quote_form
+#        quote_form
+#        unquote_splicing_form
+#        unquote_form
+#        deref_form
+#        metadata
+#        old_metadata
+#
+#      unsure:
+#
+#        keyword - part of value, no anon node
+#        string - part of value, no anon node
+#        character - part of value, no anon node
+#        list
+#        map
+#        vector
+#        namespaced_map
+#        set
+#        comment
+#
+#      probably not:
+#
+#        number
+#        nil
+#        boolean
+#        symbol
 
 # XXX: min_size 0 seems worth testing sometimes, but may be it
 #      makes sense to have 2 runs of tests, one with min_size 0
