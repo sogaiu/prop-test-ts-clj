@@ -23,6 +23,9 @@ from hypothesis_grammar_tree_sitter_clojure.vectors import *
 from hypothesis_grammar_tree_sitter_clojure.collections import *
 #
 from hypothesis_grammar_tree_sitter_clojure.read_conds import *
+from hypothesis_grammar_tree_sitter_clojure.read_cond_splicings import *
+#
+from hypothesis_grammar_tree_sitter_clojure.anon_funcs import *
 #
 from hypothesis_grammar_tree_sitter_clojure.deref_forms import *
 from hypothesis_grammar_tree_sitter_clojure.var_quote_forms import *
@@ -285,6 +288,28 @@ def test_parses_atom_collection(atom_collection_item):
 def test_parses_recursive_collection(rec_coll_item):
     form_test(rec_coll_item)
 
+## reader conditionals
+
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
+                                               HealthCheck.filter_too_much])
+@given(read_cond_items())
+def test_parses_reader_conditional(read_cond_item):
+    form_test(read_cond_item)
+
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
+                                               HealthCheck.filter_too_much])
+@given(read_cond_splicing_items())
+def test_parses_reader_conditional_splicing(read_cond_splicing_item):
+    form_test(read_cond_splicing_item)
+
+## anonymous functions
+
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
+                                               HealthCheck.filter_too_much])
+@given(anon_func_items())
+def test_parses_anonymous_function(anon_func_item):
+    form_test(anon_func_item)
+
 ## adorned forms
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow])
@@ -400,6 +425,11 @@ if __name__ == "__main__":
     #
     test_parses_atom_collection()
     test_parses_recursive_collection()
+    #
+    test_parses_reader_conditional()
+    test_parses_reader_conditional_splicing()
+    #
+    test_parses_anonymous_function()
     #
     test_parses_deref_form()
     test_parses_var_quote_form()
