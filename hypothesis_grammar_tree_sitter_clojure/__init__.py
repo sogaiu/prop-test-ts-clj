@@ -17,6 +17,8 @@ __version__ = '0.0.1'
 # XXX: reminder that grammar is in flux so pasted in info in comments
 #      needs to be kept up-to-date.
 
+# XXX: consider how to support old_metadata
+
 # XXX: metadata support still needed for:
 #
 #        list
