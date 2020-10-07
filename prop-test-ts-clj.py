@@ -28,6 +28,9 @@ from hypothesis_grammar_tree_sitter_clojure.deref_forms import *
 from hypothesis_grammar_tree_sitter_clojure.var_quote_forms import *
 from hypothesis_grammar_tree_sitter_clojure.eval_forms import *
 from hypothesis_grammar_tree_sitter_clojure.quote_forms import *
+from hypothesis_grammar_tree_sitter_clojure.syntax_quote_forms import *
+from hypothesis_grammar_tree_sitter_clojure.unquote_forms import *
+from hypothesis_grammar_tree_sitter_clojure.unquote_splicing_forms import *
 #
 from hypothesis_grammar_tree_sitter_clojure.tagged_literals import *
 #
@@ -304,6 +307,21 @@ def test_parses_eval_form(eval_form_item):
 def test_parses_quote_form(quote_form_item):
     form_test(quote_form_item)
 
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow])
+@given(syntax_quote_form_items())
+def test_parses_syntax_quote_form(syntax_quote_form_item):
+    form_test(syntax_quote_form_item)
+
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow])
+@given(unquote_form_items())
+def test_parses_unquote_form(unquote_form_item):
+    form_test(unquote_form_item)
+
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow])
+@given(unquote_splicing_form_items())
+def test_parses_unquote_splicing_form(unquote_splicing_form_item):
+    form_test(unquote_splicing_form_item)
+
 ## metadata
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
@@ -384,12 +402,12 @@ if __name__ == "__main__":
     test_parses_recursive_collection()
     #
     test_parses_deref_form()
-    #
     test_parses_var_quote_form()
-    #
     test_parses_eval_form()
-    #
     test_parses_quote_form()
+    test_parses_syntax_quote_form()
+    test_parses_unquote_form()
+    test_parses_unquote_splicing_form()
     #
     test_parses_symbol_with_metadata()
     test_parses_atom_vector_with_metadata()

@@ -125,9 +125,9 @@ __version__ = '0.0.1'
 #   + deref_form
 #   + eval_form
 #   + quote_form
-#   syntax_quote_form
-#   unquote_form
-#   unquote_splicing_form
+#   + syntax_quote_form
+#   + unquote_form
+#   + unquote_splicing_form
 #   + var_quote_form
 #
 # other (2)
