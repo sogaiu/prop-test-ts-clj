@@ -117,6 +117,9 @@ __version__ = '0.0.1'
 # XXX: consider making the "verify" key's value a list of functions
 #      which are meant to be used for verification
 
+# XXX: write up details on what exactly is being tested and what things
+#      are not being tested
+
 # XXX: if node.text gets merged in py-tree-sitter and it's usable,
 #      consider moving over to that instead of using node_text.
 #      n.b. that may require switching from strings to bytes --
