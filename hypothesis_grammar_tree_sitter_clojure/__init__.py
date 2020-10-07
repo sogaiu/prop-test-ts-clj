@@ -8,6 +8,9 @@ __version__ = '0.0.1'
 #
 #        ab2f869f395a502a8c1b6683cdd68395e62fa96f
 
+# XXX: write up some notes on naming.  could cover terms such as
+#      "marker" (meaning things like "#_", "##", etc.)
+
 # XXX: periodically go through source looking for comments related
 #      to unfinished or temporary bits
 
