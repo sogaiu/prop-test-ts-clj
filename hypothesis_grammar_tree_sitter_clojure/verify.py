@@ -79,6 +79,7 @@ def verify_node_as_adorned(ctx, adorned_item):
     node, source = itemgetter('node', 'source')(ctx)
     form_item, adorned_label = itemgetter('inputs', 'label')(adorned_item)
     verify_node_type(ctx, adorned_item)
+    verify_node_marker(ctx, adorned_item)
     # verify there is only one value field
     cnt = len(child_nodes_with_field_name(node, "value"))
     assert 1 == cnt, \
@@ -164,7 +165,7 @@ def verify_node_with_tag(ctx, item):
     return verify_node_tag(ctx, item) and \
         verify_node_as_adorned(ctx, item)
 
-def verify_node_leads_with(ctx, item):
+def verify_node_marker(ctx, item):
     node, source = itemgetter('node', 'source')(ctx)
     marker = item["marker"]
     for child in node.children:
@@ -179,5 +180,5 @@ def verify_node_leads_with(ctx, item):
     return True
 
 def verify_node_as_discard_expr(ctx, item):
-    return verify_node_leads_with(ctx, item) and \
+    return verify_node_marker(ctx, item) and \
         verify_node_as_form(ctx, item)

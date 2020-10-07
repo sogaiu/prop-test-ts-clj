@@ -12,12 +12,14 @@ from .verify import verify_node_as_adorned
 #       //      any other things?
 #       field('value', $._form)),
 
+marker = "#'"
+
 # XXX: there is one separator of interest and that is potentially
 #      between #' and the rest of the form.  the default here is
 #      no separator.
 def build_var_quote_form_str(item):
     inputs = item["inputs"]
-    return "#'" + inputs["to_str"](inputs)
+    return marker + inputs["to_str"](inputs)
 
 @composite
 def var_quote_form_items(draw):
@@ -26,4 +28,5 @@ def var_quote_form_items(draw):
     return {"inputs": form_item,
             "label": "var_quote_form",
             "to_str": build_var_quote_form_str,
-            "verify": verify_node_as_adorned}
+            "verify": verify_node_as_adorned,
+            "marker": marker}

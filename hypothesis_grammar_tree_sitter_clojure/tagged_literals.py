@@ -9,6 +9,8 @@ from .separators import separator_strings
 
 from .verify import verify_node_with_tag
 
+marker = '#'
+
 # tagged_literal: $ =>
 #   seq(repeat($._metadata),
 #       "#",
@@ -33,7 +35,7 @@ def build_tagged_literal_str(tagged_literal_item):
     #
     # XXX: consider again later
     #return "#" + seps[0] + tag_str + seps[1] + form_str
-    return "#" + tag_str + " " + form_str
+    return marker + tag_str + " " + form_str
 
 # XXX: may want to move parts to:
 #
@@ -78,4 +80,5 @@ def tagged_literal_items(draw):
             "to_str": build_tagged_literal_str,
             "verify": verify_node_with_tag,
             "tag": tag_item,
-            "separators": sep_strs}
+            "separators": sep_strs,
+            "marker": marker}
