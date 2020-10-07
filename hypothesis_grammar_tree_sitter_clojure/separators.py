@@ -12,7 +12,6 @@ from .discard_exprs import discard_expr_items
 #          $.comment,
 #          $.discard_expr),
 
-# XXX: move to hypothesis_grammar_clojure.whitespace?
 @composite
 def whitespace_strings(draw):
     ws_item = draw(whitespace_items())
