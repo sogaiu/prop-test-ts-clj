@@ -44,6 +44,8 @@ from hypothesis_grammar_tree_sitter_clojure.tagged_literals import *
 from hypothesis_grammar_tree_sitter_clojure.metadata import *
 #
 from hypothesis_grammar_tree_sitter_clojure.discard_exprs import *
+#
+from hypothesis_grammar_tree_sitter_clojure.forms import *
 
 vb = Verbosity.verbose
 #vb = Verbosity.normal
@@ -409,6 +411,14 @@ def test_parses_tagged_literal(tagged_literal_item):
 def test_parses_discard_expr(discard_expr_item):
     form_test(discard_expr_item)
 
+## forms
+
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
+                                               HealthCheck.filter_too_much])
+@given(form_items())
+def test_parses_form(form_item):
+    form_test(form_item)
+
 if __name__ == "__main__":
     test_parses_comment()
     #
@@ -485,4 +495,6 @@ if __name__ == "__main__":
     test_parses_tagged_literal()
     #
     test_parses_discard_expr()
+    #
+    test_parses_form()
     #
