@@ -59,6 +59,9 @@ __version__ = '0.0.1'
 #
 #      currently, markers for collections may not be verified.
 #      consider addressing this.
+#
+#      enumerate all forms that should have markers checked --
+#      e.g. symbols have no marker so would not be in this list.
 
 # XXX: min_size 0 seems worth testing sometimes, but may be it
 #      makes sense to have 2 runs of tests, one with min_size 0
