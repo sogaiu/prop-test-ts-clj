@@ -141,7 +141,7 @@ __version__ = '0.0.1'
 #   + auto_res_marker
 #
 # atomic (10)
-#   boolean
+#   + boolean
 #   + character
 #   + comment
 #   + keyword

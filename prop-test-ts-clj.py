@@ -6,6 +6,7 @@ from hypothesis import settings, HealthCheck, Verbosity
 # XXX: clean this up later
 from hypothesis_grammar_tree_sitter_clojure.comments import *
 #
+from hypothesis_grammar_tree_sitter_clojure.booleans import *
 from hypothesis_grammar_tree_sitter_clojure.characters import *
 from hypothesis_grammar_tree_sitter_clojure.keywords import *
 from hypothesis_grammar_tree_sitter_clojure.numbers import *
@@ -83,6 +84,13 @@ def form_test(item):
 @given(comment_items())
 def test_parses_comment(comment_item):
     form_test(comment_item)
+
+## booleans
+
+@settings(verbosity=vb)
+@given(boolean_items())
+def test_parses_boolean(boolean_item):
+    form_test(boolean_item)
 
 ## numbers
 
@@ -395,6 +403,8 @@ def test_parses_discard_expr(discard_expr_item):
 
 if __name__ == "__main__":
     test_parses_comment()
+    #
+    test_parses_boolean()
     #
     test_parses_hex_as_number()
     test_parses_octal_as_number()
