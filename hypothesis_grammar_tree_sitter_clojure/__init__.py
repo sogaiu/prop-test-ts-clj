@@ -138,8 +138,15 @@ __version__ = '0.0.1'
 
 # XXX: look into the "deferred" and "data" strategies
 
-# XXX: one piece of tagged_literals.py (tag_items) might have a better
-#      home in hypothesis_grammar_clojure.<something>
+# XXX: some bits might have a better home in
+#      hypothesis_grammar_clojure.<something>, e.g. parts of:
+#
+#      * nils
+#      * regex
+#      * symbolic values
+#      * tagged_literals
+#
+#      not sure though
 
 # grammatical pieces
 #
