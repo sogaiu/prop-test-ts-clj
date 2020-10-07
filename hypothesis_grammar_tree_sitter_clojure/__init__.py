@@ -41,8 +41,8 @@ __version__ = '0.0.1'
 # XXX: create clojure samples so that s-expression output can be
 #      programmatically generated from them when the grammar changes.
 
-# XXX: the leading portions of certain forms (e.g. #', @, etc.) are
-#      not currently checked.  possibly this is a sequence of characters
+# XXX: the markers of certain forms (e.g. #', @, etc.) are not
+#      currently checked.  possibly this is a sequence of characters
 #      that come after metadata (if there is any metadata).
 #
 #      things that have leading sequences of characters that don't
