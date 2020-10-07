@@ -1,4 +1,4 @@
-from hypothesis.strategies import composite, just, one_of
+from hypothesis.strategies import composite, just
 
 from .verify import verify_node_as_atom
 
