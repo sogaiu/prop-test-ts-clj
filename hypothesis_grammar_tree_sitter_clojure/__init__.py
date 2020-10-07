@@ -150,7 +150,7 @@ __version__ = '0.0.1'
 #   regex
 #   + string
 #   + symbol
-#   symbolic_value
+#   + symbolic_value
 #
 # collection-like (8)
 #   + anon_func
