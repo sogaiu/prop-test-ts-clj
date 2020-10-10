@@ -19,23 +19,13 @@ __version__ = '0.0.1'
 
 # XXX: consider how to support old_metadata
 
-# XXX: metadata support still needed for:
+# XXX: metadata support still needed for generic versions of:
 #
 #        list
 #        map
 #        set
-#        anon_func
-#        read_cond
-#        read_cond_splicing
 #        namespaced_map
-#        var_quote_form
-#        eval_form
-#        tagged_literal
-#        syntax_quote_form
-#        quote_form
-#        unquote_splicing_form
-#        unquote_form
-#        deref_form
+#        vector
 
 # XXX: the markers of certain forms (e.g. #', @, etc.) are not
 #      currently checked.
