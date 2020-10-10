@@ -6,7 +6,7 @@ __version__ = '0.0.1'
 #      ought to be recorded and tracked.  preferably this could be
 #      expressed programmatically as a dependency.  for the moment:
 #
-#        ab2f869f395a502a8c1b6683cdd68395e62fa96f
+#        511056733333d2bac522a5a7bab5b9a2adb67e7c
 
 # XXX: consider saving generated source strings to feed to a "jailed"
 #      clojure process (e.g. in a vm) and log which strings cause
