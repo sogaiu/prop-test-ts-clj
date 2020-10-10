@@ -1,7 +1,7 @@
 from hypothesis.strategies import integers
 from hypothesis.strategies import composite, just, lists, one_of
 
-from .parameters import coll_max
+from .parameters import coll_max, metadata_max
 
 from .atoms import atom_items
 from .keywords import keyword_items
@@ -11,7 +11,10 @@ from .separators import separator_strings
 
 from .verify import verify_node_as_atom, \
     verify_node_as_coll, \
+    verify_coll_node_with_metadata, \
     make_single_verifier
+
+from .util import make_form_with_metadata_str_builder
 
 # auto_res_marker: $ =>
 #   AUTO_RESOLVE_MARKER,
@@ -64,6 +67,7 @@ def verify(ctx, item):
 
 @composite
 def namespaced_map_items(draw, elements):
+    # XXX: what about this /2?
     n = 2 * draw(integers(min_value=0, max_value=coll_max/2))
     #
     items = draw(lists(elements=number_items(),
@@ -92,3 +96,40 @@ def atom_namespaced_map_items(draw):
     atom_ns_map_item = draw(namespaced_map_items(elements=atom_items()))
     #
     return atom_ns_map_item
+
+def verify_with_metadata(ctx, item):
+    return make_single_verifier("prefix")(ctx, item) and \
+        verify_coll_node_with_metadata(ctx, item)
+
+# XXX: generic namespaced_map at some point?
+@composite
+def atom_namespaced_map_with_metadata_items(draw):
+    # avoid circular dependency
+    from .metadata import metadata_items
+    #
+    # XXX: what about this /2?
+    n = 2 * draw(integers(min_value=0, max_value=coll_max/2))
+    #
+    atm_items = draw(lists(elements=atom_items(),
+                           min_size=n, max_size=n))
+    #
+    prefix_item = draw(prefix_items())
+    #
+    sep_strs = draw(lists(elements=separator_strings(),
+                          min_size=n, max_size=n))
+    #
+    str_builder = \
+        make_form_with_metadata_str_builder(build_namespaced_map_str)
+    #
+    m = draw(integers(min_value=1, max_value=metadata_max))
+    #
+    md_items = draw(lists(elements=metadata_items(),
+                          min_size=m, max_size=m))
+    #
+    return {"inputs": atm_items,
+            "label": "namespaced_map",
+            "to_str": str_builder,
+            "verify": verify_with_metadata,
+            "prefix": prefix_item,
+            "metadata": md_items,
+            "separators": sep_strs}

@@ -401,6 +401,12 @@ def test_parses_atom_map_with_metadata(atom_map_with_metadata_item):
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
+@given(atom_namespaced_map_with_metadata_items())
+def test_parses_atom_namespaced_map_with_metadata(atom_namespaced_map_with_metadata_item):
+    form_test(atom_namespaced_map_with_metadata_item)
+
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
+                                               HealthCheck.filter_too_much])
 @given(atom_set_with_metadata_items())
 def test_parses_atom_set_with_metadata(atom_set_with_metadata_item):
     form_test(atom_set_with_metadata_item)
@@ -514,6 +520,7 @@ if __name__ == "__main__":
     test_parses_symbol_with_metadata()
     test_parses_atom_list_with_metadata()
     test_parses_atom_map_with_metadata()
+    test_parses_atom_namespaced_map_with_metadata()
     test_parses_atom_set_with_metadata()
     test_parses_atom_vector_with_metadata()
     test_parses_deref_form_with_metadata()
