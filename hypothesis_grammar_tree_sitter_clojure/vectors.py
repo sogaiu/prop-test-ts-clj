@@ -8,7 +8,8 @@ from .numbers import number_items
 
 from .separators import separator_strings
 
-from .verify import verify_node_as_coll
+from .verify import verify_node_as_coll, \
+    verify_coll_node_with_metadata
 
 from .util import make_form_with_metadata_str_builder
 
@@ -57,13 +58,6 @@ def atom_vector_items(draw):
     atom_vector_item = draw(vector_items(elements=atom_items()))
     #
     return atom_vector_item
-
-def verify_coll_node_with_metadata(ctx, item):
-    # avoid circular dependency
-    from .verify import verify_node_metadata
-    #
-    return verify_node_metadata(ctx, item) and \
-        verify_node_as_coll(ctx, item)
 
 # XXX: generic vector at some point?
 @composite

@@ -123,6 +123,11 @@ def verify_node_metadata(ctx, item):
                               md_items[idx])
     return True
 
+def verify_coll_node_with_metadata(ctx, item):
+    #
+    return verify_node_metadata(ctx, item) and \
+        verify_node_as_coll(ctx, item)
+
 # examples of single_name:
 #
 # * prefix
