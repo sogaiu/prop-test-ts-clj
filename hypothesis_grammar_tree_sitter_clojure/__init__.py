@@ -101,9 +101,6 @@ __version__ = '0.0.1'
 #      sets of tests easier?  currently a lot of commenting / uncommenting
 #      takes place
 
-# XXX: consider placing definitions for verify functions in each
-#      form-specific file
-
 # XXX: consider making the "verify" key's value a list of functions
 #      which are meant to be used for verification
 
