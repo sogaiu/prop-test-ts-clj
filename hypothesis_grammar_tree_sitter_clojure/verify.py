@@ -119,7 +119,7 @@ def verify_node_metadata(ctx, item):
         f'expected {len(md_items)} metadata nodes, got: {n_md_nodes}'
     for idx in range(0, n_md_nodes):
         verify_node_metadatum({"node": md_nodes[idx],
-                              "source": source},
+                               "source": source},
                               md_items[idx])
     return True
 
