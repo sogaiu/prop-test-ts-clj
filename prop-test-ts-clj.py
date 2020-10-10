@@ -423,6 +423,12 @@ def test_parses_atom_vector_with_metadata(atom_vector_with_metadata_item):
 def test_parses_deref_form_with_metadata(deref_form_with_metadata_item):
     form_test(deref_form_with_metadata_item)
 
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
+                                               HealthCheck.filter_too_much])
+@given(var_quote_form_with_metadata_items())
+def test_parses_var_quote_form_with_metadata(var_quote_form_with_metadata_item):
+    form_test(var_quote_form_with_metadata_item)
+
 ## tagged literals
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
@@ -524,6 +530,7 @@ if __name__ == "__main__":
     test_parses_atom_set_with_metadata()
     test_parses_atom_vector_with_metadata()
     test_parses_deref_form_with_metadata()
+    test_parses_var_quote_form_with_metadata()
     #
     test_parses_tagged_literal()
     #

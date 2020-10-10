@@ -5,7 +5,8 @@ from .parameters import metadata_max
 
 from .forms import form_items
 
-from .verify import verify_node_as_adorned
+from .verify import verify_node_as_adorned, \
+    verify_adorned_node_with_metadata
 
 from .util import make_form_with_metadata_str_builder
 
@@ -34,13 +35,6 @@ def deref_form_items(draw):
             "verify": verify_node_as_adorned,
             "marker": marker}
 
-def verify_deref_form_node_with_metadata(ctx, item):
-    # avoid circular dependency
-    from .verify import verify_node_metadata
-    #
-    return verify_node_metadata(ctx, item) and \
-        verify_node_as_adorned(ctx, item)
-
 @composite
 def deref_form_with_metadata_items(draw):
     # avoid circular dependency
@@ -58,6 +52,6 @@ def deref_form_with_metadata_items(draw):
     return {"inputs": deref_form_item,
             "label": "deref_form",
             "to_str": str_builder,
-            "verify": verify_deref_form_node_with_metadata,
+            "verify": verify_adorned_node_with_metadata,
             "metadata": md_items,
             "marker": marker}

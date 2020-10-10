@@ -124,9 +124,12 @@ def verify_node_metadata(ctx, item):
     return True
 
 def verify_coll_node_with_metadata(ctx, item):
-    #
     return verify_node_metadata(ctx, item) and \
         verify_node_as_coll(ctx, item)
+
+def verify_adorned_node_with_metadata(ctx, item):
+    return verify_node_metadata(ctx, item) and \
+        verify_node_as_adorned(ctx, item)
 
 # examples of single_name:
 #
