@@ -23,6 +23,10 @@ __version__ = '0.0.1'
 
 # XXX: consider how to support old_metadata
 
+# XXX: consider mergint the non-metadata strategies and the "with metadata"
+#      strategies.  may be that might provide a path to supporting
+#      old metadata without a lot of code duplication?
+
 # XXX: metadata support still needed for generic versions of:
 #
 #        list
