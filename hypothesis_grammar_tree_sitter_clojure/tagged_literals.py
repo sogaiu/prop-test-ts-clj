@@ -110,8 +110,6 @@ def tagged_literal_with_metadata_items(draw):
     #
     tag_item = tagged_literal_item["tag"]
     #
-    sep_strs = tagged_literal_item["separators"]
-    #
     str_builder = \
         make_form_with_metadata_str_builder(build_tagged_literal_str)
     #
@@ -119,6 +117,8 @@ def tagged_literal_with_metadata_items(draw):
     #
     md_items = draw(lists(elements=metadata_items(),
                           min_size=n, max_size=n))
+    #
+    sep_strs = tagged_literal_item["separators"]
     #
     return {"inputs": form_item,
             "label": "tagged_literal",

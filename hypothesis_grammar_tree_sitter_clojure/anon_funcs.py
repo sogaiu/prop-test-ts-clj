@@ -56,13 +56,9 @@ def anon_func_with_metadata_items(draw):
     # avoid circular dependency
     from .metadata import metadata_items
     #
-    n = draw(integers(min_value=0, max_value=coll_max))
+    anon_func_item = draw(anon_func_items())
     #
-    items = draw(lists(elements=form_items(),
-                       min_size=n, max_size=n))
-    #
-    sep_strs = draw(lists(elements=separator_strings(),
-                          min_size=n, max_size=n))
+    items = anon_func_item["inputs"]
     #
     str_builder = make_form_with_metadata_str_builder(build_anon_func_str)
     #
@@ -70,6 +66,8 @@ def anon_func_with_metadata_items(draw):
     #
     md_items = draw(lists(elements=metadata_items(),
                           min_size=m, max_size=m))
+    #
+    sep_strs = anon_func_item["separators"]
     #
     return {"inputs": items,
             "label": "anon_func",
