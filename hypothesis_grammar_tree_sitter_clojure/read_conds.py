@@ -3,14 +3,17 @@ from hypothesis.strategies import composite, lists
 
 from math import floor
 
-from .parameters import coll_max
+from .parameters import coll_max, metadata_max
 
 from .forms import form_items
 from .keywords import keyword_items
 
 from .separators import separator_strings
 
-from .verify import verify_node_as_coll
+from .verify import verify_node_as_coll, \
+    verify_coll_node_with_metadata
+
+from .util import make_form_with_metadata_str_builder
 
 # read_cond: $ =>
 #   seq(repeat($._metadata),
@@ -56,5 +59,31 @@ def read_cond_items(draw):
             "label": "read_cond",
             "to_str": build_read_cond_str,
             "verify": verify_node_as_coll,
+            "separators": sep_strs,
+            "marker": marker}
+
+@composite
+def read_cond_with_metadata_items(draw):
+    # avoid circular dependency
+    from .metadata import metadata_items
+    #
+    read_cond_item = draw(read_cond_items())
+    #
+    items = read_cond_item["inputs"]
+    #
+    str_builder = make_form_with_metadata_str_builder(build_read_cond_str)
+    #
+    m = draw(integers(min_value=1, max_value=metadata_max))
+    #
+    md_items = draw(lists(elements=metadata_items(),
+                          min_size=m, max_size=m))
+    #
+    sep_strs = read_cond_item["separators"]
+    #
+    return {"inputs": items,
+            "label": "read_cond",
+            "to_str": str_builder,
+            "verify": verify_coll_node_with_metadata,
+            "metadata": md_items,
             "separators": sep_strs,
             "marker": marker}
