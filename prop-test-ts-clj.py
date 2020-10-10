@@ -389,9 +389,21 @@ def test_parses_symbol_with_metadata(symbol_with_metadata_item):
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
+@given(atom_list_with_metadata_items())
+def test_parses_atom_list_with_metadata(atom_list_with_metadata_item):
+    form_test(atom_list_with_metadata_item)
+
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
+                                               HealthCheck.filter_too_much])
 @given(atom_map_with_metadata_items())
 def test_parses_atom_map_with_metadata(atom_map_with_metadata_item):
     form_test(atom_map_with_metadata_item)
+
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
+                                               HealthCheck.filter_too_much])
+@given(atom_set_with_metadata_items())
+def test_parses_atom_set_with_metadata(atom_set_with_metadata_item):
+    form_test(atom_set_with_metadata_item)
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
@@ -500,7 +512,9 @@ if __name__ == "__main__":
     test_parses_unquote_splicing_form()
     #
     test_parses_symbol_with_metadata()
+    test_parses_atom_list_with_metadata()
     test_parses_atom_map_with_metadata()
+    test_parses_atom_set_with_metadata()
     test_parses_atom_vector_with_metadata()
     test_parses_deref_form_with_metadata()
     #
