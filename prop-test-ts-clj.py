@@ -427,6 +427,12 @@ def test_parses_atom_vector_with_metadata(atom_vector_with_metadata_item):
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
+@given(anon_func_with_metadata_items())
+def test_parses_anon_func_with_metadata(anon_func_with_metadata_item):
+    form_test(anon_func_with_metadata_item)
+
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
+                                               HealthCheck.filter_too_much])
 @given(deref_form_with_metadata_items())
 def test_parses_deref_form_with_metadata(deref_form_with_metadata_item):
     form_test(deref_form_with_metadata_item)
@@ -567,6 +573,7 @@ if __name__ == "__main__":
     test_parses_atom_namespaced_map_with_metadata()
     test_parses_atom_set_with_metadata()
     test_parses_atom_vector_with_metadata()
+    test_parses_anon_func_with_metadata()
     test_parses_deref_form_with_metadata()
     test_parses_eval_form_with_metadata()
     test_parses_quote_form_with_metadata()
