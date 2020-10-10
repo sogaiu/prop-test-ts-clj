@@ -10,6 +10,8 @@ from .separators import separator_strings
 
 from .verify import verify_node_as_coll
 
+from .util import make_form_with_metadata_str_builder
+
 # vector: $ =>
 #   seq(repeat($._metadata),
 #       $._bare_vector),
@@ -56,17 +58,6 @@ def atom_vector_items(draw):
     #
     return atom_vector_item
 
-def build_vector_with_metadata_str(item):
-    # avoid circular dependency
-    from .metadata import attach_metadata
-    #
-    vec_str = build_vector_str(item)
-    #
-    md_items = item["metadata"]
-    md_item_strs = [md_item["to_str"](md_item) for md_item in md_items]
-    #
-    return attach_metadata(md_item_strs, vec_str)
-
 def verify_coll_node_with_metadata(ctx, item):
     # avoid circular dependency
     from .verify import verify_node_metadata
@@ -88,6 +79,8 @@ def atom_vector_with_metadata_items(draw):
     sep_strs = draw(lists(elements=separator_strings(),
                           min_size=n, max_size=n))
     #
+    str_builder = make_form_with_metadata_str_builder(build_vector_str)
+    #
     m = draw(integers(min_value=1, max_value=metadata_max))
     #
     md_items = draw(lists(elements=metadata_items(),
@@ -95,7 +88,7 @@ def atom_vector_with_metadata_items(draw):
     #
     return {"inputs": atm_items,
             "label": "vector",
-            "to_str": build_vector_with_metadata_str,
+            "to_str": str_builder,
             "verify": verify_coll_node_with_metadata,
             "metadata": md_items,
             "separators": sep_strs}

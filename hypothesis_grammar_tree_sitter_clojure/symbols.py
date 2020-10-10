@@ -9,6 +9,8 @@ from hypothesis_grammar_clojure.symbols \
 
 from .verify import verify_node_as_atom
 
+from .util import make_form_with_metadata_str_builder
+
 # const SYMBOL =
 #       token(seq(SYMBOL_HEAD,
 #                 repeat(SYMBOL_BODY)));
@@ -48,17 +50,6 @@ def symbol_items(draw):
     #
     return sym_item
 
-def build_symbol_with_metadata_str(item):
-    # avoid circular dependency
-    from .metadata import attach_metadata
-    #
-    sym_str = build_sym_str(item)
-    #
-    md_items = item["metadata"]
-    md_item_strs = [md_item["to_str"](md_item) for md_item in md_items]
-    #
-    return attach_metadata(md_item_strs, sym_str)
-
 def verify_symbol_node_with_metadata(ctx, item):
     # avoid circular dependency
     from .verify import verify_node_metadata
@@ -75,6 +66,8 @@ def symbol_with_metadata_items(draw):
     # XXX: not sure about this approach
     sym_str = sym_item["to_str"](sym_item)
     #
+    str_builder = make_form_with_metadata_str_builder(build_sym_str)
+    #
     n = draw(integers(min_value=1, max_value=metadata_max))
     #
     md_items = draw(lists(elements=metadata_items(),
@@ -82,6 +75,6 @@ def symbol_with_metadata_items(draw):
     #
     return {"inputs": sym_str,
             "label": "symbol",
-            "to_str": build_symbol_with_metadata_str,
+            "to_str": str_builder,
             "verify": verify_symbol_node_with_metadata,
             "metadata": md_items}

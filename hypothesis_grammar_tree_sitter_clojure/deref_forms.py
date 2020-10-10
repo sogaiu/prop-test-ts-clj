@@ -7,6 +7,8 @@ from .forms import form_items
 
 from .verify import verify_node_as_adorned
 
+from .util import make_form_with_metadata_str_builder
+
 # deref_form: $ =>
 #   seq(repeat($._metadata),
 #       "@",
@@ -32,17 +34,6 @@ def deref_form_items(draw):
             "verify": verify_node_as_adorned,
             "marker": marker}
 
-def build_deref_form_with_metadata_str(item):
-    # avoid circular dependency
-    from .metadata import attach_metadata
-    #
-    deref_form_str = build_deref_form_str(item)
-    #
-    md_items = item["metadata"]
-    md_item_strs = [md_item["to_str"](md_item) for md_item in md_items]
-    #
-    return attach_metadata(md_item_strs, deref_form_str)
-
 def verify_deref_form_node_with_metadata(ctx, item):
     # avoid circular dependency
     from .verify import verify_node_metadata
@@ -57,14 +48,17 @@ def deref_form_with_metadata_items(draw):
     #
     deref_form_item = draw(deref_form_items())
     #
+    str_builder = make_form_with_metadata_str_builder(build_deref_form_str)
+    #
     n = draw(integers(min_value=1, max_value=metadata_max))
     #
     md_items = draw(lists(elements=metadata_items(),
                           min_size=n, max_size=n))
+
     #
     return {"inputs": deref_form_item,
             "label": "deref_form",
-            "to_str": build_deref_form_with_metadata_str,
+            "to_str": str_builder,
             "verify": verify_deref_form_node_with_metadata,
             "metadata": md_items,
             "marker": marker}
