@@ -8,6 +8,10 @@ __version__ = '0.0.1'
 #
 #        ab2f869f395a502a8c1b6683cdd68395e62fa96f
 
+# XXX: consider saving generated source strings to feed to a "jailed"
+#      clojure process (e.g. in a vm) and log which strings cause
+#      parsing issues.
+
 # XXX: periodically go through source looking for comments related
 #      to unfinished or temporary bits
 
