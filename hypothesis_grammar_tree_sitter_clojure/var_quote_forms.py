@@ -44,6 +44,8 @@ def var_quote_form_with_metadata_items(draw):
     #
     var_quote_form_item = draw(var_quote_form_items())
     #
+    form_item = var_quote_form_item["inputs"]
+    #
     str_builder = \
         make_form_with_metadata_str_builder(build_var_quote_form_str)
     #
@@ -52,7 +54,7 @@ def var_quote_form_with_metadata_items(draw):
     md_items = draw(lists(elements=metadata_items(),
                           min_size=n, max_size=n))
     #
-    return {"inputs": var_quote_form_item,
+    return {"inputs": form_item,
             "label": "var_quote_form",
             "to_str": str_builder,
             "verify": verify_adorned_node_with_metadata,

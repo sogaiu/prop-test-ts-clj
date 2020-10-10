@@ -42,6 +42,8 @@ def deref_form_with_metadata_items(draw):
     #
     deref_form_item = draw(deref_form_items())
     #
+    form_item = deref_form_item["inputs"]
+    #
     str_builder = make_form_with_metadata_str_builder(build_deref_form_str)
     #
     n = draw(integers(min_value=1, max_value=metadata_max))
@@ -49,7 +51,7 @@ def deref_form_with_metadata_items(draw):
     md_items = draw(lists(elements=metadata_items(),
                           min_size=n, max_size=n))
     #
-    return {"inputs": deref_form_item,
+    return {"inputs": form_item,
             "label": "deref_form",
             "to_str": str_builder,
             "verify": verify_adorned_node_with_metadata,
