@@ -379,6 +379,14 @@ def test_parses_unquote_form(unquote_form_item):
 def test_parses_unquote_splicing_form(unquote_splicing_form_item):
     form_test(unquote_splicing_form_item)
 
+## tagged literals
+
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
+                                               HealthCheck.filter_too_much])
+@given(tagged_literal_items())
+def test_parses_tagged_literal(tagged_literal_item):
+    form_test(tagged_literal_item)
+
 ## metadata
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
@@ -459,13 +467,11 @@ def test_parses_unquote_splicing_form_with_metadata(unquote_splicing_form_with_m
 def test_parses_var_quote_form_with_metadata(var_quote_form_with_metadata_item):
     form_test(var_quote_form_with_metadata_item)
 
-## tagged literals
-
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
-@given(tagged_literal_items())
-def test_parses_tagged_literal(tagged_literal_item):
-    form_test(tagged_literal_item)
+@given(tagged_literal_with_metadata_items())
+def test_parses_tagged_literal_with_metadata(tagged_literal_with_metadata_item):
+    form_test(tagged_literal_with_metadata_item)
 
 ## discard expressions
 
@@ -553,6 +559,8 @@ if __name__ == "__main__":
     test_parses_unquote_form()
     test_parses_unquote_splicing_form()
     #
+    test_parses_tagged_literal()
+    #
     test_parses_symbol_with_metadata()
     test_parses_atom_list_with_metadata()
     test_parses_atom_map_with_metadata()
@@ -566,8 +574,7 @@ if __name__ == "__main__":
     test_parses_unquote_form_with_metadata()
     test_parses_unquote_splicing_form_with_metadata()
     test_parses_var_quote_form_with_metadata()
-    #
-    test_parses_tagged_literal()
+    test_parses_tagged_literal_with_metadata()
     #
     test_parses_discard_expr()
     #

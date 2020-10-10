@@ -1,5 +1,8 @@
 from hypothesis import assume
+from hypothesis.strategies import integers
 from hypothesis.strategies import composite, lists, sampled_from
+
+from .parameters import metadata_max
 
 from .symbols import symbol_items
 
@@ -8,7 +11,10 @@ from .forms import form_items
 from .separators import separator_strings
 
 from .verify import verify_node_as_adorned, \
-    make_single_verifier
+    make_single_verifier, \
+    verify_node_metadata
+
+from .util import make_form_with_metadata_str_builder
 
 marker = '#'
 
@@ -85,5 +91,40 @@ def tagged_literal_items(draw):
             "to_str": build_tagged_literal_str,
             "verify": verify,
             "tag": tag_item,
+            "separators": sep_strs,
+            "marker": marker}
+
+def verify_with_metadata(ctx, item):
+    return make_single_verifier("tag")(ctx, item) and \
+        verify_node_as_adorned(ctx, item) and \
+        verify_node_metadata(ctx, item)
+
+@composite
+def tagged_literal_with_metadata_items(draw):
+    # avoid circular dependency
+    from .metadata import metadata_items
+    #
+    tagged_literal_item = draw(tagged_literal_items())
+    #
+    form_item = tagged_literal_item["inputs"]
+    #
+    tag_item = tagged_literal_item["tag"]
+    #
+    sep_strs = tagged_literal_item["separators"]
+    #
+    str_builder = \
+        make_form_with_metadata_str_builder(build_tagged_literal_str)
+    #
+    n = draw(integers(min_value=1, max_value=metadata_max))
+    #
+    md_items = draw(lists(elements=metadata_items(),
+                          min_size=n, max_size=n))
+    #
+    return {"inputs": form_item,
+            "label": "tagged_literal",
+            "to_str": str_builder,
+            "verify": verify_with_metadata,
+            "tag": tag_item,
+            "metadata": md_items,
             "separators": sep_strs,
             "marker": marker}
