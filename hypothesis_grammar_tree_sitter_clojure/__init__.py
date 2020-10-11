@@ -23,7 +23,6 @@ __version__ = '0.0.1'
 
 # XXX: metadata support still needed for generic versions of:
 #
-#        list
 #        map
 #        set
 #        namespaced_map
