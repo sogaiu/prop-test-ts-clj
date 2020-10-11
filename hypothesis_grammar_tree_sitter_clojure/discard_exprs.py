@@ -23,7 +23,7 @@ def verify(ctx, item):
 # XXX: make another key-value pair for the repeat non_form?
 @composite
 def discard_expr_items(draw):
-    # coping with circular imports
+    # avoid circular dependency
     from .forms import form_items
     #
     form_item = draw(form_items())
