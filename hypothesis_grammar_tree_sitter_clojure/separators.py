@@ -1,5 +1,5 @@
 from hypothesis.strategies import integers
-from hypothesis.strategies import composite, lists, one_of, sampled_from
+from hypothesis.strategies import composite, lists, one_of
 
 from .parameters import sep_max
 
