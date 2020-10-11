@@ -7,7 +7,8 @@ from hypothesis_grammar_clojure.symbols \
     import unqualified_symbol_as_str, \
            qualified_symbol_as_str
 
-from .verify import verify_node_as_atom
+from .verify import verify_node_as_atom, \
+    verify_node_metadata
 
 from .util import make_form_with_metadata_str_builder
 
@@ -44,9 +45,6 @@ def qualified_symbol_items(draw):
             "verify": verify_node_as_atom}
 
 def verify_symbol_node_with_metadata(ctx, item):
-    # avoid circular dependency
-    from .verify import verify_node_metadata
-    #
     return verify_node_metadata(ctx, item) and \
         verify_node_as_atom(ctx, item)
 
