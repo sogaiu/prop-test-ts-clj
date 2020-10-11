@@ -1,6 +1,6 @@
 # clone tree-sitter-clojure into vendor dir and follow setup
 # instructions in README for setup before executing this file
-from hypothesis import given
+from hypothesis import given, note
 from hypothesis import settings, HealthCheck, Verbosity
 
 # XXX: clean this up later
@@ -76,6 +76,7 @@ def form_test(item):
     form_str = item["to_str"](item)
     ctx = {"node": get_lone_node(form_str),
            "source": form_str}
+    note(f'source: {form_str}')
     assert item["verify"](ctx, item), \
         f'verify failed for: {form_str}'
 
