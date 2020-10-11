@@ -41,7 +41,6 @@ def deref_form_items(draw, metadata=False):
                 "verify": verify_node_as_adorned,
                 "marker": marker}
     else:
-        #
         str_builder = \
             make_form_with_metadata_str_builder(build_deref_form_str)
         #
