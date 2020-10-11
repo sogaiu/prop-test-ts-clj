@@ -77,54 +77,46 @@ def verify(ctx, item):
     return make_single_verifier("tag")(ctx, item) and \
         verify_node_as_adorned(ctx, item)
 
-@composite
-def tagged_literal_items(draw):
-    form_item = draw(form_items())
-    #
-    tag_item = draw(tag_items())
-    #
-    sep_strs = draw(lists(elements=separator_strings(),
-                          min_size=2, max_size=2))
-    #
-    return {"inputs": form_item,
-            "label": "tagged_literal",
-            "to_str": build_tagged_literal_str,
-            "verify": verify,
-            "tag": tag_item,
-            "separators": sep_strs,
-            "marker": marker}
-
 def verify_with_metadata(ctx, item):
     return make_single_verifier("tag")(ctx, item) and \
         verify_node_as_adorned(ctx, item) and \
         verify_node_metadata(ctx, item)
 
 @composite
-def tagged_literal_with_metadata_items(draw):
+def tagged_literal_items(draw, metadata=False):
     # avoid circular dependency
-    from .metadata import metadata_items
+    from .metadata import metadata_items, check_metadata_param
     #
-    tagged_literal_item = draw(tagged_literal_items())
+    check_metadata_param(metadata)
     #
-    form_item = tagged_literal_item["inputs"]
+    form_item = draw(form_items())
     #
-    tag_item = tagged_literal_item["tag"]
+    tag_item = draw(tag_items())
     #
-    str_builder = \
-        make_form_with_metadata_str_builder(build_tagged_literal_str)
-    #
-    n = draw(integers(min_value=1, max_value=metadata_max))
-    #
-    md_items = draw(lists(elements=metadata_items(),
-                          min_size=n, max_size=n))
-    #
-    sep_strs = tagged_literal_item["separators"]
-    #
-    return {"inputs": form_item,
-            "label": "tagged_literal",
-            "to_str": str_builder,
-            "verify": verify_with_metadata,
-            "tag": tag_item,
-            "metadata": md_items,
-            "separators": sep_strs,
-            "marker": marker}
+    sep_strs = draw(lists(elements=separator_strings(),
+                          min_size=2, max_size=2))
+    if not metadata:
+        return {"inputs": form_item,
+                "label": "tagged_literal",
+                "to_str": build_tagged_literal_str,
+                "verify": verify,
+                "tag": tag_item,
+                "separators": sep_strs,
+                "marker": marker}
+    else:
+        str_builder = \
+            make_form_with_metadata_str_builder(build_tagged_literal_str)
+        #
+        n = draw(integers(min_value=1, max_value=metadata_max))
+        #
+        md_items = draw(lists(elements=metadata_items(),
+                              min_size=n, max_size=n))
+        #
+        return {"inputs": form_item,
+                "label": "tagged_literal",
+                "to_str": str_builder,
+                "verify": verify_with_metadata,
+                "tag": tag_item,
+                "metadata": md_items,
+                "separators": sep_strs,
+                "marker": marker}

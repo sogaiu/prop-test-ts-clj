@@ -452,43 +452,43 @@ def test_parses_deref_form_with_metadata(deref_form_with_metadata_item):
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
-@given(eval_form_with_metadata_items())
+@given(eval_form_items(metadata="any"))
 def test_parses_eval_form_with_metadata(eval_form_with_metadata_item):
     form_test(eval_form_with_metadata_item)
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
-@given(quote_form_with_metadata_items())
+@given(quote_form_items(metadata="any"))
 def test_parses_quote_form_with_metadata(quote_form_with_metadata_item):
     form_test(quote_form_with_metadata_item)
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
-@given(syntax_quote_form_with_metadata_items())
+@given(syntax_quote_form_items(metadata="any"))
 def test_parses_syntax_quote_form_with_metadata(syntax_quote_form_with_metadata_item):
     form_test(syntax_quote_form_with_metadata_item)
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
-@given(unquote_form_with_metadata_items())
+@given(unquote_form_items(metadata="any"))
 def test_parses_unquote_form_with_metadata(unquote_form_with_metadata_item):
     form_test(unquote_form_with_metadata_item)
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
-@given(unquote_splicing_form_with_metadata_items())
+@given(unquote_splicing_form_items(metadata="any"))
 def test_parses_unquote_splicing_form_with_metadata(unquote_splicing_form_with_metadata_item):
     form_test(unquote_splicing_form_with_metadata_item)
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
-@given(var_quote_form_with_metadata_items())
+@given(var_quote_form_items(metadata="any"))
 def test_parses_var_quote_form_with_metadata(var_quote_form_with_metadata_item):
     form_test(var_quote_form_with_metadata_item)
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
-@given(tagged_literal_with_metadata_items())
+@given(tagged_literal_items(metadata="any"))
 def test_parses_tagged_literal_with_metadata(tagged_literal_with_metadata_item):
     form_test(tagged_literal_with_metadata_item)
 
