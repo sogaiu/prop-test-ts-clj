@@ -52,12 +52,17 @@ def verify_symbol_node_with_metadata(ctx, item):
 
 @composite
 def symbol_items(draw, metadata=False):
+    # avoid circular dependency
+    from .metadata import metadata_items, check_metadata_param
+    #
+    check_metadata_param(metadata)
+    #
     sym_item = draw(one_of(unqualified_symbol_items(),
                            qualified_symbol_items()))
     #
-    if metadata:
-        # avoid circular dependency
-        from .metadata import metadata_items
+    if not metadata:
+        return sym_item
+    else:
         # XXX: not sure about this approach
         sym_str = sym_item["to_str"](sym_item)
         #
@@ -65,13 +70,12 @@ def symbol_items(draw, metadata=False):
         #
         n = draw(integers(min_value=1, max_value=metadata_max))
         #
-        md_items = draw(lists(elements=metadata_items(),
-                              min_size=n, max_size=n))
+        md_items = \
+            draw(lists(elements=metadata_items(label=metadata),
+                       min_size=n, max_size=n))
         #
         return {"inputs": sym_str,
                 "label": "symbol",
                 "to_str": str_builder,
                 "verify": verify_symbol_node_with_metadata,
                 "metadata": md_items}
-    else:
-        return sym_item

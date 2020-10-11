@@ -392,13 +392,13 @@ def test_parses_tagged_literal(tagged_literal_item):
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
-@given(symbol_items(metadata=True))
+@given(symbol_items(metadata="any"))
 def test_parses_symbol_with_metadata(symbol_with_metadata_item):
     form_test(symbol_with_metadata_item)
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
-@given(list_items(elements=atom_items(), metadata=True))
+@given(list_items(elements=atom_items(), metadata="any"))
 def test_parses_atom_list_with_metadata(atom_list_with_metadata_item):
     form_test(atom_list_with_metadata_item)
 
@@ -446,7 +446,7 @@ def test_parses_anonymous_function_with_metadata(anon_func_with_metadata_item):
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
-@given(deref_form_items(metadata=True))
+@given(deref_form_items(metadata="any"))
 def test_parses_deref_form_with_metadata(deref_form_with_metadata_item):
     form_test(deref_form_with_metadata_item)
 

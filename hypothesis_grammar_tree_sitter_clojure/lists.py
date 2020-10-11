@@ -34,13 +34,24 @@ def build_list_str(list_item):
 
 @composite
 def list_items(draw, elements, metadata=False):
+    # avoid circular dependency
+    from .metadata import metadata_items, check_metadata_param
+    #
+    check_metadata_param(metadata)
+    #
     n = draw(integers(min_value=0, max_value=coll_max))
     #
     items = draw(lists(elements, min_size=n, max_size=n))
     #
     sep_strs = draw(lists(elements=separator_strings(),
                           min_size=n, max_size=n))
-    if metadata:
+    if not metadata:
+        return {"inputs": items,
+                "label": "list",
+                "to_str": build_list_str,
+                "verify": verify_node_as_coll,
+                "separators": sep_strs}
+    else:
         # avoid circular dependency
         from .metadata import metadata_items
         #
@@ -57,12 +68,6 @@ def list_items(draw, elements, metadata=False):
                 "verify": verify_coll_node_with_metadata,
                 "metadata": md_items,
                 "separators": sep_strs}
-    #
-    return {"inputs": items,
-            "label": "list",
-            "to_str": build_list_str,
-            "verify": verify_node_as_coll,
-            "separators": sep_strs}
 
 @composite
 def number_list_items(draw):

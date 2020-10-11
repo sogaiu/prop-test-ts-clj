@@ -21,12 +21,6 @@ __version__ = '0.0.1'
 # XXX: verify the limitations of hypothesis_grammar_clojure -- e.g.
 #      it currently doesn't handle #! comments.
 
-# XXX: consider how to support old_metadata
-
-# XXX: consider mergint the non-metadata strategies and the "with metadata"
-#      strategies.  may be that might provide a path to supporting
-#      old metadata without a lot of code duplication?
-
 # XXX: metadata support still needed for generic versions of:
 #
 #        list
@@ -129,7 +123,9 @@ __version__ = '0.0.1'
 #      changing the tree-sitter grammar "grammar symbols")
 
 # XXX: there could also be a lookup table for markers, but this
-#      somehow doesn't seem too useful
+#      somehow doesn't seem too useful -- a limited form of it ended
+#      up being useful for metadata / old_metadata.  not sure if it
+#      would be useful for other things.
 
 # XXX: create clojure samples so that s-expression output can be
 #      programmatically generated from them when the grammar changes.
@@ -188,4 +184,4 @@ __version__ = '0.0.1'
 #
 # compound but not standalone (2)
 #   + metadata
-#   old_metadata
+#   + old_metadata

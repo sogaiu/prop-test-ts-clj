@@ -1,5 +1,5 @@
 from hypothesis.strategies import integers
-from hypothesis.strategies import composite, one_of
+from hypothesis.strategies import composite, just, one_of
 
 # XXX: clean up later
 # XXX: add reader conditionals at some point?
@@ -26,12 +26,29 @@ from .verify import verify_node_as_atom, \
 #                             $.keyword,
 #                             $.symbol))),
 
+# old_metadata: $ =>
+#   seq("#^",
+#       repeat($._non_form),
+#       field('value', choice($.read_cond,
+#                             $.map,
+#                             $.string,
+#                             $.keyword,
+#                             $.symbol))),
+
+marker_for_label = \
+    {"metadata": "^",
+     "old_metadata": '#^'}
+
 # XXX: there is one separator of interest and that is potentially
-#      between ^ and the rest of the form.  the default here is
+#      between ^ / #^ and the rest of the form.  the default here is
 #      no separator.
 def build_metadata_str(md_item):
     inner_item = md_item["inputs"]
-    return f'^{inner_item["to_str"](inner_item)}'
+    #
+    marker = md_item["marker"]
+    body_str = inner_item["to_str"](inner_item)
+    #
+    return f'{marker}{body_str}'
 
 def attach_metadata(metadata_strs, metadatee_str):
     # XXX: another "what to do about separator" location
@@ -39,47 +56,63 @@ def attach_metadata(metadata_strs, metadatee_str):
 
 # XXX: only non-auto-resolved-keywords are valid
 @composite
-def keyword_metadata_items(draw):
+def keyword_metadata_items(draw, label="metadata"):
     keyword_item = draw(one_of(unqualified_keyword_items(),
                                qualified_keyword_items()))
     #
     return {"inputs": keyword_item,
-            "label": "metadata",
+            "label": label,
             "to_str": build_metadata_str,
-            "verify": verify_node_as_atom}
+            "verify": verify_node_as_atom,
+            "marker": marker_for_label[label]}
 
 @composite
-def map_metadata_items(draw):
+def map_metadata_items(draw, label="metadata"):
     # XXX: needs generalization?
     map_item = draw(atom_map_items())
     #
     return {"inputs": map_item,
-            "label": "metadata",
+            "label": label,
             "to_str": build_metadata_str,
-            "verify": verify_node_as_coll}
+            "verify": verify_node_as_coll,
+            "marker": marker_for_label[label]}
 
 @composite
-def string_metadata_items(draw):
+def string_metadata_items(draw, label="metadata"):
     string_item = draw(string_items())
     #
     return {"inputs": string_item,
-            "label": "metadata",
+            "label": label,
             "to_str": build_metadata_str,
-            "verify": verify_node_as_atom}
+            "verify": verify_node_as_atom,
+            "marker": marker_for_label[label]}
 
 @composite
-def symbol_metadata_items(draw):
+def symbol_metadata_items(draw, label="metadata"):
     symbol_item = draw(symbol_items())
     #
     return {"inputs": symbol_item,
-            "label": "metadata",
+            "label": label,
             "to_str": build_metadata_str,
-            "verify": verify_node_as_atom}
+            "verify": verify_node_as_atom,
+            "marker": marker_for_label[label]}
 
 @composite
-def metadata_items(draw):
-    metadata_item = draw(one_of(map_metadata_items(),
-                                keyword_metadata_items(),
-                                string_metadata_items(),
-                                symbol_metadata_items()))
+def metadata_items(draw, label="metadata"):
+    if label == "any":
+        label = draw(one_of(just("metadata"),
+                            just("old_metadata")))
+    #
+    assert label in ["metadata", "old_metadata"], \
+        f'unexpected label value: {label}'
+    #
+    metadata_item = \
+        draw(one_of(map_metadata_items(label=label),
+                    keyword_metadata_items(label=label),
+                    string_metadata_items(label=label),
+                    symbol_metadata_items(label=label)))
     return metadata_item
+
+def check_metadata_param(metadata):
+    assert metadata in ["any", "metadata", "old_metadata", False, None], \
+        f'unexepected metadata specifier: {metadata}'

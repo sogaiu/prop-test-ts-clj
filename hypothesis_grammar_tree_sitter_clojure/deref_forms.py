@@ -27,17 +27,23 @@ def build_deref_form_str(item):
 
 @composite
 def deref_form_items(draw, metadata=False):
+    # avoid circular dependency
+    from .metadata import metadata_items, check_metadata_param
+    #
+    check_metadata_param(metadata)
+    #
     form_item = draw(form_items())
     #
-    if metadata:
-        # avoid circular dependency
-        from .metadata import metadata_items
+    if not metadata:
+        return {"inputs": form_item,
+                "label": "deref_form",
+                "to_str": build_deref_form_str,
+                "verify": verify_node_as_adorned,
+                "marker": marker}
+    else:
         #
-        deref_form_item = draw(deref_form_items())
-        #
-        form_item = deref_form_item["inputs"]
-        #
-        str_builder = make_form_with_metadata_str_builder(build_deref_form_str)
+        str_builder = \
+            make_form_with_metadata_str_builder(build_deref_form_str)
         #
         n = draw(integers(min_value=1, max_value=metadata_max))
         #
@@ -49,11 +55,4 @@ def deref_form_items(draw, metadata=False):
                 "to_str": str_builder,
                 "verify": verify_adorned_node_with_metadata,
                 "metadata": md_items,
-                "marker": marker}
-    else:
-        #
-        return {"inputs": form_item,
-                "label": "deref_form",
-                "to_str": build_deref_form_str,
-                "verify": verify_node_as_adorned,
                 "marker": marker}

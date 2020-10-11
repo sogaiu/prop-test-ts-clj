@@ -21,6 +21,17 @@ def child_nodes_with_field_name(node, name):
             value_nodes.append(cursor.node)
     return value_nodes
 
+def child_nodes_with_field_names(node, names):
+    cursor = node.walk()
+    cursor.goto_first_child()
+    value_nodes = []
+    if cursor.current_field_name() in names:
+        value_nodes.append(cursor.node)
+        while cursor.goto_next_sibling():
+            if cursor.current_field_name() in names:
+                value_nodes.append(cursor.node)
+    return value_nodes
+
 def verify_node_type(ctx, item):
     node = itemgetter('node')(ctx)
     label = itemgetter('label')(item)
@@ -112,7 +123,8 @@ def verify_node_metadata(ctx, item):
 #    md_node = node.child_by_field_name("metadata")
 #    assert md_node, \
 #      f'no metadata found: {node.sexp()}, {source}'
-    md_nodes = child_nodes_with_field_name(node, "metadata")
+    md_nodes = child_nodes_with_field_names(node,
+                                            ["metadata", "old_metadata"])
     n_md_nodes = len(md_nodes)
     md_items = item["metadata"]
     assert len(md_items) == n_md_nodes, \
