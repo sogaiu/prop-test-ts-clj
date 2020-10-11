@@ -397,7 +397,7 @@ def test_parses_symbol_with_metadata(symbol_with_metadata_item):
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
-@given(atom_list_with_metadata_items())
+@given(list_items(elements=atom_items(), metadata=True))
 def test_parses_atom_list_with_metadata(atom_list_with_metadata_item):
     form_test(atom_list_with_metadata_item)
 
