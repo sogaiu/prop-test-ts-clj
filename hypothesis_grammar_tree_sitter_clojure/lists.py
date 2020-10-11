@@ -42,7 +42,7 @@ def list_items(draw, elements, metadata=False):
     #
     n = draw(integers(min_value=0, max_value=coll_max))
     #
-    items = draw(lists(elements, min_size=n, max_size=n))
+    items = draw(lists(elements=elements, min_size=n, max_size=n))
     #
     sep_strs = draw(lists(elements=separator_strings(),
                           min_size=n, max_size=n))
@@ -53,9 +53,6 @@ def list_items(draw, elements, metadata=False):
                 "verify": verify_node_as_coll,
                 "separators": sep_strs}
     else:
-        # avoid circular dependency
-        from .metadata import metadata_items
-        #
         str_builder = make_form_with_metadata_str_builder(build_list_str)
         #
         m = draw(integers(min_value=1, max_value=metadata_max))
