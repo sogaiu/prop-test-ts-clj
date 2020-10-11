@@ -243,6 +243,12 @@ def test_parses_atom(atom_item):
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
+@given(list_items())
+def test_parses_list(list_item):
+    form_test(list_item)
+
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
+                                               HealthCheck.filter_too_much])
 @given(number_list_items())
 def test_parses_number_list(num_list_item):
     form_test(num_list_item)
@@ -547,6 +553,7 @@ if __name__ == "__main__":
     #
     test_parses_atom()
     #
+    test_parses_list()
     test_parses_number_list()
     test_parses_atom_list()
     #
