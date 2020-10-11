@@ -3,13 +3,10 @@ from hypothesis.strategies import composite, just, one_of
 
 from .keywords import unqualified_keyword_items, \
     qualified_keyword_items
-# XXX: want generic (i.e. not just atoms) map_items eventually?
-from .maps import atom_map_items
+from .maps import map_items
 from .read_conds import read_cond_items
 from .strings import string_items
 from .symbols import symbol_items
-# metadatee-related (maps and symbols from above would be too)
-from .atoms import atom_items
 
 from .separators import separator_strings
 
@@ -68,7 +65,7 @@ def keyword_metadata_items(draw, label="metadata"):
 @composite
 def map_metadata_items(draw, label="metadata"):
     # XXX: needs generalization?
-    map_item = draw(atom_map_items())
+    map_item = draw(map_items())
     #
     return {"inputs": map_item,
             "label": label,
