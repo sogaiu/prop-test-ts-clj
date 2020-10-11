@@ -30,6 +30,7 @@ from hypothesis.strategies import composite, one_of
 #          $.unquote_form,
 #          $.deref_form),
 
+# XXX: support metadata?
 @composite
 def form_items(draw):
     # avoiding circular dependencies
