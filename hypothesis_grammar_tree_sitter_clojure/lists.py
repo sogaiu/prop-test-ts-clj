@@ -32,6 +32,7 @@ def build_list_str(list_item):
         list_elts += i["to_str"](i) + s
     return "(" + "".join(list_elts) + ")"
 
+# XXX: possibly make form_items be the default for elements?
 @composite
 def list_items(draw, elements, metadata=False):
     # avoid circular dependency
