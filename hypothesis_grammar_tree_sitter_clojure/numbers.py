@@ -24,64 +24,64 @@ def build_num_str(item):
 
 @composite
 def hex_number_items(draw):
-    a_num_str = draw(hex_number_as_str())
+    num_str = draw(hex_number_as_str())
     #
-    return {"inputs": a_num_str,
+    return {"inputs": num_str,
             "label": "number",
             "to_str": build_num_str,
             "verify": verify_node_as_atom}
 
 @composite
 def octal_number_items(draw):
-    a_num_str = draw(octal_number_as_str())
+    num_str = draw(octal_number_as_str())
     #
-    return {"inputs": a_num_str,
+    return {"inputs": num_str,
             "label": "number",
             "to_str": build_num_str,
             "verify": verify_node_as_atom}
 
 @composite
 def radix_number_items(draw):
-    a_num_str = draw(radix_number_as_str())
+    num_str = draw(radix_number_as_str())
     #
-    return {"inputs": a_num_str,
+    return {"inputs": num_str,
             "label": "number",
             "to_str": build_num_str,
             "verify": verify_node_as_atom}
 
 @composite
 def ratio_items(draw):
-    a_num_str = draw(ratio_as_str())
+    num_str = draw(ratio_as_str())
     #
-    return {"inputs": a_num_str,
+    return {"inputs": num_str,
             "label": "number",
             "to_str": build_num_str,
             "verify": verify_node_as_atom}
 
 @composite
 def double_items(draw):
-    a_num_str = draw(double_as_str())
+    num_str = draw(double_as_str())
     #
-    return {"inputs": a_num_str,
+    return {"inputs": num_str,
             "label": "number",
             "to_str": build_num_str,
             "verify": verify_node_as_atom}
 
 @composite
 def integer_items(draw):
-    a_num_str = draw(integer_as_str())
+    num_str = draw(integer_as_str())
     #
-    return {"inputs": a_num_str,
+    return {"inputs": num_str,
             "label": "number",
             "to_str": build_num_str,
             "verify": verify_node_as_atom}
 
 @composite
 def number_items(draw):
-    a_num_item = draw(one_of(radix_number_items(),
-                             hex_number_items(),
-                             octal_number_items(),
-                             ratio_items(),
-                             double_items(),
-                             integer_items()))
-    return a_num_item
+    num_item = draw(one_of(radix_number_items(),
+                           hex_number_items(),
+                           octal_number_items(),
+                           ratio_items(),
+                           double_items(),
+                           integer_items()))
+    return num_item
