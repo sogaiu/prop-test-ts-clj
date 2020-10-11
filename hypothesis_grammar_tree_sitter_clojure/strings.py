@@ -18,9 +18,9 @@ def build_string_str(item):
 
 @composite
 def string_items(draw):
-    a_str_str = draw(string_as_str())
+    str_str = draw(string_as_str())
     #
-    return {"inputs": a_str_str,
+    return {"inputs": str_str,
             "label": "string",
             "to_str": build_string_str,
             "verify": verify_node_as_atom}
