@@ -58,7 +58,6 @@ def auto_res_marker_items(draw):
 def prefix_items(draw):
     prefix_item = draw(one_of(auto_res_marker_items(),
                               keyword_items()))
-    #
     return prefix_item
 
 def verify(ctx, item):

@@ -45,6 +45,7 @@ def separator_strings(draw):
                                    comment_and_nl_strings(),
                                    discard_expr_and_ws_strings()),
                    min_size=n, max_size=n))
+    #
     sep_str = "".join(seps)
     #
     return sep_str
