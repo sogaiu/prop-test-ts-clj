@@ -33,6 +33,7 @@ def collection_items(draw, elements):
                             set_items(elements)))
     return coll_item
 
+# XXX: also ends up testing non-collections -- is that a problem?
 @composite
 def recursive_collection_items(draw):
     rec_coll_item = draw(recursive(atom_items(), collection_items))
