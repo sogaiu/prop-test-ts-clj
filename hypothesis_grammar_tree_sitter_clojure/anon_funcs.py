@@ -35,7 +35,12 @@ def build_anon_func_str(anon_func_item):
     return marker + "(" + "".join(anon_func_elts) + ")"
 
 @composite
-def anon_func_items(draw):
+def anon_func_items(draw, metadata=False):
+    # avoid circular dependency
+    from .metadata import metadata_items, check_metadata_param
+    #
+    check_metadata_param(metadata)
+    #
     n = draw(integers(min_value=0, max_value=coll_max))
     #
     items = draw(lists(elements=form_items(),
@@ -43,36 +48,25 @@ def anon_func_items(draw):
     #
     sep_strs = draw(lists(elements=separator_strings(),
                           min_size=n, max_size=n))
-    #
-    return {"inputs": items,
-            "label": "anon_func",
-            "to_str": build_anon_func_str,
-            "verify": verify_node_as_coll,
-            "separators": sep_strs,
-            "marker": marker}
-
-@composite
-def anon_func_with_metadata_items(draw):
-    # avoid circular dependency
-    from .metadata import metadata_items
-    #
-    anon_func_item = draw(anon_func_items())
-    #
-    items = anon_func_item["inputs"]
-    #
-    str_builder = make_form_with_metadata_str_builder(build_anon_func_str)
-    #
-    m = draw(integers(min_value=1, max_value=metadata_max))
-    #
-    md_items = draw(lists(elements=metadata_items(),
-                          min_size=m, max_size=m))
-    #
-    sep_strs = anon_func_item["separators"]
-    #
-    return {"inputs": items,
-            "label": "anon_func",
-            "to_str": str_builder,
-            "verify": verify_coll_node_with_metadata,
-            "metadata": md_items,
-            "separators": sep_strs,
-            "marker": marker}
+    if not metadata:
+        return {"inputs": items,
+                "label": "anon_func",
+                "to_str": build_anon_func_str,
+                "verify": verify_node_as_coll,
+                "separators": sep_strs,
+                "marker": marker}
+    else:
+        str_builder = make_form_with_metadata_str_builder(build_anon_func_str)
+        #
+        m = draw(integers(min_value=1, max_value=metadata_max))
+        #
+        md_items = draw(lists(elements=metadata_items(),
+                              min_size=m, max_size=m))
+        #
+        return {"inputs": items,
+                "label": "anon_func",
+                "to_str": str_builder,
+                "verify": verify_coll_node_with_metadata,
+                "metadata": md_items,
+                "separators": sep_strs,
+                "marker": marker}

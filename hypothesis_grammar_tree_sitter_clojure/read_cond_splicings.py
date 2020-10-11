@@ -42,7 +42,10 @@ def build_read_cond_splicing_str(read_cond_splicing_item):
     return marker + "" + "(" + "".join(read_cond_splicing_elts) + ")"
 
 @composite
-def read_cond_splicing_items(draw):
+def read_cond_splicing_items(draw, metadata=False):
+    # avoid circular dependency
+    from .metadata import metadata_items, check_metadata_param
+    #
     n = draw(integers(min_value=0, max_value=floor(coll_max/2)))
     # XXX: may be auto-resolved are not allowed?
     kwd_items = draw(lists(elements=keyword_items(),
@@ -56,37 +59,26 @@ def read_cond_splicing_items(draw):
     items = [item
              for pair in zip(kwd_items, frm_items)
              for item in pair]
-    #
-    return {"inputs": items,
-            "label": "read_cond_splicing",
-            "to_str": build_read_cond_splicing_str,
-            "verify": verify_node_as_coll,
-            "separators": sep_strs,
-            "marker": marker}
-
-@composite
-def read_cond_splicing_with_metadata_items(draw):
-    # avoid circular dependency
-    from .metadata import metadata_items
-    #
-    read_cond_splicing_item = draw(read_cond_splicing_items())
-    #
-    items = read_cond_splicing_item["inputs"]
-    #
-    str_builder = \
-        make_form_with_metadata_str_builder(build_read_cond_splicing_str)
-    #
-    m = draw(integers(min_value=1, max_value=metadata_max))
-    #
-    md_items = draw(lists(elements=metadata_items(),
-                          min_size=m, max_size=m))
-    #
-    sep_strs = read_cond_splicing_item["separators"]
-    #
-    return {"inputs": items,
-            "label": "read_cond_splicing",
-            "to_str": str_builder,
-            "verify": verify_coll_node_with_metadata,
-            "metadata": md_items,
-            "separators": sep_strs,
-            "marker": marker}
+    if not metadata:
+        return {"inputs": items,
+                "label": "read_cond_splicing",
+                "to_str": build_read_cond_splicing_str,
+                "verify": verify_node_as_coll,
+                "separators": sep_strs,
+                "marker": marker}
+    else:
+        str_builder = \
+            make_form_with_metadata_str_builder(build_read_cond_splicing_str)
+        #
+        m = draw(integers(min_value=1, max_value=metadata_max))
+        #
+        md_items = draw(lists(elements=metadata_items(),
+                              min_size=m, max_size=m))
+        #
+        return {"inputs": items,
+                "label": "read_cond_splicing",
+                "to_str": str_builder,
+                "verify": verify_coll_node_with_metadata,
+                "metadata": md_items,
+                "separators": sep_strs,
+                "marker": marker}
