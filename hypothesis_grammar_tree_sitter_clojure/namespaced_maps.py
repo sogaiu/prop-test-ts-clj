@@ -51,7 +51,6 @@ def auto_res_marker_items(draw):
     return {"inputs": arm_item,
             "label": "auto_res_marker",
             "to_str": build_auto_res_marker_str,
-            # looks like this happens to work
             "verify": verify_node_as_atom}
 
 @composite
