@@ -46,10 +46,10 @@ def read_cond_splicing_items(draw):
     n = draw(integers(min_value=0, max_value=floor(coll_max/2)))
     # XXX: may be auto-resolved are not allowed?
     kwd_items = draw(lists(elements=keyword_items(),
-                           min_size=0, max_size=n))
+                           min_size=n, max_size=n))
     #
     frm_items = draw(lists(elements=form_items(),
-                           min_size=0, max_size=n))
+                           min_size=n, max_size=n))
     #
     sep_strs = draw(lists(elements=separator_strings(),
                           min_size=2*n, max_size=2*n))
