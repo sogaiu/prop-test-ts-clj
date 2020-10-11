@@ -8,6 +8,7 @@ from .forms import form_items
 from .separators import separator_strings
 
 from .verify import verify_node_as_coll, \
+    verify_node_marker, \
     verify_coll_node_with_metadata
 
 from .util import make_form_with_metadata_str_builder
@@ -34,6 +35,14 @@ def build_anon_func_str(anon_func_item):
         anon_func_elts += i["to_str"](i) + s
     return marker + "(" + "".join(anon_func_elts) + ")"
 
+def verify(ctx, item):
+    return verify_node_as_coll(ctx, item) and \
+        verify_node_marker(ctx, item)
+
+def verify_with_metadata(ctx, item):
+    return verify_coll_node_with_metadata(ctx, item) and \
+        verify_node_marker(ctx, item)
+
 @composite
 def anon_func_items(draw, metadata=False):
     # avoid circular dependency
@@ -52,7 +61,7 @@ def anon_func_items(draw, metadata=False):
         return {"inputs": items,
                 "label": "anon_func",
                 "to_str": build_anon_func_str,
-                "verify": verify_node_as_coll,
+                "verify": verify,
                 "separators": sep_strs,
                 "marker": marker}
     else:
@@ -66,7 +75,7 @@ def anon_func_items(draw, metadata=False):
         return {"inputs": items,
                 "label": "anon_func",
                 "to_str": str_builder,
-                "verify": verify_coll_node_with_metadata,
+                "verify": verify_with_metadata,
                 "metadata": md_items,
                 "separators": sep_strs,
                 "marker": marker}
