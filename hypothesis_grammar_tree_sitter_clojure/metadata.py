@@ -33,7 +33,6 @@ def build_metadata_str(md_item):
     inner_item = md_item["inputs"]
     return f'^{inner_item["to_str"](inner_item)}'
 
-# XXX: factor out?
 def attach_metadata(metadata_strs, metadatee_str):
     # XXX: another "what to do about separator" location
     return " ".join(metadata_strs + [metadatee_str])
