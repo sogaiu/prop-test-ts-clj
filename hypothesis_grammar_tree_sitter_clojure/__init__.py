@@ -33,22 +33,22 @@ __version__ = '0.0.1'
 #
 #      all things that should have markers checked:
 #
-#        discard_expr
-#        anon_func
-#        regex
-#        read_cond
-#        read_cond_splicing
-#        var_quote_form
-#        symbolic_value
-#        eval_form
-#        tagged_literal
-#        syntax_quote_form
-#        quote_form
-#        unquote_splicing_form
-#        unquote_form
-#        deref_form
-#        metadata
-#        old_metadata
+#        + discard_expr
+#        + anon_func
+#        + regex
+#        + read_cond
+#        + read_cond_splicing
+#        + var_quote_form
+#        + symbolic_value
+#        + eval_form
+#        + tagged_literal
+#        + syntax_quote_form
+#        + quote_form
+#        + unquote_splicing_form
+#        + unquote_form
+#        + deref_form
+#        + metadata
+#        + old_metadata
 #
 #      unsure:
 #
