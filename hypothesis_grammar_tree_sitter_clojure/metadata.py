@@ -1,11 +1,11 @@
 from hypothesis.strategies import integers
 from hypothesis.strategies import composite, just, one_of
 
-# XXX: clean up later
-# XXX: add reader conditionals at some point?
-from .keywords import *
+from .keywords import unqualified_keyword_items, \
+    qualified_keyword_items
 # XXX: want generic (i.e. not just atoms) map_items eventually?
 from .maps import atom_map_items
+from .read_conds import read_cond_items
 from .strings import string_items
 from .symbols import symbol_items
 # metadatee-related (maps and symbols from above would be too)
@@ -13,7 +13,6 @@ from .atoms import atom_items
 
 from .separators import separator_strings
 
-# XXX: clean up later
 from .verify import verify_node_as_atom, \
     verify_node_as_coll
 
@@ -78,6 +77,16 @@ def map_metadata_items(draw, label="metadata"):
             "marker": marker_for_label[label]}
 
 @composite
+def read_cond_metadata_items(draw, label="metadata"):
+    read_cond_item = draw(read_cond_items())
+    #
+    return {"inputs": read_cond_item,
+            "label": label,
+            "to_str": build_metadata_str,
+            "verify": verify_node_as_coll,
+            "marker": marker_for_label[label]}
+
+@composite
 def string_metadata_items(draw, label="metadata"):
     string_item = draw(string_items())
     #
@@ -109,6 +118,7 @@ def metadata_items(draw, label="metadata"):
     metadata_item = \
         draw(one_of(map_metadata_items(label=label),
                     keyword_metadata_items(label=label),
+                    read_cond_metadata_items(label=label),
                     string_metadata_items(label=label),
                     symbol_metadata_items(label=label)))
     return metadata_item
