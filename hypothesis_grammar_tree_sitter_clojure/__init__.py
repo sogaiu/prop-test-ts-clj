@@ -21,13 +21,6 @@ __version__ = '0.0.1'
 # XXX: verify the limitations of hypothesis_grammar_clojure -- e.g.
 #      it currently doesn't handle #! comments.
 
-# XXX: metadata support still needed for generic versions of:
-#
-#        map
-#        set
-#        namespaced_map
-#        vector
-
 # XXX: the markers of certain forms (e.g. #', @, etc.) are not
 #      currently checked.
 #

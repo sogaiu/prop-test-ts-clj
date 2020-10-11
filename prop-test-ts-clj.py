@@ -263,6 +263,12 @@ def test_parses_atom_list(atom_list_item):
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
+@given(vector_items())
+def test_parses_vector(vector_item):
+    form_test(vector_item)
+
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
+                                               HealthCheck.filter_too_much])
 @given(number_vector_items())
 def test_parses_number_vector(num_vector_item):
     form_test(num_vector_item)
@@ -274,6 +280,12 @@ def test_parses_atom_vector(atom_vector_item):
     form_test(atom_vector_item)
 
 ## maps
+
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
+                                               HealthCheck.filter_too_much])
+@given(map_items())
+def test_parses_map(map_item):
+    form_test(map_item)
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
@@ -291,6 +303,12 @@ def test_parses_atom_map(atom_map_item):
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
+@given(namespaced_map_items())
+def test_parses_namespaced_map(namespaced_map_item):
+    form_test(namespaced_map_item)
+
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
+                                               HealthCheck.filter_too_much])
 @given(number_namespaced_map_items())
 def test_parses_number_namespaced_map(num_namespaced_map_item):
     form_test(num_namespaced_map_item)
@@ -300,6 +318,14 @@ def test_parses_number_namespaced_map(num_namespaced_map_item):
 @given(atom_namespaced_map_items())
 def test_parses_atom_namespaced_map(atom_namespaced_map_item):
     form_test(atom_namespaced_map_item)
+
+## sets
+
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
+                                               HealthCheck.filter_too_much])
+@given(set_items())
+def test_parses_set(set_item):
+    form_test(set_item)
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
@@ -314,6 +340,12 @@ def test_parses_atom_set(atom_set_item):
     form_test(atom_set_item)
 
 ## collections
+
+@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
+                                               HealthCheck.filter_too_much])
+@given(collection_items())
+def test_parses_collection(collection_item):
+    form_test(collection_item)
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
@@ -557,15 +589,19 @@ if __name__ == "__main__":
     test_parses_number_list()
     test_parses_atom_list()
     #
+    test_parses_vector()
     test_parses_number_vector()
     test_parses_atom_vector()
     #
+    test_parses_map()
     test_parses_number_map()
     test_parses_atom_map()
     #
+    test_parses_namespaced_map()
     test_parses_number_namespaced_map()
     test_parses_atom_namespaced_map()
     #
+    test_parses_set()
     test_parses_number_set()
     test_parses_atom_set()
     #

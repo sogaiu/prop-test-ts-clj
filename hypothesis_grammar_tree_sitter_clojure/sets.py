@@ -3,6 +3,7 @@ from hypothesis.strategies import composite, lists
 
 from .parameters import coll_max, metadata_max
 
+from .forms import form_items
 from .atoms import atom_items
 from .numbers import number_items
 
@@ -33,7 +34,7 @@ def build_set_str(set_item):
     return "#{" + "".join(set_elts) + "}"
 
 @composite
-def set_items(draw, elements, metadata=False):
+def set_items(draw, elements=form_items(), metadata=False):
     # avoid circular dependency
     from .metadata import metadata_items, check_metadata_param
     #

@@ -3,6 +3,7 @@ from hypothesis.strategies import composite, just, lists, one_of
 
 from .parameters import coll_max, metadata_max
 
+from .forms import form_items
 from .atoms import atom_items
 from .keywords import keyword_items
 from .numbers import number_items
@@ -68,7 +69,7 @@ def verify_with_metadata(ctx, item):
         verify_coll_node_with_metadata(ctx, item)
 
 @composite
-def namespaced_map_items(draw, elements, metadata=False):
+def namespaced_map_items(draw, elements=form_items(), metadata=False):
     # avoid circular dependency
     from .metadata import metadata_items, check_metadata_param
     #

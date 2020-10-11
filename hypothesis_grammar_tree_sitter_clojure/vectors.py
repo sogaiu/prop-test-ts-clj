@@ -3,6 +3,7 @@ from hypothesis.strategies import composite, lists
 
 from .parameters import coll_max, metadata_max
 
+from .forms import form_items
 from .atoms import atom_items
 from .numbers import number_items
 
@@ -32,9 +33,8 @@ def build_vector_str(vector_item):
         vector_elts += i["to_str"](i) + s
     return "[" + "".join(vector_elts) + "]"
 
-# XXX: possibly make form_items be the default for elements?
 @composite
-def vector_items(draw, elements, metadata=False):
+def vector_items(draw, elements=form_items(), metadata=False):
     # avoid circular dependency
     from .metadata import metadata_items, check_metadata_param
     #
@@ -42,7 +42,7 @@ def vector_items(draw, elements, metadata=False):
     #
     n = draw(integers(min_value=0, max_value=coll_max))
     #
-    items = draw(lists(elements, min_size=n, max_size=n))
+    items = draw(lists(elements=elements, min_size=n, max_size=n))
     #
     sep_strs = draw(lists(elements=separator_strings(),
                           min_size=n, max_size=n))

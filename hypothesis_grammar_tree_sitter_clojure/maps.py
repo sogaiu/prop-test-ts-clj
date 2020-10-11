@@ -3,6 +3,7 @@ from hypothesis.strategies import composite, lists
 
 from .parameters import coll_max, metadata_max
 
+from .forms import form_items
 from .atoms import atom_items
 from .numbers import number_items
 
@@ -32,9 +33,8 @@ def build_map_str(map_item):
         map_elts += i["to_str"](i) + s
     return "{" + "".join(map_elts) + "}"
 
-# XXX: possibly make form_items be the default for elements?
 @composite
-def map_items(draw, elements, metadata=False):
+def map_items(draw, elements=form_items(), metadata=False):
     # avoid circular dependency
     from .metadata import metadata_items, check_metadata_param
     #
