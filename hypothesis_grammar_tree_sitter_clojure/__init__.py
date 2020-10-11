@@ -21,6 +21,10 @@ __version__ = '0.0.1'
 # XXX: verify the limitations of hypothesis_grammar_clojure -- e.g.
 #      it currently doesn't handle #! comments.
 
+# XXX: delimiters for various forms are not checked
+
+# XXX: try to list other things that are not checked
+
 # XXX: the markers of certain forms (e.g. #', @, etc.) are not
 #      currently checked.
 #
