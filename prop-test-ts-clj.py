@@ -404,25 +404,25 @@ def test_parses_atom_list_with_metadata(atom_list_with_metadata_item):
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
-@given(atom_map_with_metadata_items())
+@given(map_items(elements=atom_items(), metadata="any"))
 def test_parses_atom_map_with_metadata(atom_map_with_metadata_item):
     form_test(atom_map_with_metadata_item)
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
-@given(atom_namespaced_map_with_metadata_items())
+@given(namespaced_map_items(elements=atom_items(), metadata="any"))
 def test_parses_atom_namespaced_map_with_metadata(atom_namespaced_map_with_metadata_item):
     form_test(atom_namespaced_map_with_metadata_item)
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
-@given(atom_set_with_metadata_items())
+@given(set_items(elements=atom_items(), metadata="any"))
 def test_parses_atom_set_with_metadata(atom_set_with_metadata_item):
     form_test(atom_set_with_metadata_item)
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
-@given(atom_vector_with_metadata_items())
+@given(vector_items(elements=atom_items(), metadata="any"))
 def test_parses_atom_vector_with_metadata(atom_vector_with_metadata_item):
     form_test(atom_vector_with_metadata_item)
 
