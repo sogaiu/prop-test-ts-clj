@@ -24,6 +24,7 @@ def atom_collection_items(draw):
                                        atom_vector_items()))
     return atom_collection_item
 
+# XXX: metadata support?
 @composite
 def collection_items(draw, elements):
     coll_item = draw(one_of(list_items(elements),
@@ -33,6 +34,7 @@ def collection_items(draw, elements):
                             set_items(elements)))
     return coll_item
 
+# XXX: metadata support?
 # XXX: also ends up testing non-collections -- is that a problem?
 @composite
 def recursive_collection_items(draw):
