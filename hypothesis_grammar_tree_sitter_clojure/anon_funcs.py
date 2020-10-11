@@ -39,7 +39,7 @@ def anon_func_items(draw):
     n = draw(integers(min_value=0, max_value=coll_max))
     #
     items = draw(lists(elements=form_items(),
-                       min_size=0, max_size=n))
+                       min_size=n, max_size=n))
     #
     sep_strs = draw(lists(elements=separator_strings(),
                           min_size=n, max_size=n))
