@@ -106,6 +106,7 @@ def verify_node_metadatum(ctx, item):
     node, source = itemgetter('node', 'source')(ctx)
     verify_node_no_error(ctx)
     verify_node_type(ctx, item)
+    verify_node_marker(ctx, item)
     assert node.named_child_count == 1
     inner_item = item["inputs"]
     assert inner_item
