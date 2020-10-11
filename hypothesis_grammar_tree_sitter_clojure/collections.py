@@ -25,6 +25,7 @@ def atom_collection_items(draw):
     return atom_collection_item
 
 # XXX: metadata support?
+# XXX: default to form_items?
 @composite
 def collection_items(draw, elements):
     coll_item = draw(one_of(list_items(elements),
