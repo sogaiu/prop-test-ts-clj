@@ -36,7 +36,7 @@ def build_vector_str(vector_item):
 def vector_items(draw, elements):
     n = draw(integers(min_value=0, max_value=coll_max))
     #
-    items = draw(lists(elements, min_size=0, max_size=n))
+    items = draw(lists(elements, min_size=n, max_size=n))
     #
     sep_strs = draw(lists(elements=separator_strings(),
                           min_size=n, max_size=n))
