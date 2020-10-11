@@ -26,34 +26,34 @@ def build_deref_form_str(item):
     return marker + inputs["to_str"](inputs)
 
 @composite
-def deref_form_items(draw):
+def deref_form_items(draw, metadata=False):
     form_item = draw(form_items())
     #
-    return {"inputs": form_item,
-            "label": "deref_form",
-            "to_str": build_deref_form_str,
-            "verify": verify_node_as_adorned,
-            "marker": marker}
-
-@composite
-def deref_form_with_metadata_items(draw):
-    # avoid circular dependency
-    from .metadata import metadata_items
-    #
-    deref_form_item = draw(deref_form_items())
-    #
-    form_item = deref_form_item["inputs"]
-    #
-    str_builder = make_form_with_metadata_str_builder(build_deref_form_str)
-    #
-    n = draw(integers(min_value=1, max_value=metadata_max))
-    #
-    md_items = draw(lists(elements=metadata_items(),
-                          min_size=n, max_size=n))
-    #
-    return {"inputs": form_item,
-            "label": "deref_form",
-            "to_str": str_builder,
-            "verify": verify_adorned_node_with_metadata,
-            "metadata": md_items,
-            "marker": marker}
+    if metadata:
+        # avoid circular dependency
+        from .metadata import metadata_items
+        #
+        deref_form_item = draw(deref_form_items())
+        #
+        form_item = deref_form_item["inputs"]
+        #
+        str_builder = make_form_with_metadata_str_builder(build_deref_form_str)
+        #
+        n = draw(integers(min_value=1, max_value=metadata_max))
+        #
+        md_items = draw(lists(elements=metadata_items(),
+                              min_size=n, max_size=n))
+        #
+        return {"inputs": form_item,
+                "label": "deref_form",
+                "to_str": str_builder,
+                "verify": verify_adorned_node_with_metadata,
+                "metadata": md_items,
+                "marker": marker}
+    else:
+        #
+        return {"inputs": form_item,
+                "label": "deref_form",
+                "to_str": build_deref_form_str,
+                "verify": verify_node_as_adorned,
+                "marker": marker}

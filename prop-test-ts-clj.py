@@ -445,7 +445,7 @@ def test_parses_anonymous_function_with_metadata(anon_func_with_metadata_item):
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
-@given(deref_form_with_metadata_items())
+@given(deref_form_items(metadata=True))
 def test_parses_deref_form_with_metadata(deref_form_with_metadata_item):
     form_test(deref_form_with_metadata_item)
 
