@@ -391,7 +391,7 @@ def test_parses_tagged_literal(tagged_literal_item):
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
-@given(symbol_with_metadata_items())
+@given(symbol_items(metadata=True))
 def test_parses_symbol_with_metadata(symbol_with_metadata_item):
     form_test(symbol_with_metadata_item)
 
