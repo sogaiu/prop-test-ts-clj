@@ -21,57 +21,25 @@ __version__ = '0.0.1'
 # XXX: verify the limitations of hypothesis_grammar_clojure -- e.g.
 #      it currently doesn't handle #! comments.
 
-# XXX: delimiters for various forms are not checked
-
-# XXX: try to list other things that are not checked
-
-# XXX: the markers of certain forms (e.g. #', @, etc.) are not
-#      currently checked.
+# XXX: delimiters for various forms are not checked:
 #
-#      it appears that the marker for a node (if any) can be located
-#      by finding the first anonymous node.  verify that this
-#      assertion is correct.
-#
-#      currently, markers for collections may not be verified.
-#      consider addressing this.
-#
-#      all things that should have markers checked:
-#
-#        + discard_expr
-#        + anon_func
-#        + regex
-#        + read_cond
-#        + read_cond_splicing
-#        + var_quote_form
-#        + symbolic_value
-#        + eval_form
-#        + tagged_literal
-#        + syntax_quote_form
-#        + quote_form
-#        + unquote_splicing_form
-#        + unquote_form
-#        + deref_form
-#        + metadata
-#        + old_metadata
-#
-#      unsure:
-#
-#        keyword - part of value, no anon node
-#        string - part of value, no anon node
-#        character - part of value, no anon node
 #        list
 #        map
 #        vector
 #        namespaced_map
 #        set
-#        comment
+#        anon_func
+#        read_cond
+#        read_cond_splicing
+#        string - part of value, no anon node
+#        regex
+
+# XXX: try to list other things that are not checked:
 #
-#      probably not:
-#
-#        number
-#        nil
-#        boolean
-#        symbol
+#        keyword - part of value, no anon node (multiple cases?)
+#        character - part of value, no anon node
+#        comment - part of value, no anon node
+#        auto_res_marker - itself?
 
 # XXX: find places where separators strategies can / should be applied.
 #
