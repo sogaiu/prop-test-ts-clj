@@ -18,9 +18,6 @@ __version__ = '0.0.1'
 # XXX: reminder that grammar is in flux so pasted in info in comments
 #      needs to be kept up-to-date.
 
-# XXX: verify the limitations of hypothesis_grammar_clojure -- e.g.
-#      it currently doesn't handle #! comments.
-
 # XXX: delimiters for various forms are not checked:
 #
 #        list
@@ -119,6 +116,18 @@ __version__ = '0.0.1'
 #      * tagged_literals
 #
 #      not sure though
+
+# XXX: verify the limitations of hypothesis_grammar_clojure
+#
+#        no support for #! comments
+#        any_character definition is unverified
+#        keywords do not handle non-ascii
+#        symbols do not handle non-ascii
+#        no real support for collections
+#        no escape sequences in strings
+#        whitespace is limited to ascii -- is non-ascii whitespace legal?
+#        some grammatical constructs missing
+#        parameter-tweaking (e.g. number of digits) unexposed
 
 # grammatical pieces
 #
