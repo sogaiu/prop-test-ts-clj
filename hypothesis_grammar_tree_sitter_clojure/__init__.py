@@ -77,9 +77,23 @@ __version__ = '0.0.1'
 
 # XXX: write up details on what exactly is being tested and what things
 #      are not being tested
+#
+#        order of nodes
+#        existence of nodes
+#        node string value
+#        node type
+#        lack of parse error
+#        whether node was created by ts (i.e. is_missing)
+#        markers
+#        delimiters
+#        distinguishing among nodes even with presence of "separators"
 
-# XXX: write up some notes on naming.  could cover terms such as
-#      "marker" (meaning things like "#_", "##", etc.)
+# XXX: write up some notes on naming.  could cover terms such as:
+#
+#        marker (meaning things like "#_", "##", etc.)
+#        metadatee
+#        form
+#        non-form (separators?)
 
 # XXX: label strings could be factored out (e.g. "map", "number", etc.)
 #      perhaps these can be placed in a central look-up table to
