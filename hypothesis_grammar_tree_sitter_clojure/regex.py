@@ -6,7 +6,7 @@ from .verify import verify_node_type_text_and_no_error, \
     verify_node_marker
 
 # regex: $ =>
-#   seq("#",
+#   seq(field('marker', "#"),
 #       STRING),
 
 marker = '#'

@@ -12,7 +12,7 @@ from .util import make_form_with_metadata_str_builder
 
 # syntax_quote_form: $ =>
 #   seq(repeat($._metadata),
-#       "`",
+#       field('marker', "`"),
 #       repeat($._non_form),
 #       field('value', $._form)),
 

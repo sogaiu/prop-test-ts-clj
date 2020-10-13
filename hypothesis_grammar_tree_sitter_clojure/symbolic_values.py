@@ -5,7 +5,7 @@ from .symbols import symbol_items
 from .verify import verify_node_as_adorned
 
 # symbolic_value: $ =>
-#   seq("##",
+#   seq(field('marker', "##"),
 #       repeat($._non_form),
 #       field('value', $.symbol)),
 

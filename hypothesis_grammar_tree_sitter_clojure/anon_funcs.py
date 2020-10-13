@@ -15,14 +15,14 @@ from .util import make_form_with_metadata_str_builder
 
 # anon_func: $ =>
 #   seq(repeat($._metadata),
-#       "#",
+#       field('marker', "#"),
 #       $._bare_list),
 #
 # _bare_list: $ =>
-#   seq("(",
+#   seq(field('open', "("),
 #       repeat(choice(field('value', $._form),
 #                     $._non_form)),
-#       ")"),
+#       field('close', ")")),
 
 marker = "#"
 

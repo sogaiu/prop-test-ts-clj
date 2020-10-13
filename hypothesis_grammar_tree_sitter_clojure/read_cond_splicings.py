@@ -20,15 +20,15 @@ from .util import make_form_with_metadata_str_builder
 #   // XXX: metadata here doesn't seem to make sense, but the repl
 #   //      will accept: [^:x #?@(:clj [[:a]] :cljr [[:b]])]
 #   seq(repeat($._metadata),
-#       "#?@",
+#       field('marker', "#?@"),
 #       repeat($._whitespace),
 #       $._bare_list),
 #
 # _bare_list: $ =>
-#   seq("(",
+#   seq(field('open', "("),
 #       repeat(choice(field('value', $._form),
 #                     $._non_form)),
-#       ")"),
+#       field('close', ")")),
 
 marker = "#?@"
 

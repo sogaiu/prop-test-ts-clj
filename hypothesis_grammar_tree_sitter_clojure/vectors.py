@@ -19,10 +19,10 @@ from .util import make_form_with_metadata_str_builder
 #       $._bare_vector),
 #
 # _bare_vector: $ =>
-#   seq("[",
+#   seq(field('open', "["),
 #       repeat(choice(field('value', $._form),
 #                     $._non_form)),
-#       "]"),
+#       field('close', "]")),
 
 # XXX: could also have stuff before and after delimiters
 def build_vector_str(vector_item):

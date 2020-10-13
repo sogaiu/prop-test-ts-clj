@@ -4,7 +4,7 @@ from .verify import verify_node_marker, \
     verify_node_as_form
 
 # discard_expr: $ =>
-#   seq("#_",
+#   seq(field('marker', "#_"),
 #       repeat($._non_form),
 #       field('value', $._form)),
 

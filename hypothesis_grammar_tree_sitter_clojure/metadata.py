@@ -14,7 +14,7 @@ from .verify import verify_node_as_atom, \
     verify_node_as_coll
 
 # metadata: $ =>
-#   seq("^",
+#   seq(field('marker', "^"),
 #       repeat($._non_form),
 #       field('value', choice($.read_cond,
 #                             $.map,
@@ -23,7 +23,7 @@ from .verify import verify_node_as_atom, \
 #                             $.symbol))),
 
 # old_metadata: $ =>
-#   seq("#^",
+#   seq(field('marker', "#^"),
 #       repeat($._non_form),
 #       field('value', choice($.read_cond,
 #                             $.map,

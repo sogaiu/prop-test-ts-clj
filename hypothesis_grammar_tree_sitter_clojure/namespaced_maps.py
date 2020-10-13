@@ -22,7 +22,7 @@ from .util import make_form_with_metadata_str_builder
 #
 # namespaced_map: $ =>
 #   seq(repeat($._metadata),
-#       "#",
+#       field('marker', "#"),
 #       field('prefix', choice($.auto_res_marker,
 #                              $.keyword)),
 #       repeat($._non_form),

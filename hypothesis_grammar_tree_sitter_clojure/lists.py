@@ -19,10 +19,10 @@ from .util import make_form_with_metadata_str_builder
 #       $._bare_list),
 #
 # _bare_list: $ =>
-#   seq("(",
+#   seq(field('open', "("),
 #       repeat(choice(field('value', $._form),
 #                     $._non_form)),
-#       ")"),
+#       field('close', ")")),
 
 # XXX: could also have stuff before and after delimiters
 def build_list_str(list_item):
