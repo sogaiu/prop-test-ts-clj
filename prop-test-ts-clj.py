@@ -76,7 +76,7 @@ def form_test(item):
     form_str = item["to_str"](item)
     ctx = {"node": get_lone_node(form_str),
            "source": form_str}
-    note(f'source: {form_str}')
+    note(f'source: {form_str}\n')
     assert item["verify"](ctx, item), \
         f'verify failed for: {form_str}'
 
