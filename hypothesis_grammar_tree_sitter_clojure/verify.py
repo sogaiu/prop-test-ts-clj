@@ -55,13 +55,10 @@ def verify_node_no_error(ctx):
 def verify_node_marker(ctx, item):
     node, source = itemgetter('node', 'source')(ctx)
     marker = item["marker"]
-    for child in node.children:
-        if not child.is_named:
-            first_unnamed = child
-            break
-    assert first_unnamed, \
-        f'expected at least one unnamed node, but found none: {source}'
-    text_of_node = node_text(source, first_unnamed)
+    marker_node = node.child_by_field_name("marker")
+    assert marker_node, \
+        f'did not find marker node: {source}'
+    text_of_node = node_text(source, marker_node)
     assert text_of_node == marker, \
         f'expected marker: {marker}, got: {text_of_node}'
     return True
