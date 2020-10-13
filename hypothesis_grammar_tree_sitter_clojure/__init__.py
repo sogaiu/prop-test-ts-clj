@@ -18,17 +18,14 @@ __version__ = '0.0.1'
 # XXX: reminder that grammar is in flux so pasted in info in comments
 #      needs to be kept up-to-date.
 
-# XXX: delimiters for various forms are not checked:
+# XXX: list "features" of things that are not checked:
 #
-#        string - part of value, no anon node
-#        regex
-
-# XXX: try to list other things that are not checked:
-#
-#        keyword - part of value, no anon node (multiple cases?)
-#        character - part of value, no anon node
-#        comment - part of value, no anon node
-#        auto_res_marker - itself?
+#        string - opening and closing double quotes
+#        regex - opening and closing double quotes
+#        keyword - leading : (how about auto-resolve case?)
+#        character - leading \
+#        comment - leading ;
+#        auto_res_marker - literally ::
 
 # XXX: find places where separators strategies can / should be applied.
 #
