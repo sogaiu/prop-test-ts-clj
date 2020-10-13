@@ -22,14 +22,6 @@ __version__ = '0.0.1'
 
 # XXX: delimiters for various forms are not checked:
 #
-#        list
-#        map
-#        vector
-#        namespaced_map
-#        set
-#        anon_func
-#        read_cond
-#        read_cond_splicing
 #        string - part of value, no anon node
 #        regex
 

@@ -89,7 +89,9 @@ def namespaced_map_items(draw, elements=form_items(), metadata=False):
                 "to_str": build_namespaced_map_str,
                 "verify": verify,
                 "prefix": prefix_item,
-                "separators": sep_strs}
+                "separators": sep_strs,
+                "open": "{",
+                "close": "}"}
     else:
         str_builder = \
             make_form_with_metadata_str_builder(build_namespaced_map_str)
@@ -105,7 +107,9 @@ def namespaced_map_items(draw, elements=form_items(), metadata=False):
                 "verify": verify_with_metadata,
                 "prefix": prefix_item,
                 "metadata": md_items,
-                "separators": sep_strs}
+                "separators": sep_strs,
+                "open": "{",
+                "close": "}"}
 
 @composite
 def number_namespaced_map_items(draw):

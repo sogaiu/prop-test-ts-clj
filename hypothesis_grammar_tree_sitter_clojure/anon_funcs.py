@@ -63,7 +63,9 @@ def anon_func_items(draw, metadata=False):
                 "to_str": build_anon_func_str,
                 "verify": verify,
                 "separators": sep_strs,
-                "marker": marker}
+                "marker": marker,
+                "open": "(",
+                "close": ")"}
     else:
         str_builder = make_form_with_metadata_str_builder(build_anon_func_str)
         #
@@ -78,4 +80,6 @@ def anon_func_items(draw, metadata=False):
                 "verify": verify_with_metadata,
                 "metadata": md_items,
                 "separators": sep_strs,
-                "marker": marker}
+                "marker": marker,
+                "open": "(",
+                "close": ")"}

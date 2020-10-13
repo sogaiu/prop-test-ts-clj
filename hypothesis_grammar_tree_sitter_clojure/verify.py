@@ -66,6 +66,25 @@ def verify_node_marker(ctx, item):
         f'expected marker: {marker}, got: {text_of_node}'
     return True
 
+# XXX: additional possibilities for verification:
+#
+#        open delimiter node comes before close delimiter node
+#        open delimiter node comes after all metadata (if any)
+#        open delimiter node comes before all value nodes (if any)
+def verify_node_delimiters(ctx, item):
+    node, source = itemgetter('node', 'source')(ctx)
+    open_delim, close_delim = itemgetter('open', 'close')(item)
+    actual_open = node_text(source, node.child_by_field_name('open'))
+    assert open_delim == actual_open, \
+        f'expected open delimiter: {open_delim}, got: {actual_open}'
+    close_node = node.child_by_field_name('close')
+    actual_close = node_text(source, close_node)
+    assert close_delim == actual_close, \
+        f'expected close delimiter: {close_delim}, got: {actual_close}'
+    assert node.children[-1] == close_node, \
+        f'node for closing delimiter was not last child node'
+    return True
+
 def verify_node_type_text_and_no_error(ctx, item):
     return verify_node_no_error(ctx) and \
         verify_node_type(ctx, item) and \
@@ -81,6 +100,7 @@ def verify_node_as_coll(ctx, coll_item):
     verify_node_no_error(ctx)
     items = itemgetter('inputs')(coll_item)
     verify_node_type(ctx, coll_item)
+    verify_node_delimiters(ctx, coll_item)
     first_value_node = node.child_by_field_name("value")
     # if there was at least one value node, verify all value nodes
     if first_value_node:

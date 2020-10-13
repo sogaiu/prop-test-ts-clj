@@ -51,7 +51,9 @@ def list_items(draw, elements=form_items(), metadata=False):
                 "label": "list",
                 "to_str": build_list_str,
                 "verify": verify_node_as_coll,
-                "separators": sep_strs}
+                "separators": sep_strs,
+                "open": "(",
+                "close": ")"}
     else:
         str_builder = make_form_with_metadata_str_builder(build_list_str)
         #
@@ -65,7 +67,9 @@ def list_items(draw, elements=form_items(), metadata=False):
                 "to_str": str_builder,
                 "verify": verify_coll_node_with_metadata,
                 "metadata": md_items,
-                "separators": sep_strs}
+                "separators": sep_strs,
+                "open": "(",
+                "close": ")"}
 
 @composite
 def number_list_items(draw):
