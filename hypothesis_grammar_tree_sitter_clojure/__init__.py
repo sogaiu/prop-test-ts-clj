@@ -18,14 +18,18 @@ __version__ = '0.0.1'
 # XXX: reminder that grammar is in flux so pasted in info in comments
 #      needs to be kept up-to-date.
 
-# XXX: list "features" of things that are not checked:
+# XXX: write up details on what exactly is being tested and what things
+#      are not being tested
 #
-#        string - opening and closing double quotes
-#        regex - opening and closing double quotes
-#        keyword - leading : (how about auto-resolve case?)
-#        character - leading \
-#        comment - leading ;
-#        auto_res_marker - literally ::
+#        order of nodes
+#        existence of nodes
+#        node string value
+#        node type
+#        lack of parse error
+#        whether node was created by ts (i.e. is_missing)
+#        markers
+#        delimiters
+#        distinguishing among nodes even with presence of "separators"
 
 # XXX: find places where separators strategies can / should be applied.
 #
@@ -56,24 +60,6 @@ __version__ = '0.0.1'
 # XXX: consider making the "verify" key's value a list of functions
 #      which are meant to be used for verification
 
-# XXX: if node.text gets merged in py-tree-sitter and it's usable,
-#      consider moving over to that instead of using node_text.
-#      n.b. that may require switching from strings to bytes --
-#      i.e. use b'hello' instead of 'hello'
-
-# XXX: write up details on what exactly is being tested and what things
-#      are not being tested
-#
-#        order of nodes
-#        existence of nodes
-#        node string value
-#        node type
-#        lack of parse error
-#        whether node was created by ts (i.e. is_missing)
-#        markers
-#        delimiters
-#        distinguishing among nodes even with presence of "separators"
-
 # XXX: write up some notes on naming.  could cover terms such as:
 #
 #        marker (meaning things like "#_", "##", etc.)
@@ -93,8 +79,6 @@ __version__ = '0.0.1'
 
 # XXX: create clojure samples so that s-expression output can be
 #      programmatically generated from them when the grammar changes.
-
-# XXX: look into the "deferred" and "data" strategies
 
 # XXX: some bits might have a better home in
 #      hypothesis_grammar_clojure.<something>, e.g. parts of:
@@ -117,6 +101,13 @@ __version__ = '0.0.1'
 #        whitespace is limited to ascii -- is non-ascii whitespace legal?
 #        some grammatical constructs missing
 #        parameter-tweaking (e.g. number of digits) unexposed
+
+# XXX: if node.text gets merged in py-tree-sitter and it's usable,
+#      consider moving over to that instead of using node_text.
+#      n.b. that may require switching from strings to bytes --
+#      i.e. use b'hello' instead of 'hello'
+
+# XXX: look into the "deferred" and "data" strategies
 
 # grammatical pieces
 #
