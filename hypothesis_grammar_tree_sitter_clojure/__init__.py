@@ -6,7 +6,7 @@ __version__ = '0.0.1'
 #      ought to be recorded and tracked.  preferably this could be
 #      expressed programmatically as a dependency.  for the moment:
 #
-#        511056733333d2bac522a5a7bab5b9a2adb67e7c
+#        92bd9c825ab95067795a01322c6813ed43483ae2
 
 # XXX: consider saving generated source strings to feed to a "jailed"
 #      clojure process (e.g. in a vm) and log which strings cause
@@ -17,6 +17,8 @@ __version__ = '0.0.1'
 
 # XXX: reminder that grammar is in flux so pasted in info in comments
 #      needs to be kept up-to-date.
+
+# XXX: should there be marker fields in the grammar?
 
 # XXX: delimiters for various forms are not checked:
 #
