@@ -25,37 +25,27 @@ __version__ = '0.0.1'
 #        existence of nodes
 #        node string value
 #        node type
-#        lack of parse error
+#        lack of parse error (has_error)
+#          try to visit all nodes to call has_error?
 #        whether node was created by ts (i.e. is_missing)
+#          try to visit all nodes to call is_missing?
 #        markers
 #        delimiters
 #        distinguishing among nodes even with presence of "separators"
+#          determine potential separator locations
+#          include locations not between 2 items
+#            before first form
+#            after last form
 
-# XXX: find places where separators strategies can / should be applied.
+# XXX: test execution has following issues:
 #
-#      this may lead to changes in the various verify_* functions
-#      as "comment" and "discard_expr" nodes will start showing up.
-
-# XXX: related to separators is the idea of leading or trailing "space"
-#      basically the same sorts of things as for separators can go before
-#      or after things...need to track down possible locations
-
-# XXX: figure out where else has_error could be applied when
-#      verifying nodes
-
-# XXX: py-tree-sitter now has is_missing, so could verify that
-#      resulting nodes are not "is_missing"
-
-# XXX: make separator-related bits more tweakable.  start testing with
-#      single whitespace and only after things working, make more fancy.
-
-# XXX: min_size 0 seems worth testing sometimes, but may be it
-#      makes sense to have 2 runs of tests, one with min_size 0
-#      and another with min_size 1
-
-# XXX: split prop-test-ts-clj.py into pieces to make running individual /
-#      sets of tests easier?  currently a lot of commenting / uncommenting
-#      takes place
+#        non-simple separators complicate perception
+#          nicer if start with simple and later use complex separators
+#        hypothesis seems to emphasize empty collections (min_size 0)
+#          possibly run tests once without min_size 0 and once with 1?
+#        only easy to run all tests
+#          leads to a lot of commenting / uncommenting
+#          fixed order leads to manual reordering
 
 # XXX: consider making the "verify" key's value a list of functions
 #      which are meant to be used for verification
@@ -76,9 +66,6 @@ __version__ = '0.0.1'
 #      somehow doesn't seem too useful -- a limited form of it ended
 #      up being useful for metadata / old_metadata.  not sure if it
 #      would be useful for other things.
-
-# XXX: create clojure samples so that s-expression output can be
-#      programmatically generated from them when the grammar changes.
 
 # XXX: some bits might have a better home in
 #      hypothesis_grammar_clojure.<something>, e.g. parts of:
@@ -106,8 +93,6 @@ __version__ = '0.0.1'
 #      consider moving over to that instead of using node_text.
 #      n.b. that may require switching from strings to bytes --
 #      i.e. use b'hello' instead of 'hello'
-
-# XXX: look into the "deferred" and "data" strategies
 
 # grammatical pieces
 #
