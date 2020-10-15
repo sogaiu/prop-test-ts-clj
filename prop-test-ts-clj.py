@@ -4,46 +4,46 @@ from hypothesis import given, note
 from hypothesis import settings, HealthCheck, Verbosity
 
 # XXX: clean this up later
-from hypothesis_grammar_tree_sitter_clojure.comments import *
+from hg_ts_clj.strategies.comments import *
 #
-from hypothesis_grammar_tree_sitter_clojure.nils import *
-from hypothesis_grammar_tree_sitter_clojure.booleans import *
-from hypothesis_grammar_tree_sitter_clojure.characters import *
-from hypothesis_grammar_tree_sitter_clojure.keywords import *
-from hypothesis_grammar_tree_sitter_clojure.numbers import *
-from hypothesis_grammar_tree_sitter_clojure.strings import *
-from hypothesis_grammar_tree_sitter_clojure.symbols import *
-from hypothesis_grammar_tree_sitter_clojure.symbolic_values import *
-from hypothesis_grammar_tree_sitter_clojure.regex import *
+from hg_ts_clj.strategies.nils import *
+from hg_ts_clj.strategies.booleans import *
+from hg_ts_clj.strategies.characters import *
+from hg_ts_clj.strategies.keywords import *
+from hg_ts_clj.strategies.numbers import *
+from hg_ts_clj.strategies.strings import *
+from hg_ts_clj.strategies.symbols import *
+from hg_ts_clj.strategies.symbolic_values import *
+from hg_ts_clj.strategies.regex import *
 #
-from hypothesis_grammar_tree_sitter_clojure.atoms import *
+from hg_ts_clj.strategies.atoms import *
 #
-from hypothesis_grammar_tree_sitter_clojure.lists import *
-from hypothesis_grammar_tree_sitter_clojure.maps import *
-from hypothesis_grammar_tree_sitter_clojure.namespaced_maps import *
-from hypothesis_grammar_tree_sitter_clojure.sets import *
-from hypothesis_grammar_tree_sitter_clojure.vectors import *
+from hg_ts_clj.strategies.lists import *
+from hg_ts_clj.strategies.maps import *
+from hg_ts_clj.strategies.namespaced_maps import *
+from hg_ts_clj.strategies.sets import *
+from hg_ts_clj.strategies.vectors import *
 #
-from hypothesis_grammar_tree_sitter_clojure.collections import *
+from hg_ts_clj.strategies.collections import *
 #
-from hypothesis_grammar_tree_sitter_clojure.read_conds import *
-from hypothesis_grammar_tree_sitter_clojure.read_cond_splicings import *
+from hg_ts_clj.strategies.read_conds import *
+from hg_ts_clj.strategies.read_cond_splicings import *
 #
-from hypothesis_grammar_tree_sitter_clojure.anon_funcs import *
+from hg_ts_clj.strategies.anon_funcs import *
 #
-from hypothesis_grammar_tree_sitter_clojure.deref_forms import *
-from hypothesis_grammar_tree_sitter_clojure.var_quote_forms import *
-from hypothesis_grammar_tree_sitter_clojure.eval_forms import *
-from hypothesis_grammar_tree_sitter_clojure.quote_forms import *
-from hypothesis_grammar_tree_sitter_clojure.syntax_quote_forms import *
-from hypothesis_grammar_tree_sitter_clojure.unquote_forms import *
-from hypothesis_grammar_tree_sitter_clojure.unquote_splicing_forms import *
+from hg_ts_clj.strategies.deref_forms import *
+from hg_ts_clj.strategies.var_quote_forms import *
+from hg_ts_clj.strategies.eval_forms import *
+from hg_ts_clj.strategies.quote_forms import *
+from hg_ts_clj.strategies.syntax_quote_forms import *
+from hg_ts_clj.strategies.unquote_forms import *
+from hg_ts_clj.strategies.unquote_splicing_forms import *
 #
-from hypothesis_grammar_tree_sitter_clojure.tagged_literals import *
+from hg_ts_clj.strategies.tagged_literals import *
 #
-from hypothesis_grammar_tree_sitter_clojure.discard_exprs import *
+from hg_ts_clj.strategies.discard_exprs import *
 #
-from hypothesis_grammar_tree_sitter_clojure.forms import *
+from hg_ts_clj.strategies.forms import *
 
 from tree_sitter import Language, Parser
 

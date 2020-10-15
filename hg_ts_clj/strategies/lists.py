@@ -1,0 +1,73 @@
+from hypothesis.strategies import integers
+from hypothesis.strategies import composite, lists
+
+from .parameters import coll_max, metadata_max
+
+from .forms import form_items
+
+from .separators import separator_strings
+
+from ..verify.lists import verify, \
+    verify_with_metadata
+
+from .util import make_form_with_metadata_str_builder
+
+# list: $ =>
+#   seq(repeat($._metadata),
+#       $._bare_list),
+#
+# _bare_list: $ =>
+#   seq(field('open', "("),
+#       repeat(choice(field('value', $._form),
+#                     $._non_form)),
+#       field('close', ")")),
+
+open_delim = "("
+close_delim = ")"
+
+# XXX: could also have stuff before and after delimiters
+def build_list_str(list_item):
+    items = list_item["inputs"]
+    seps = list_item["separators"]
+    list_elts = []
+    for i, s in zip(items, seps):
+        list_elts += i["to_str"](i) + s
+    return open_delim + "".join(list_elts) + close_delim
+
+@composite
+def list_items(draw, elements=form_items(), metadata=False):
+    # avoid circular dependency
+    from .metadata import metadata_items, check_metadata_param
+    #
+    check_metadata_param(metadata)
+    #
+    n = draw(integers(min_value=0, max_value=coll_max))
+    #
+    items = draw(lists(elements=elements, min_size=n, max_size=n))
+    #
+    sep_strs = draw(lists(elements=separator_strings(),
+                          min_size=n, max_size=n))
+    if not metadata:
+        return {"inputs": items,
+                "label": "list",
+                "to_str": build_list_str,
+                "verify": verify,
+                "separators": sep_strs,
+                "open": open_delim,
+                "close": close_delim}
+    else:
+        str_builder = make_form_with_metadata_str_builder(build_list_str)
+        #
+        m = draw(integers(min_value=1, max_value=metadata_max))
+        #
+        md_items = draw(lists(elements=metadata_items(),
+                              min_size=m, max_size=m))
+        #
+        return {"inputs": items,
+                "label": "list",
+                "to_str": str_builder,
+                "verify": verify_with_metadata,
+                "metadata": md_items,
+                "separators": sep_strs,
+                "open": open_delim,
+                "close": close_delim}
