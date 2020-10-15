@@ -98,6 +98,7 @@ def verify_node_as_coll(ctx, coll_item):
     items = itemgetter('inputs')(coll_item)
     verify_node_type(ctx, coll_item)
     verify_node_delimiters(ctx, coll_item)
+    verify_node_text(ctx, coll_item)
     first_value_node = node.child_by_field_name("value")
     # if there was at least one value node, verify all value nodes
     if first_value_node:
