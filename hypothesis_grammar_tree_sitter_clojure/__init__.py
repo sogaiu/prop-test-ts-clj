@@ -8,6 +8,10 @@ __version__ = '0.0.1'
 #
 #        9df53ae75475e5bdbeb21cd297b8e3160f3b6ed8
 
+# XXX: try to figure out a way to decouple the verification bits from
+#      the creation of the rest of the item (which appears quite
+#      generic)
+
 # XXX: consider saving generated source strings to feed to a "jailed"
 #      clojure process (e.g. in a vm) and log which strings cause
 #      parsing issues.
