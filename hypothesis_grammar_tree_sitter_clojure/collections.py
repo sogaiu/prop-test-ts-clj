@@ -3,7 +3,6 @@ from hypothesis import assume
 from hypothesis.strategies import composite, one_of, recursive
 
 from .forms import form_items
-from .atoms import atom_items
 
 from .lists import list_items
 from .maps import map_items

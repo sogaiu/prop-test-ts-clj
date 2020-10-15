@@ -4,8 +4,6 @@ from hypothesis.strategies import composite, lists
 from .parameters import coll_max, metadata_max
 
 from .forms import form_items
-from .atoms import atom_items
-from .numbers import number_items
 
 from .separators import separator_strings
 
@@ -73,4 +71,3 @@ def list_items(draw, elements=form_items(), metadata=False):
                 "separators": sep_strs,
                 "open": open_delim,
                 "close": close_delim}
-

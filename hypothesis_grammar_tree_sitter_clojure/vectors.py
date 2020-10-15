@@ -4,8 +4,6 @@ from hypothesis.strategies import composite, lists
 from .parameters import coll_max, metadata_max
 
 from .forms import form_items
-from .atoms import atom_items
-from .numbers import number_items
 
 from .separators import separator_strings
 

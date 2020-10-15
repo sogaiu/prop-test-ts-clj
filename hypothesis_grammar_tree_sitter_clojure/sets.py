@@ -4,8 +4,6 @@ from hypothesis.strategies import composite, lists
 from .parameters import coll_max, metadata_max
 
 from .forms import form_items
-from .atoms import atom_items
-from .numbers import number_items
 
 from .separators import separator_strings
 
@@ -57,6 +55,7 @@ def set_items(draw, elements=form_items(), metadata=False):
                 "to_str": build_set_str,
                 "verify": verify_node_as_coll,
                 "separators": sep_strs,
+                "marker": marker,
                 "open": open_delim,
                 "close": close_delim}
     else:
@@ -73,5 +72,6 @@ def set_items(draw, elements=form_items(), metadata=False):
                 "verify": verify_coll_node_with_metadata,
                 "metadata": md_items,
                 "separators": sep_strs,
+                "marker": marker,
                 "open": open_delim,
                 "close": close_delim}

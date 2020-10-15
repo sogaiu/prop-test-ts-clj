@@ -4,9 +4,7 @@ from hypothesis.strategies import composite, just, lists, one_of
 from .parameters import coll_max, metadata_max
 
 from .forms import form_items
-from .atoms import atom_items
 from .keywords import keyword_items
-from .numbers import number_items
 
 from .separators import separator_strings
 
@@ -28,6 +26,10 @@ from .util import make_form_with_metadata_str_builder
 #       repeat($._non_form),
 #       $._bare_map),
 
+marker = "#"
+open_delim = "{"
+close_delim = "}"
+
 # XXX: could also have stuff before and after delimiters
 def build_namespaced_map_str(namespaced_map_item):
     items = namespaced_map_item["inputs"]
@@ -39,7 +41,8 @@ def build_namespaced_map_str(namespaced_map_item):
     prefix = namespaced_map_item["prefix"]
     prefix_str = prefix["to_str"](prefix)
     #
-    return "#" + prefix_str + "{" + "".join(ns_map_elts) + "}"
+    return marker + prefix_str + \
+        open_delim + "".join(ns_map_elts) + close_delim
 
 def build_auto_res_marker_str(item):
     # this is just "::"
@@ -90,8 +93,9 @@ def namespaced_map_items(draw, elements=form_items(), metadata=False):
                 "verify": verify,
                 "prefix": prefix_item,
                 "separators": sep_strs,
-                "open": "{",
-                "close": "}"}
+                "marker": marker,
+                "open": open_delim,
+                "close": close_delim}
     else:
         str_builder = \
             make_form_with_metadata_str_builder(build_namespaced_map_str)
@@ -108,17 +112,6 @@ def namespaced_map_items(draw, elements=form_items(), metadata=False):
                 "prefix": prefix_item,
                 "metadata": md_items,
                 "separators": sep_strs,
-                "open": "{",
-                "close": "}"}
-
-@composite
-def number_namespaced_map_items(draw):
-    number_ns_map_item = draw(namespaced_map_items(elements=number_items()))
-    #
-    return number_ns_map_item
-
-@composite
-def atom_namespaced_map_items(draw):
-    atom_ns_map_item = draw(namespaced_map_items(elements=atom_items()))
-    #
-    return atom_ns_map_item
+                "marker": marker,
+                "open": open_delim,
+                "close": close_delim}
