@@ -46,6 +46,9 @@ __version__ = '0.0.1'
 #        only easy to run all tests
 #          leads to a lot of commenting / uncommenting
 #          fixed order leads to manual reordering
+#
+#     started using a settings profile.  may be multiple could be
+#     made to handle some / all of the above issues.
 
 # XXX: consider making the "verify" key's value a list of functions
 #      which are meant to be used for verification
