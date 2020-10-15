@@ -29,6 +29,8 @@ from .util import make_form_with_metadata_str_builder
 #       field('close', ")")),
 
 marker = "#?"
+open_delim = "("
+close_delim = ")"
 
 # XXX: could also have stuff before and after delimiters
 def build_read_cond_str(read_cond_item):
@@ -38,7 +40,7 @@ def build_read_cond_str(read_cond_item):
     for i, s in zip(items, seps):
         read_cond_elts += i["to_str"](i) + s
     # XXX: there can be whitespace between #? and (
-    return marker + "" + "(" + "".join(read_cond_elts) + ")"
+    return marker + "" + open_delim + "".join(read_cond_elts) + close_delim
 
 def verify(ctx, item):
     return verify_node_as_coll(ctx, item) and \
@@ -74,8 +76,8 @@ def read_cond_items(draw, metadata=False):
                 "verify": verify,
                 "separators": sep_strs,
                 "marker": marker,
-                "open": "(",
-                "close": ")"}
+                "open": open_delim,
+                "close": close_delim}
     else:
         str_builder = \
             make_form_with_metadata_str_builder(build_read_cond_str)
@@ -91,5 +93,5 @@ def read_cond_items(draw, metadata=False):
                 "metadata": md_items,
                 "separators": sep_strs,
                 "marker": marker,
-                "open": "(",
-                "close": ")"}
+                "open": open_delim,
+                "close": close_delim}

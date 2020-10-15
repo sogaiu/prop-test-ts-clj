@@ -5,25 +5,11 @@ from hypothesis.strategies import composite, one_of, recursive
 from .forms import form_items
 from .atoms import atom_items
 
-from .lists import atom_list_items, \
-    list_items
-from .maps import atom_map_items, \
-    map_items
-from .namespaced_maps import atom_namespaced_map_items, \
-    namespaced_map_items
-from .sets import atom_set_items, \
-    set_items
-from .vectors import atom_vector_items, \
-    vector_items
-
-@composite
-def atom_collection_items(draw):
-    atom_collection_item = draw(one_of(atom_list_items(),
-                                       atom_map_items(),
-                                       atom_namespaced_map_items(),
-                                       atom_set_items(),
-                                       atom_vector_items()))
-    return atom_collection_item
+from .lists import list_items
+from .maps import map_items
+from .namespaced_maps import namespaced_map_items
+from .sets import set_items
+from .vectors import vector_items
 
 # XXX: metadata support?
 @composite

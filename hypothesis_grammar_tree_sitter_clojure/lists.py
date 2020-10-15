@@ -24,6 +24,9 @@ from .util import make_form_with_metadata_str_builder
 #                     $._non_form)),
 #       field('close', ")")),
 
+open_delim = "("
+close_delim = ")"
+
 # XXX: could also have stuff before and after delimiters
 def build_list_str(list_item):
     items = list_item["inputs"]
@@ -31,7 +34,7 @@ def build_list_str(list_item):
     list_elts = []
     for i, s in zip(items, seps):
         list_elts += i["to_str"](i) + s
-    return "(" + "".join(list_elts) + ")"
+    return open_delim + "".join(list_elts) + close_delim
 
 @composite
 def list_items(draw, elements=form_items(), metadata=False):
@@ -52,8 +55,8 @@ def list_items(draw, elements=form_items(), metadata=False):
                 "to_str": build_list_str,
                 "verify": verify_node_as_coll,
                 "separators": sep_strs,
-                "open": "(",
-                "close": ")"}
+                "open": open_delim,
+                "close": close_delim}
     else:
         str_builder = make_form_with_metadata_str_builder(build_list_str)
         #
@@ -68,17 +71,6 @@ def list_items(draw, elements=form_items(), metadata=False):
                 "verify": verify_coll_node_with_metadata,
                 "metadata": md_items,
                 "separators": sep_strs,
-                "open": "(",
-                "close": ")"}
+                "open": open_delim,
+                "close": close_delim}
 
-@composite
-def number_list_items(draw):
-    number_list_item = draw(list_items(elements=number_items()))
-    #
-    return number_list_item
-
-@composite
-def atom_list_items(draw):
-    atom_list_item = draw(list_items(elements=atom_items()))
-    #
-    return atom_list_item

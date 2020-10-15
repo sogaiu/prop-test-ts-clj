@@ -25,6 +25,10 @@ from .util import make_form_with_metadata_str_builder
 #                     $._non_form)),
 #       field('close', "}")),
 
+marker = "#"
+open_delim = "{"
+close_delim = "}"
+
 # XXX: could also have stuff before and after delimiters
 def build_set_str(set_item):
     items = set_item["inputs"]
@@ -32,7 +36,7 @@ def build_set_str(set_item):
     set_elts = []
     for i, s in zip(items, seps):
         set_elts += i["to_str"](i) + s
-    return "#{" + "".join(set_elts) + "}"
+    return marker + open_delim + "".join(set_elts) + close_delim
 
 @composite
 def set_items(draw, elements=form_items(), metadata=False):
@@ -53,8 +57,8 @@ def set_items(draw, elements=form_items(), metadata=False):
                 "to_str": build_set_str,
                 "verify": verify_node_as_coll,
                 "separators": sep_strs,
-                "open": "{",
-                "close": "}"}
+                "open": open_delim,
+                "close": close_delim}
     else:
         str_builder = make_form_with_metadata_str_builder(build_set_str)
         #
@@ -69,17 +73,5 @@ def set_items(draw, elements=form_items(), metadata=False):
                 "verify": verify_coll_node_with_metadata,
                 "metadata": md_items,
                 "separators": sep_strs,
-                "open": "{",
-                "close": "}"}
-
-@composite
-def number_set_items(draw):
-    number_set_item = draw(set_items(elements=number_items()))
-    #
-    return number_set_item
-
-@composite
-def atom_set_items(draw):
-    atom_set_item = draw(set_items(elements=atom_items()))
-    #
-    return atom_set_item
+                "open": open_delim,
+                "close": close_delim}

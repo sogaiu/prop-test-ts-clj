@@ -24,6 +24,9 @@ from .util import make_form_with_metadata_str_builder
 #                     $._non_form)),
 #       field('close', "]")),
 
+open_delim = "["
+close_delim = "]"
+
 # XXX: could also have stuff before and after delimiters
 def build_vector_str(vector_item):
     items = vector_item["inputs"]
@@ -31,7 +34,7 @@ def build_vector_str(vector_item):
     vector_elts = []
     for i, s in zip(items, seps):
         vector_elts += i["to_str"](i) + s
-    return "[" + "".join(vector_elts) + "]"
+    return open_delim + "".join(vector_elts) + close_delim
 
 @composite
 def vector_items(draw, elements=form_items(), metadata=False):
@@ -52,8 +55,8 @@ def vector_items(draw, elements=form_items(), metadata=False):
                 "to_str": build_vector_str,
                 "verify": verify_node_as_coll,
                 "separators": sep_strs,
-                "open": "[",
-                "close": "]"}
+                "open": open_delim,
+                "close": close_delim}
     else:
         str_builder = make_form_with_metadata_str_builder(build_vector_str)
         #
@@ -68,17 +71,5 @@ def vector_items(draw, elements=form_items(), metadata=False):
                 "verify": verify_coll_node_with_metadata,
                 "metadata": md_items,
                 "separators": sep_strs,
-                "open": "[",
-                "close": "]"}
-
-@composite
-def number_vector_items(draw):
-    number_vector_item = draw(vector_items(elements=number_items()))
-    #
-    return number_vector_item
-
-@composite
-def atom_vector_items(draw):
-    atom_vector_item = draw(vector_items(elements=atom_items()))
-    #
-    return atom_vector_item
+                "open": open_delim,
+                "close": close_delim}

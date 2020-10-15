@@ -25,6 +25,8 @@ from .util import make_form_with_metadata_str_builder
 #       field('close', ")")),
 
 marker = "#"
+open_delim = "("
+close_delim = ")"
 
 # XXX: could also have stuff after delimiters
 def build_anon_func_str(anon_func_item):
@@ -33,7 +35,7 @@ def build_anon_func_str(anon_func_item):
     anon_func_elts = []
     for i, s in zip(items, seps):
         anon_func_elts += i["to_str"](i) + s
-    return marker + "(" + "".join(anon_func_elts) + ")"
+    return marker + open_delim + "".join(anon_func_elts) + close_delim
 
 def verify(ctx, item):
     return verify_node_as_coll(ctx, item) and \
@@ -64,8 +66,8 @@ def anon_func_items(draw, metadata=False):
                 "verify": verify,
                 "separators": sep_strs,
                 "marker": marker,
-                "open": "(",
-                "close": ")"}
+                "open": open_delim,
+                "close": close_delim}
     else:
         str_builder = make_form_with_metadata_str_builder(build_anon_func_str)
         #
@@ -81,5 +83,5 @@ def anon_func_items(draw, metadata=False):
                 "metadata": md_items,
                 "separators": sep_strs,
                 "marker": marker,
-                "open": "(",
-                "close": ")"}
+                "open": open_delim,
+                "close": close_delim}
