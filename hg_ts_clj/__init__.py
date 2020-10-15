@@ -8,16 +8,6 @@ __version__ = '0.0.1'
 #
 #        9df53ae75475e5bdbeb21cd297b8e3160f3b6ed8
 
-# XXX: try to figure out a way to decouple the verification bits from
-#      the creation of the rest of the item (which appears quite
-#      generic).  it might make sense to provide wrappers around the
-#      functions in verify.py and have the strategies reference those.
-#      so for example, instead of 'verify_node_as_coll' have
-#      'verify_as_coll' -- the point being to not expose the idea of
-#      of a node.  another approach might be to rename the verify
-#      functions to have names that don't leak certain concepts,
-#      for example, "node".
-
 # XXX: consider saving generated source strings to feed to a "jailed"
 #      clojure process (e.g. in a vm) and log which strings cause
 #      parsing issues.
