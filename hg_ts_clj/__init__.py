@@ -12,6 +12,11 @@ __version__ = '0.0.1'
 #      clojure process (e.g. in a vm) and log which strings cause
 #      parsing issues.
 
+# XXX: try to separate out tree-sitter-specific bits from strategies
+#      and figure out how to provide them generically.  e.g.
+#      any_character_items currently filters out null bytes, but
+#      this limitation is specific to tree-sitter
+
 # XXX: periodically go through source looking for comments related
 #      to unfinished or temporary bits
 
