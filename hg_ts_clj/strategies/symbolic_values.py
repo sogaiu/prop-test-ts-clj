@@ -4,11 +4,6 @@ from .symbols import symbol_items
 
 from ..verify.symbolic_values import verify
 
-# symbolic_value: $ =>
-#   seq(field('marker', "##"),
-#       repeat($._non_form),
-#       field('value', $.symbol)),
-
 marker = '##'
 
 def build_symbolic_value_str(item):
@@ -16,11 +11,6 @@ def build_symbolic_value_str(item):
     # XXX: there can be one or more non_forms between the marker and symbol...
     return marker + sym_item["to_str"](sym_item)
 
-# XXX: may want to move parts to:
-#
-#        hypothesis_grammar_clojure.<something>
-#
-#     at some point
 @composite
 def symbolic_value_items(draw):
     sym_val_str = draw(one_of(just("Inf"), just("-Inf"), just("NaN")))

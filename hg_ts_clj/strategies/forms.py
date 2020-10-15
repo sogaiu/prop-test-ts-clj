@@ -1,35 +1,5 @@
 from hypothesis.strategies import composite, one_of
 
-# _form: $ =>
-#   choice($.list,
-#          $.map,
-#          $.vector,
-#          // literals
-#          $.number,
-#          $.keyword,
-#          $.string,
-#          $.character,
-#          $.nil,
-#          $.boolean,
-#          $.symbol,
-#          // dispatch reader macros
-#          $.set,
-#          $.anon_func,
-#          $.regex,
-#          $.read_cond,
-#          $.read_cond_splicing,
-#          $.namespaced_map,
-#          $.var_quote_form,
-#          $.symbolic_value,
-#          $.eval_form,
-#          $.tagged_literal,
-#          // other reader macros
-#          $.syntax_quote_form,
-#          $.quote_form,
-#          $.unquote_splicing_form,
-#          $.unquote_form,
-#          $.deref_form),
-
 # XXX: support metadata?
 @composite
 def form_items(draw):

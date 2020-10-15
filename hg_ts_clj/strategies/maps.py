@@ -12,16 +12,6 @@ from ..verify.maps import verify, \
 
 from .util import make_form_with_metadata_str_builder
 
-# map: $ =>
-#   seq(repeat($._metadata),
-#       $._bare_map),
-#
-# _bare_map: $ =>
-#   seq(field('open', "{"),
-#       repeat(choice(field('value', $._form),
-#                     $._non_form)),
-#       field('close', "}")),
-
 open_delim = "{"
 close_delim = "}"
 

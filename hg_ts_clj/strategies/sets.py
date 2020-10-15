@@ -12,17 +12,6 @@ from ..verify.sets import verify, \
 
 from .util import make_form_with_metadata_str_builder
 
-# set: $ =>
-#   seq(repeat($._metadata),
-#       $._bare_set),
-#
-# _bare_set: $ =>
-#   seq(field('marker', "#"),
-#       field('open', "{"),
-#       repeat(choice(field('value', $._form),
-#                     $._non_form)),
-#       field('close', "}")),
-
 marker = "#"
 open_delim = "{"
 close_delim = "}"

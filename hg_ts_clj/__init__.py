@@ -15,9 +15,6 @@ __version__ = '0.0.1'
 # XXX: periodically go through source looking for comments related
 #      to unfinished or temporary bits
 
-# XXX: reminder that grammar is in flux so pasted in info in comments
-#      needs to be kept up-to-date.
-
 # XXX: write up details on what exactly is being tested and what things
 #      are not being tested
 #

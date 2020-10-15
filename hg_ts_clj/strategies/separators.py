@@ -7,11 +7,6 @@ from .whitespace import whitespace_items
 from .comments import comment_items
 from .discard_exprs import discard_expr_items
 
-# _non_form: $ =>
-#   choice($._whitespace,
-#          $.comment,
-#          $.discard_expr),
-
 @composite
 def whitespace_strings(draw):
     ws_item = draw(whitespace_items())

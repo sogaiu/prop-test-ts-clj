@@ -9,13 +9,6 @@ from hypothesis_grammar_clojure.characters \
 
 from ..verify.characters import verify
 
-# const CHARACTER =
-#       token(seq("\\",
-#                 choice(OCTAL_CHAR,
-#                        NAMED_CHAR,
-#                        UNICODE,
-#                        ANY_CHAR)));
-
 def build_chr_str(item):
     return item["inputs"]
 

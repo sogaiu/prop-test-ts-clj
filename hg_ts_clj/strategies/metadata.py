@@ -13,24 +13,6 @@ from .separators import separator_strings
 from ..verify.metadata_atom import verify as verify_atom
 from ..verify.metadata_coll import verify as verify_coll
 
-# metadata: $ =>
-#   seq(field('marker', "^"),
-#       repeat($._non_form),
-#       field('value', choice($.read_cond,
-#                             $.map,
-#                             $.string,
-#                             $.keyword,
-#                             $.symbol))),
-
-# old_metadata: $ =>
-#   seq(field('marker', "#^"),
-#       repeat($._non_form),
-#       field('value', choice($.read_cond,
-#                             $.map,
-#                             $.string,
-#                             $.keyword,
-#                             $.symbol))),
-
 marker_for_label = \
     {"metadata": "^",
      "old_metadata": '#^'}
@@ -64,7 +46,6 @@ def keyword_metadata_items(draw, label="metadata"):
 
 @composite
 def map_metadata_items(draw, label="metadata"):
-    # XXX: needs generalization?
     map_item = draw(map_items())
     #
     return {"inputs": map_item,

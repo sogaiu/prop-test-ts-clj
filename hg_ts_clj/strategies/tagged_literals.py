@@ -17,18 +17,6 @@ from .util import make_form_with_metadata_str_builder
 
 marker = '#'
 
-# tagged_literal: $ =>
-#   seq(repeat($._metadata),
-#       field('marker', "#"),
-#       // # uuid "00000000-0000-0000-0000-000000000000"
-#       // # #_ 1 uuid "00000000-0000-0000-0000-000000000000"
-#       // etc.
-#       repeat($._non_form),
-#       // # ^:a uuid "00000000-0000-0000-0000-000000000000"
-#       field('tag', $.symbol),
-#       repeat($._non_form),
-#       field('value', choice($._form))),
-
 # XXX: could also have stuff before and after delimiters
 def build_tagged_literal_str(tagged_literal_item):
     form_item = tagged_literal_item["inputs"]
@@ -43,11 +31,6 @@ def build_tagged_literal_str(tagged_literal_item):
     #return "#" + seps[0] + tag_str + seps[1] + form_str
     return marker + tag_str + " " + form_str
 
-# XXX: may want to move parts to:
-#
-#        hypothesis_grammar_clojure.<something>
-#
-#     at some point
 @composite
 def tag_items(draw):
     # XXX: symbol with metadata should be possible too...

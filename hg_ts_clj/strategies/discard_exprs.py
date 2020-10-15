@@ -2,11 +2,6 @@ from hypothesis.strategies import composite
 
 from ..verify.discard_exprs import verify
 
-# discard_expr: $ =>
-#   seq(field('marker', "#_"),
-#       repeat($._non_form),
-#       field('value', $._form)),
-
 marker = '#_'
 
 def build_discard_expr_str(item):

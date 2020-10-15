@@ -5,14 +5,6 @@ from hypothesis_grammar_clojure.strings \
 
 from ..verify.strings import verify
 
-# const STRING =
-#       token(seq('"',
-#                 repeat(/[^"\\]/),
-#                 repeat(seq("\\",
-#                            /./,
-#                            repeat(/[^"\\]/))),
-#                 '"'));
-
 def build_string_str(item):
     return item["inputs"]
 

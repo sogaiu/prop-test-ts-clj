@@ -14,17 +14,6 @@ from ..verify.namespaced_maps import verify, \
 
 from .util import make_form_with_metadata_str_builder
 
-# auto_res_marker: $ =>
-#   AUTO_RESOLVE_MARKER,
-#
-# namespaced_map: $ =>
-#   seq(repeat($._metadata),
-#       field('marker', "#"),
-#       field('prefix', choice($.auto_res_marker,
-#                              $.keyword)),
-#       repeat($._non_form),
-#       $._bare_map),
-
 marker = "#"
 open_delim = "{"
 close_delim = "}"

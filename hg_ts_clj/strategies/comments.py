@@ -5,9 +5,6 @@ from hypothesis_grammar_clojure.comments \
 
 from ..verify.comments import verify
 
-# comment: $ =>
-#   token(/(;|(#!)).*/),
-
 def build_comment_str(item):
     return item["inputs"]
 

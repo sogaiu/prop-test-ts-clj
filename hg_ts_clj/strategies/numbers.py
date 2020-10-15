@@ -10,15 +10,6 @@ from hypothesis_grammar_clojure.numbers \
 
 from ..verify.numbers import verify
 
-# const NUMBER =
-#       token(seq(optional(/[+-]/),
-#                 choice(HEX_NUMBER,
-#                        OCTAL_NUMBER,
-#                        RADIX_NUMBER,
-#                        RATIO,
-#                        DOUBLE,
-#                        INTEGER)));
-
 def build_num_str(item):
     return item["inputs"]
 

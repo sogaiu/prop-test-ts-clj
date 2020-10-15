@@ -12,17 +12,6 @@ from ..verify.anon_funcs import verify, \
 
 from .util import make_form_with_metadata_str_builder
 
-# anon_func: $ =>
-#   seq(repeat($._metadata),
-#       field('marker', "#"),
-#       $._bare_list),
-#
-# _bare_list: $ =>
-#   seq(field('open', "("),
-#       repeat(choice(field('value', $._form),
-#                     $._non_form)),
-#       field('close', ")")),
-
 marker = "#"
 open_delim = "("
 close_delim = ")"
@@ -35,14 +24,6 @@ def build_anon_func_str(anon_func_item):
     for i, s in zip(items, seps):
         anon_func_elts += i["to_str"](i) + s
     return marker + open_delim + "".join(anon_func_elts) + close_delim
-
-# def verify(ctx, item):
-#     return verify_node_as_coll(ctx, item) and \
-#         verify_node_marker(ctx, item)
-
-# def verify_with_metadata(ctx, item):
-#     return verify_coll_node_with_metadata(ctx, item) and \
-#         verify_node_marker(ctx, item)
 
 @composite
 def anon_func_items(draw, metadata=False):

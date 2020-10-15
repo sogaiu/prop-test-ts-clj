@@ -10,12 +10,6 @@ from ..verify.quote_forms import verify, \
 
 from .util import make_form_with_metadata_str_builder
 
-# quote_form: $ =>
-#   seq(repeat($._metadata),
-#       field('marker', "'"),
-#       repeat($._non_form),
-#       field('value', $._form)),
-
 marker = "'"
 
 # XXX: there is one separator of interest and that is potentially

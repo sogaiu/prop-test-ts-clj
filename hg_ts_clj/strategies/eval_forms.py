@@ -14,15 +14,6 @@ from ..verify.eval_forms import verify, \
 
 from .util import make_form_with_metadata_str_builder
 
-# eval_form: $ =>
-#   seq(repeat($._metadata), // ^:x #=(vector 1)
-#       field('marker', "#="),
-#       repeat($._non_form),
-#       field('value', choice($.list,
-#                             $.read_cond,
-#                             // #= ^:a java.lang.String
-#                             $.symbol))),
-
 marker = '#='
 
 # XXX: there is one separator of interest and that is potentially

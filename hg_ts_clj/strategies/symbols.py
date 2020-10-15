@@ -12,17 +12,6 @@ from ..verify.symbols import verify, \
 
 from .util import make_form_with_metadata_str_builder
 
-# const SYMBOL =
-#       token(seq(SYMBOL_HEAD,
-#                 repeat(SYMBOL_BODY)));
-
-# _bare_symbol: $ =>
-#   SYMBOL,
-
-# symbol: $ =>
-#   seq(repeat($._metadata),
-#       $._bare_symbol),
-
 def build_sym_str(item):
     return item["inputs"]
 
