@@ -247,18 +247,6 @@ def test_parses_atom(atom_item):
 def test_parses_list(list_item):
     form_test(list_item)
 
-@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
-                                               HealthCheck.filter_too_much])
-@given(number_list_items())
-def test_parses_number_list(num_list_item):
-    form_test(num_list_item)
-
-@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
-                                               HealthCheck.filter_too_much])
-@given(atom_list_items())
-def test_parses_atom_list(atom_list_item):
-    form_test(atom_list_item)
-
 ## vectors
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
@@ -266,18 +254,6 @@ def test_parses_atom_list(atom_list_item):
 @given(vector_items())
 def test_parses_vector(vector_item):
     form_test(vector_item)
-
-@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
-                                               HealthCheck.filter_too_much])
-@given(number_vector_items())
-def test_parses_number_vector(num_vector_item):
-    form_test(num_vector_item)
-
-@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
-                                               HealthCheck.filter_too_much])
-@given(atom_vector_items())
-def test_parses_atom_vector(atom_vector_item):
-    form_test(atom_vector_item)
 
 ## maps
 
@@ -287,18 +263,6 @@ def test_parses_atom_vector(atom_vector_item):
 def test_parses_map(map_item):
     form_test(map_item)
 
-@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
-                                               HealthCheck.filter_too_much])
-@given(number_map_items())
-def test_parses_number_map(num_map_item):
-    form_test(num_map_item)
-
-@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
-                                               HealthCheck.filter_too_much])
-@given(atom_map_items())
-def test_parses_atom_map(atom_map_item):
-    form_test(atom_map_item)
-
 ## namespaced maps
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
@@ -306,18 +270,6 @@ def test_parses_atom_map(atom_map_item):
 @given(namespaced_map_items())
 def test_parses_namespaced_map(namespaced_map_item):
     form_test(namespaced_map_item)
-
-@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
-                                               HealthCheck.filter_too_much])
-@given(number_namespaced_map_items())
-def test_parses_number_namespaced_map(num_namespaced_map_item):
-    form_test(num_namespaced_map_item)
-
-@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
-                                               HealthCheck.filter_too_much])
-@given(atom_namespaced_map_items())
-def test_parses_atom_namespaced_map(atom_namespaced_map_item):
-    form_test(atom_namespaced_map_item)
 
 ## sets
 
@@ -327,18 +279,6 @@ def test_parses_atom_namespaced_map(atom_namespaced_map_item):
 def test_parses_set(set_item):
     form_test(set_item)
 
-@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
-                                               HealthCheck.filter_too_much])
-@given(number_set_items())
-def test_parses_number_set(num_set_item):
-    form_test(num_set_item)
-
-@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
-                                               HealthCheck.filter_too_much])
-@given(atom_set_items())
-def test_parses_atom_set(atom_set_item):
-    form_test(atom_set_item)
-
 ## collections
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
@@ -346,12 +286,6 @@ def test_parses_atom_set(atom_set_item):
 @given(collection_items())
 def test_parses_collection(collection_item):
     form_test(collection_item)
-
-@settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
-                                               HealthCheck.filter_too_much])
-@given(atom_collection_items())
-def test_parses_atom_collection(atom_collection_item):
-    form_test(atom_collection_item)
 
 @settings(verbosity=vb, suppress_health_check=[HealthCheck.too_slow,
                                                HealthCheck.filter_too_much])
@@ -586,26 +520,11 @@ if __name__ == "__main__":
     test_parses_atom()
     #
     test_parses_list()
-    test_parses_number_list()
-    test_parses_atom_list()
-    #
-    test_parses_vector()
-    test_parses_number_vector()
-    test_parses_atom_vector()
-    #
     test_parses_map()
-    test_parses_number_map()
-    test_parses_atom_map()
-    #
-    test_parses_namespaced_map()
-    test_parses_number_namespaced_map()
-    test_parses_atom_namespaced_map()
-    #
+    test_parses_vector()
     test_parses_set()
-    test_parses_number_set()
-    test_parses_atom_set()
+    test_parses_namespaced_map()
     #
-    test_parses_atom_collection()
     test_parses_recursive_collection()
     #
     test_parses_reader_conditional()
