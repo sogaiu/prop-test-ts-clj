@@ -52,9 +52,6 @@ __version__ = '0.0.1'
 #     started using a settings profile.  may be multiple could be
 #     made to handle some / all of the above issues.
 
-# XXX: consider making the "verify" key's value a list of functions
-#      which are meant to be used for verification
-
 # XXX: write up some notes on naming.  could cover terms such as:
 #
 #        marker (meaning things like "#_", "##", etc.)
