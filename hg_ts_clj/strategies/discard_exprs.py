@@ -1,8 +1,10 @@
 from hypothesis.strategies import composite
 
-from .loader import get_fns
+from .loader import verify_fns, label_for
 import os
-verify, _ = get_fns(os.path.basename(__file__))
+name = os.path.splitext(os.path.basename(__file__))[0]
+verify, _ = verify_fns(name)
+label = label_for(name)
 
 marker = '#_'
 
@@ -21,7 +23,7 @@ def discard_expr_items(draw):
     form_item = draw(form_items())
     #
     return {"inputs": form_item,
-            "label": "discard_expr",
+            "label": label,
             "to_str": build_discard_expr_str,
             "verify": verify,
             "marker": marker}

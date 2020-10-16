@@ -10,9 +10,11 @@ from .forms import form_items
 
 from .separators import separator_strings
 
-from .loader import get_fns
+from .loader import verify_fns, label_for
 import os
-verify, verify_with_metadata = get_fns(os.path.basename(__file__))
+name = os.path.splitext(os.path.basename(__file__))[0]
+verify, verify_with_metadata = verify_fns(name)
+label = label_for(name)
 
 from .util import make_form_with_metadata_str_builder
 
@@ -59,9 +61,9 @@ def tag_items(draw):
 @composite
 def tagged_literal_items(draw, metadata=False):
     # avoid circular dependency
-    from .metadata import metadata_items, check_metadata_param
+    from .metadata import metadata_items, check_metadata_flavor
     #
-    check_metadata_param(metadata)
+    check_metadata_flavor(metadata)
     #
     form_item = draw(form_items())
     #
@@ -71,7 +73,7 @@ def tagged_literal_items(draw, metadata=False):
                           min_size=2, max_size=2))
     if not metadata:
         return {"inputs": form_item,
-                "label": "tagged_literal",
+                "label": label,
                 "to_str": build_tagged_literal_str,
                 "verify": verify,
                 "tag": tag_item,
@@ -83,11 +85,11 @@ def tagged_literal_items(draw, metadata=False):
         #
         n = draw(integers(min_value=1, max_value=metadata_max))
         #
-        md_items = draw(lists(elements=metadata_items(),
+        md_items = draw(lists(elements=metadata_items(flavor=metadata),
                               min_size=n, max_size=n))
         #
         return {"inputs": form_item,
-                "label": "tagged_literal",
+                "label": label,
                 "to_str": str_builder,
                 "verify": verify_with_metadata,
                 "tag": tag_item,

@@ -7,9 +7,11 @@ from hypothesis_grammar_clojure.symbols \
     import unqualified_symbol_as_str, \
            qualified_symbol_as_str
 
-from .loader import get_fns
+from .loader import verify_fns, label_for
 import os
-verify, verify_with_metadata = get_fns(os.path.basename(__file__))
+name = os.path.splitext(os.path.basename(__file__))[0]
+verify, verify_with_metadata = verify_fns(name)
+label = label_for(name)
 
 from .util import make_form_with_metadata_str_builder
 
@@ -21,7 +23,7 @@ def unqualified_symbol_items(draw):
     sym_str = draw(unqualified_symbol_as_str())
     #
     return {"inputs": sym_str,
-            "label": "symbol",
+            "label": label,
             "to_str": build_sym_str,
             "verify": verify}
 
@@ -30,16 +32,16 @@ def qualified_symbol_items(draw):
     sym_str = draw(qualified_symbol_as_str())
     #
     return {"inputs": sym_str,
-            "label": "symbol",
+            "label": label,
             "to_str": build_sym_str,
             "verify": verify}
 
 @composite
 def symbol_items(draw, metadata=False):
     # avoid circular dependency
-    from .metadata import metadata_items, check_metadata_param
+    from .metadata import metadata_items, check_metadata_flavor
     #
-    check_metadata_param(metadata)
+    check_metadata_flavor(metadata)
     #
     sym_item = draw(one_of(unqualified_symbol_items(),
                            qualified_symbol_items()))
@@ -55,11 +57,11 @@ def symbol_items(draw, metadata=False):
         n = draw(integers(min_value=1, max_value=metadata_max))
         #
         md_items = \
-            draw(lists(elements=metadata_items(label=metadata),
+            draw(lists(elements=metadata_items(flavor=metadata),
                        min_size=n, max_size=n))
         #
         return {"inputs": sym_str,
-                "label": "symbol",
+                "label": label,
                 "to_str": str_builder,
                 "verify": verify_with_metadata,
                 "metadata": md_items}

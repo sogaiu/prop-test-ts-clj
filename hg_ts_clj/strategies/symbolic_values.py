@@ -2,9 +2,11 @@ from hypothesis.strategies import composite, just, one_of
 
 from .symbols import symbol_items
 
-from .loader import get_fns
+from .loader import verify_fns, label_for
 import os
-verify, _ = get_fns(os.path.basename(__file__))
+name = os.path.splitext(os.path.basename(__file__))[0]
+verify, _ = verify_fns(name)
+label = label_for(name)
 
 marker = '##'
 
@@ -22,7 +24,7 @@ def symbolic_value_items(draw):
     sym_item["inputs"] = sym_val_str
     #
     return {"inputs": sym_item,
-            "label": "symbolic_value",
+            "label": label,
             "to_str": build_symbolic_value_str,
             "verify": verify,
             "marker": marker}

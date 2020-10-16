@@ -8,9 +8,11 @@ from hypothesis_grammar_clojure.numbers \
            double_as_str, \
            integer_as_str
 
-from .loader import get_fns
+from .loader import verify_fns, label_for
 import os
-verify, _ = get_fns(os.path.basename(__file__))
+name = os.path.splitext(os.path.basename(__file__))[0]
+verify, _ = verify_fns(name)
+label = label_for(name)
 
 def build_num_str(item):
     return item["inputs"]
@@ -20,7 +22,7 @@ def hex_number_items(draw):
     num_str = draw(hex_number_as_str())
     #
     return {"inputs": num_str,
-            "label": "number",
+            "label": label,
             "to_str": build_num_str,
             "verify": verify}
 
@@ -29,7 +31,7 @@ def octal_number_items(draw):
     num_str = draw(octal_number_as_str())
     #
     return {"inputs": num_str,
-            "label": "number",
+            "label": label,
             "to_str": build_num_str,
             "verify": verify}
 
@@ -38,7 +40,7 @@ def radix_number_items(draw):
     num_str = draw(radix_number_as_str())
     #
     return {"inputs": num_str,
-            "label": "number",
+            "label": label,
             "to_str": build_num_str,
             "verify": verify}
 
@@ -47,7 +49,7 @@ def ratio_items(draw):
     num_str = draw(ratio_as_str())
     #
     return {"inputs": num_str,
-            "label": "number",
+            "label": label,
             "to_str": build_num_str,
             "verify": verify}
 
@@ -56,7 +58,7 @@ def double_items(draw):
     num_str = draw(double_as_str())
     #
     return {"inputs": num_str,
-            "label": "number",
+            "label": label,
             "to_str": build_num_str,
             "verify": verify}
 
@@ -65,7 +67,7 @@ def integer_items(draw):
     num_str = draw(integer_as_str())
     #
     return {"inputs": num_str,
-            "label": "number",
+            "label": label,
             "to_str": build_num_str,
             "verify": verify}
 

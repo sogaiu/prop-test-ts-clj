@@ -10,13 +10,20 @@ from .symbols import symbol_items
 
 from .separators import separator_strings
 
-from .loader import get_fns
-verify_atom, _ = get_fns("metadata_atom")
-verify_coll, _ = get_fns("metadata_coll")
+from .loader import verify_fns, label_for
+verify_atom, _ = verify_fns("metadata_atom")
+verify_coll, _ = verify_fns("metadata_coll")
+md_label = label_for("metadata")
+old_md_label = label_for("old_metadata")
+# XXX: kind of hacky...
+if md_label is None:
+    md_label = "metadata"
+if old_md_label is None:
+    old_md_label = "old_metadata"
 
 marker_for_label = \
-    {"metadata": "^",
-     "old_metadata": '#^'}
+    {md_label: "^",
+     old_md_label: '#^'}
 
 # XXX: there is one separator of interest and that is potentially
 #      between ^ / #^ and the rest of the form.  the default here is
@@ -35,7 +42,7 @@ def attach_metadata(metadata_strs, metadatee_str):
 
 # XXX: only non-auto-resolved-keywords are valid
 @composite
-def keyword_metadata_items(draw, label="metadata"):
+def keyword_metadata_items(draw, label=md_label):
     keyword_item = draw(one_of(unqualified_keyword_items(),
                                qualified_keyword_items()))
     #
@@ -46,7 +53,7 @@ def keyword_metadata_items(draw, label="metadata"):
             "marker": marker_for_label[label]}
 
 @composite
-def map_metadata_items(draw, label="metadata"):
+def map_metadata_items(draw, label=md_label):
     map_item = draw(map_items())
     #
     return {"inputs": map_item,
@@ -56,7 +63,7 @@ def map_metadata_items(draw, label="metadata"):
             "marker": marker_for_label[label]}
 
 @composite
-def read_cond_metadata_items(draw, label="metadata"):
+def read_cond_metadata_items(draw, label=md_label):
     read_cond_item = draw(read_cond_items())
     #
     return {"inputs": read_cond_item,
@@ -66,7 +73,7 @@ def read_cond_metadata_items(draw, label="metadata"):
             "marker": marker_for_label[label]}
 
 @composite
-def string_metadata_items(draw, label="metadata"):
+def string_metadata_items(draw, label=md_label):
     string_item = draw(string_items())
     #
     return {"inputs": string_item,
@@ -76,7 +83,7 @@ def string_metadata_items(draw, label="metadata"):
             "marker": marker_for_label[label]}
 
 @composite
-def symbol_metadata_items(draw, label="metadata"):
+def symbol_metadata_items(draw, label=md_label):
     symbol_item = draw(symbol_items())
     #
     return {"inputs": symbol_item,
@@ -86,12 +93,12 @@ def symbol_metadata_items(draw, label="metadata"):
             "marker": marker_for_label[label]}
 
 @composite
-def metadata_items(draw, label="metadata"):
-    if label == "any":
-        label = draw(one_of(just("metadata"),
-                            just("old_metadata")))
+def metadata_items(draw, flavor="metadata"):
+    if flavor == "any":
+        label = draw(one_of(just(md_label),
+                            just(old_md_label)))
     #
-    assert label in ["metadata", "old_metadata"], \
+    assert label in [md_label, old_md_label], \
         f'unexpected label value: {label}'
     #
     metadata_item = \
@@ -102,6 +109,8 @@ def metadata_items(draw, label="metadata"):
                     symbol_metadata_items(label=label)))
     return metadata_item
 
-def check_metadata_param(metadata):
+def check_metadata_flavor(metadata):
+    # n.b. some strings here coincide with what tree-sitter-clojure
+    #      uses, but that is a "coincidence"
     assert metadata in ["any", "metadata", "old_metadata", False, None], \
         f'unexepected metadata specifier: {metadata}'

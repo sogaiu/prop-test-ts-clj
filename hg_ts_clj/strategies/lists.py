@@ -7,9 +7,11 @@ from .forms import form_items
 
 from .separators import separator_strings
 
-from .loader import get_fns
+from .loader import verify_fns, label_for
 import os
-verify, verify_with_metadata = get_fns(os.path.basename(__file__))
+name = os.path.splitext(os.path.basename(__file__))[0]
+verify, verify_with_metadata = verify_fns(name)
+label = label_for(name)
 
 from .util import make_form_with_metadata_str_builder
 
@@ -28,9 +30,9 @@ def build_list_str(list_item):
 @composite
 def list_items(draw, elements=form_items(), metadata=False):
     # avoid circular dependency
-    from .metadata import metadata_items, check_metadata_param
+    from .metadata import metadata_items, check_metadata_flavor
     #
-    check_metadata_param(metadata)
+    check_metadata_flavor(metadata)
     #
     n = draw(integers(min_value=0, max_value=coll_max))
     #
@@ -40,7 +42,7 @@ def list_items(draw, elements=form_items(), metadata=False):
                           min_size=n, max_size=n))
     if not metadata:
         return {"inputs": items,
-                "label": "list",
+                "label": label,
                 "to_str": build_list_str,
                 "verify": verify,
                 "separators": sep_strs,
@@ -51,11 +53,11 @@ def list_items(draw, elements=form_items(), metadata=False):
         #
         m = draw(integers(min_value=1, max_value=metadata_max))
         #
-        md_items = draw(lists(elements=metadata_items(),
+        md_items = draw(lists(elements=metadata_items(flavor=metadata),
                               min_size=m, max_size=m))
         #
         return {"inputs": items,
-                "label": "list",
+                "label": label,
                 "to_str": str_builder,
                 "verify": verify_with_metadata,
                 "metadata": md_items,

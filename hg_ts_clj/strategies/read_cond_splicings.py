@@ -10,9 +10,11 @@ from .keywords import keyword_items
 
 from .separators import separator_strings
 
-from .loader import get_fns
+from .loader import verify_fns, label_for
 import os
-verify, verify_with_metadata = get_fns(os.path.basename(__file__))
+name = os.path.splitext(os.path.basename(__file__))[0]
+verify, verify_with_metadata = verify_fns(name)
+label = label_for(name)
 
 from .util import make_form_with_metadata_str_builder
 
@@ -34,7 +36,9 @@ def build_read_cond_splicing_str(read_cond_splicing_item):
 @composite
 def read_cond_splicing_items(draw, metadata=False):
     # avoid circular dependency
-    from .metadata import metadata_items, check_metadata_param
+    from .metadata import metadata_items, check_metadata_flavor
+    #
+    check_metadata_flavor(metadata)
     #
     n = draw(integers(min_value=0, max_value=floor(coll_max/2)))
     # XXX: may be auto-resolved are not allowed?
@@ -51,7 +55,7 @@ def read_cond_splicing_items(draw, metadata=False):
              for item in pair]
     if not metadata:
         return {"inputs": items,
-                "label": "read_cond_splicing",
+                "label": label,
                 "to_str": build_read_cond_splicing_str,
                 "verify": verify,
                 "separators": sep_strs,
@@ -64,11 +68,11 @@ def read_cond_splicing_items(draw, metadata=False):
         #
         m = draw(integers(min_value=1, max_value=metadata_max))
         #
-        md_items = draw(lists(elements=metadata_items(),
+        md_items = draw(lists(elements=metadata_items(flavor=metadata),
                               min_size=m, max_size=m))
         #
         return {"inputs": items,
-                "label": "read_cond_splicing",
+                "label": label,
                 "to_str": str_builder,
                 "verify": verify_with_metadata,
                 "metadata": md_items,

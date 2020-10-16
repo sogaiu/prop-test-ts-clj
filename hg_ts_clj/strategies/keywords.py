@@ -6,9 +6,11 @@ from hypothesis_grammar_clojure.keywords \
            qualified_auto_resolved_keyword_as_str, \
            qualified_keyword_as_str
 
-from .loader import get_fns
+from .loader import verify_fns, label_for
 import os
-verify, _ = get_fns(os.path.basename(__file__))
+name = os.path.splitext(os.path.basename(__file__))[0]
+verify, _ = verify_fns(name)
+label = label_for(name)
 
 def build_kwd_str(item):
     return item["inputs"]
@@ -18,7 +20,7 @@ def unqualified_auto_resolved_keyword_items(draw):
     kwd_str = draw(unqualified_auto_resolved_keyword_as_str())
     #
     return {"inputs": kwd_str,
-            "label": "keyword",
+            "label": label,
             "to_str": build_kwd_str,
             "verify": verify}
 
@@ -27,7 +29,7 @@ def unqualified_keyword_items(draw):
     kwd_str = draw(unqualified_keyword_as_str())
     #
     return {"inputs": kwd_str,
-            "label": "keyword",
+            "label": label,
             "to_str": build_kwd_str,
             "verify": verify}
 
@@ -36,7 +38,7 @@ def qualified_auto_resolved_keyword_items(draw):
     kwd_str = draw(qualified_auto_resolved_keyword_as_str())
     #
     return {"inputs": kwd_str,
-            "label": "keyword",
+            "label": label,
             "to_str": build_kwd_str,
             "verify": verify}
 
@@ -45,7 +47,7 @@ def qualified_keyword_items(draw):
     kwd_str = draw(qualified_keyword_as_str())
     #
     return {"inputs": kwd_str,
-            "label": "keyword",
+            "label": label,
             "to_str": build_kwd_str,
             "verify": verify}
 
