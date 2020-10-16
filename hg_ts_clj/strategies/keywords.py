@@ -6,7 +6,9 @@ from hypothesis_grammar_clojure.keywords \
            qualified_auto_resolved_keyword_as_str, \
            qualified_keyword_as_str
 
-from ..verify.keywords import verify
+from .loader import get_fns
+import os
+verify, _ = get_fns(os.path.basename(__file__))
 
 def build_kwd_str(item):
     return item["inputs"]

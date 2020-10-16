@@ -2,7 +2,9 @@ from hypothesis.strategies import composite
 
 from .strings import string_items
 
-from ..verify.regex import verify
+from .loader import get_fns
+import os
+verify, _ = get_fns(os.path.basename(__file__))
 
 marker = '#'
 

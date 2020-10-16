@@ -2,7 +2,9 @@ from hypothesis.strategies import composite, just, one_of
 
 from .symbols import symbol_items
 
-from ..verify.symbolic_values import verify
+from .loader import get_fns
+import os
+verify, _ = get_fns(os.path.basename(__file__))
 
 marker = '##'
 

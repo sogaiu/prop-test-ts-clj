@@ -7,8 +7,9 @@ from .forms import form_items
 
 from .separators import separator_strings
 
-from ..verify.anon_funcs import verify, \
-    verify_with_metadata
+from .loader import get_fns
+import os
+verify, verify_with_metadata = get_fns(os.path.basename(__file__))
 
 from .util import make_form_with_metadata_str_builder
 

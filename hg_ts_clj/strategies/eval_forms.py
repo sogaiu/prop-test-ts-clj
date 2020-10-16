@@ -9,8 +9,9 @@ from .lists import list_items
 from .read_conds import read_cond_items
 from .symbols import symbol_items
 
-from ..verify.eval_forms import verify, \
-    verify_with_metadata
+from .loader import get_fns
+import os
+verify, verify_with_metadata = get_fns(os.path.basename(__file__))
 
 from .util import make_form_with_metadata_str_builder
 

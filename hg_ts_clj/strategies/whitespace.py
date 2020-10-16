@@ -3,7 +3,9 @@ from hypothesis.strategies import composite
 from hypothesis_grammar_clojure.whitespace \
     import whitespace_as_str
 
-from ..verify.whitespace import verify
+from .loader import get_fns
+import os
+verify, _ = get_fns(os.path.basename(__file__))
 
 def build_whitespace_str(item):
     return item["inputs"]

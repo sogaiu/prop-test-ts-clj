@@ -3,7 +3,9 @@ from hypothesis.strategies import composite
 from hypothesis_grammar_clojure.comments \
     import comment_as_str
 
-from ..verify.comments import verify
+from .loader import get_fns
+import os
+verify, _ = get_fns(os.path.basename(__file__))
 
 def build_comment_str(item):
     return item["inputs"]

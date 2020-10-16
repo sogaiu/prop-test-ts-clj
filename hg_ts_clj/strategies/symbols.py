@@ -7,8 +7,9 @@ from hypothesis_grammar_clojure.symbols \
     import unqualified_symbol_as_str, \
            qualified_symbol_as_str
 
-from ..verify.symbols import verify, \
-    verify_with_metadata
+from .loader import get_fns
+import os
+verify, verify_with_metadata = get_fns(os.path.basename(__file__))
 
 from .util import make_form_with_metadata_str_builder
 

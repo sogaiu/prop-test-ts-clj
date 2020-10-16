@@ -10,8 +10,9 @@ from .symbols import symbol_items
 
 from .separators import separator_strings
 
-from ..verify.metadata_atom import verify as verify_atom
-from ..verify.metadata_coll import verify as verify_coll
+from .loader import get_fns
+verify_atom, _ = get_fns("metadata_atom")
+verify_coll, _ = get_fns("metadata_coll")
 
 marker_for_label = \
     {"metadata": "^",

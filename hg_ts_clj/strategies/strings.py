@@ -3,7 +3,9 @@ from hypothesis.strategies import composite
 from hypothesis_grammar_clojure.strings \
     import string_as_str
 
-from ..verify.strings import verify
+from .loader import get_fns
+import os
+verify, _ = get_fns(os.path.basename(__file__))
 
 def build_string_str(item):
     return item["inputs"]

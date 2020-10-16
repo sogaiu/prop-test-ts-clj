@@ -7,7 +7,9 @@ from hypothesis_grammar_clojure.characters \
            octal_character_as_str, \
            unicode_quad_character_as_str
 
-from ..verify.characters import verify
+from .loader import get_fns
+import os
+verify, _ = get_fns(os.path.basename(__file__))
 
 def build_chr_str(item):
     return item["inputs"]

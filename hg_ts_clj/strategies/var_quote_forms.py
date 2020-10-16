@@ -5,8 +5,9 @@ from .parameters import metadata_max
 
 from .forms import form_items
 
-from ..verify.var_quote_forms import verify, \
-    verify_with_metadata
+from .loader import get_fns
+import os
+verify, verify_with_metadata = get_fns(os.path.basename(__file__))
 
 from .util import make_form_with_metadata_str_builder
 

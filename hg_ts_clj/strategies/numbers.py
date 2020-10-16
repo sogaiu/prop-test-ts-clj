@@ -8,7 +8,9 @@ from hypothesis_grammar_clojure.numbers \
            double_as_str, \
            integer_as_str
 
-from ..verify.numbers import verify
+from .loader import get_fns
+import os
+verify, _ = get_fns(os.path.basename(__file__))
 
 def build_num_str(item):
     return item["inputs"]

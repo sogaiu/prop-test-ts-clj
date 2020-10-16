@@ -1,6 +1,8 @@
 from hypothesis.strategies import composite
 
-from ..verify.discard_exprs import verify
+from .loader import get_fns
+import os
+verify, _ = get_fns(os.path.basename(__file__))
 
 marker = '#_'
 

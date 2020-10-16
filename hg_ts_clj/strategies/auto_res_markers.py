@@ -1,6 +1,8 @@
 from hypothesis.strategies import composite, just
 
-from ..verify.auto_res_markers import verify
+from .loader import get_fns
+import os
+verify, _ = get_fns(os.path.basename(__file__))
 
 def build_auto_res_marker_str(item):
     # this is just "::"

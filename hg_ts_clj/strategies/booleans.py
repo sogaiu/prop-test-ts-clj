@@ -1,6 +1,8 @@
 from hypothesis.strategies import composite, just, one_of
 
-from ..verify.booleans import verify
+from .loader import get_fns
+import os
+verify, _ = get_fns(os.path.basename(__file__))
 
 def build_boolean_str(item):
     return item["inputs"]
