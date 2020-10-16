@@ -3,47 +3,41 @@
 from hypothesis import given, note
 from hypothesis import settings, HealthCheck, Verbosity
 
-# XXX: clean this up later
-from hg_ts_clj.strategies.comments import *
-#
-from hg_ts_clj.strategies.nils import *
-from hg_ts_clj.strategies.booleans import *
-from hg_ts_clj.strategies.characters import *
-from hg_ts_clj.strategies.keywords import *
-from hg_ts_clj.strategies.numbers import *
-from hg_ts_clj.strategies.strings import *
-from hg_ts_clj.strategies.symbols import *
-from hg_ts_clj.strategies.symbolic_values import *
-from hg_ts_clj.strategies.regex import *
-#
-from hg_ts_clj.strategies.atoms import *
-#
-from hg_ts_clj.strategies.lists import *
-from hg_ts_clj.strategies.maps import *
-from hg_ts_clj.strategies.namespaced_maps import *
-from hg_ts_clj.strategies.sets import *
-from hg_ts_clj.strategies.vectors import *
-#
-from hg_ts_clj.strategies.collections import *
-#
-from hg_ts_clj.strategies.read_conds import *
-from hg_ts_clj.strategies.read_cond_splicings import *
-#
-from hg_ts_clj.strategies.anon_funcs import *
-#
-from hg_ts_clj.strategies.deref_forms import *
-from hg_ts_clj.strategies.var_quote_forms import *
-from hg_ts_clj.strategies.eval_forms import *
-from hg_ts_clj.strategies.quote_forms import *
-from hg_ts_clj.strategies.syntax_quote_forms import *
-from hg_ts_clj.strategies.unquote_forms import *
-from hg_ts_clj.strategies.unquote_splicing_forms import *
-#
-from hg_ts_clj.strategies.tagged_literals import *
-#
-from hg_ts_clj.strategies.discard_exprs import *
-#
-from hg_ts_clj.strategies.forms import *
+import label
+import verify
+
+from hypothesis_grammar_clojure import \
+    comment_items, \
+    nil_items, \
+    boolean_items, \
+    character_items, \
+    keyword_items, \
+    number_items, \
+    string_items, \
+    symbol_items, \
+    symbolic_value_items, \
+    regex_items, \
+    atom_items, \
+    list_items, \
+    map_items, \
+    namespaced_map_items, \
+    set_items, \
+    vector_items, \
+    collection_items, \
+    recursive_collection_items, \
+    read_cond_items, \
+    read_cond_splicing_items, \
+    anon_func_items, \
+    deref_form_items, \
+    var_quote_form_items, \
+    eval_form_items, \
+    quote_form_items, \
+    syntax_quote_form_items, \
+    unquote_form_items, \
+    unquote_splicing_form_items, \
+    tagged_literal_items, \
+    discard_expr_items, \
+    form_items
 
 from tree_sitter import Language, Parser
 
@@ -104,43 +98,11 @@ def test_parses_boolean(boolean_item):
 
 ## numbers
 
-@given(hex_number_items())
-def test_parses_hex_as_number(hex_num_item):
-    form_test(hex_num_item)
-
-@given(octal_number_items())
-def test_parses_octal_as_number(oct_num_item):
-    form_test(oct_num_item)
-
-@given(radix_number_items())
-def test_parses_radix_as_number(radix_num_item):
-    form_test(radix_num_item)
-
-@given(ratio_items())
-def test_parses_ratio_as_number(ratio_item):
-    form_test(ratio_item)
-
-@given(double_items())
-def test_parses_double_as_number(double_item):
-    form_test(double_item)
-
-@given(integer_items())
-def test_parses_integer_as_number(integer_item):
-    form_test(integer_item)
-
 @given(number_items())
 def test_parses_number(number_item):
     form_test(number_item)
 
 ## symbols
-
-@given(unqualified_symbol_items())
-def test_parses_unqualified_symbol(unqual_symbol_item):
-    form_test(unqual_symbol_item)
-
-@given(qualified_symbol_items())
-def test_parses_qualified_symbol(qual_symbol_item):
-    form_test(qual_symbol_item)
 
 @given(symbol_items())
 def test_parses_symbol(symbol_item):
@@ -148,43 +110,11 @@ def test_parses_symbol(symbol_item):
 
 ## keywords
 
-@given(unqualified_keyword_items())
-def test_parses_unqualified_keyword(unqual_keyword_item):
-    form_test(unqual_keyword_item)
-
-@given(qualified_keyword_items())
-def test_parses_qualified_keyword(qual_keyword_item):
-    form_test(qual_keyword_item)
-
-@given(unqualified_auto_resolved_keyword_items())
-def test_parses_unqualified_auto_resolved_keyword(unqual_auto_res_keyword_item):
-    form_test(unqual_auto_res_keyword_item)
-
-@given(qualified_auto_resolved_keyword_items())
-def test_parses_qualified_auto_resolved_keyword(qual_auto_res_keyword_item):
-    form_test(qual_auto_res_keyword_item)
-
 @given(keyword_items())
 def test_parses_keyword(keyword_item):
     form_test(keyword_item)
 
 ## characters
-
-@given(any_character_items())
-def test_parses_any_character(any_character_item):
-    form_test(any_character_item)
-
-@given(named_character_items())
-def test_parses_named_character(named_character_item):
-    form_test(named_character_item)
-
-@given(octal_character_items())
-def test_parses_octal_character(octal_character_item):
-    form_test(octal_character_item)
-
-@given(unicode_quad_character_items())
-def test_parses_unicode_quad_character(unicode_quad_character_item):
-    form_test(unicode_quad_character_item)
 
 @given(character_items())
 def test_parses_character(character_item):
@@ -395,28 +325,12 @@ if __name__ == "__main__":
     #
     test_parses_boolean()
     #
-    test_parses_hex_as_number()
-    test_parses_octal_as_number()
-    test_parses_radix_as_number()
-    test_parses_ratio_as_number()
-    test_parses_double_as_number()
-    test_parses_integer_as_number()
     test_parses_number()
     #
-    test_parses_unqualified_symbol()
-    test_parses_qualified_symbol()
     test_parses_symbol()
     #
-    test_parses_unqualified_keyword()
-    test_parses_qualified_keyword()
-    test_parses_unqualified_auto_resolved_keyword()
-    test_parses_qualified_auto_resolved_keyword()
     test_parses_keyword()
     #
-    test_parses_any_character()
-    test_parses_named_character()
-    test_parses_octal_character()
-    test_parses_unicode_quad_character()
     test_parses_character()
     #
     test_parses_string()
