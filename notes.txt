@@ -4,15 +4,6 @@
 #
 #        9df53ae75475e5bdbeb21cd297b8e3160f3b6ed8
 
-# XXX: consider saving generated source strings to feed to a "jailed"
-#      clojure process (e.g. in a vm) and log which strings cause
-#      parsing issues.
-
-# XXX: try to separate out tree-sitter-specific bits from strategies
-#      and figure out how to provide them generically.  e.g.
-#      any_character_items currently filters out null bytes, but
-#      this limitation is specific to tree-sitter
-
 # XXX: periodically go through source looking for comments related
 #      to unfinished or temporary bits
 
@@ -47,25 +38,6 @@
 #
 #     started using a settings profile.  may be multiple could be
 #     made to handle some / all of the above issues.
-
-# XXX: write up some notes on naming.  could cover terms such as:
-#
-#        marker (meaning things like "#_", "##", etc.)
-#        metadatee
-#        form
-#        non-form (separators?)
-
-# XXX: verify the limitations of hypothesis_grammar_clojure
-#
-#        no support for #! comments
-#        any_character definition is unverified
-#        keywords do not handle non-ascii
-#        symbols do not handle non-ascii
-#        no real support for collections
-#        no escape sequences in strings
-#        whitespace is limited to ascii -- is non-ascii whitespace legal?
-#        some grammatical constructs missing
-#        parameter-tweaking (e.g. number of digits) unexposed
 
 # XXX: if node.text gets merged in py-tree-sitter and it's usable,
 #      consider moving over to that instead of using node_text.
