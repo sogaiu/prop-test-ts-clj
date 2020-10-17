@@ -55,25 +55,10 @@
 #        form
 #        non-form (separators?)
 
-# XXX: label strings could be factored out (e.g. "map", "number", etc.)
-#      perhaps these can be placed in a central look-up table to
-#      make changing them later easier (e.g. as a consequence of
-#      changing the tree-sitter grammar "grammar symbols")
-
 # XXX: there could also be a lookup table for markers, but this
 #      somehow doesn't seem too useful -- a limited form of it ended
 #      up being useful for metadata / old_metadata.  not sure if it
 #      would be useful for other things.
-
-# XXX: some bits might have a better home in
-#      hypothesis_grammar_clojure.<something>, e.g. parts of:
-#
-#      * nils
-#      * regex
-#      * symbolic values
-#      * tagged_literals
-#
-#      not sure though
 
 # XXX: verify the limitations of hypothesis_grammar_clojure
 #
