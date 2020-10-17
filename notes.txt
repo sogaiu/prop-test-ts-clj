@@ -55,11 +55,6 @@
 #        form
 #        non-form (separators?)
 
-# XXX: there could also be a lookup table for markers, but this
-#      somehow doesn't seem too useful -- a limited form of it ended
-#      up being useful for metadata / old_metadata.  not sure if it
-#      would be useful for other things.
-
 # XXX: verify the limitations of hypothesis_grammar_clojure
 #
 #        no support for #! comments
