@@ -3,8 +3,6 @@
 from hypothesis import given, note
 from hypothesis import settings, HealthCheck, Verbosity
 
-import label
-import verify
 
 from hypothesis_grammar_clojure import \
     comment_items, \
