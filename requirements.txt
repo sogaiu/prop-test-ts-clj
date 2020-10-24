@@ -1,5 +1,5 @@
 attrs==20.2.0
 hypothesis==5.36.1
--e git://github.com/sogaiu/hypothesis-grammar-clojure.git@e71781d3e76514803ffe61dd8ceb3b884a18464e#egg=hypothesis_grammar_clojure
+-e git://github.com/sogaiu/hypothesis-grammar-clojure.git@8580c2cad2b496fccb54eba9508b6915403557c8#egg=hypothesis_grammar_clojure
 sortedcontainers==2.2.2
 -e git://github.com/tree-sitter/py-tree-sitter.git@aa4ffe81b2970e70c5ae595bd57a750693d3c487#egg=tree_sitter
