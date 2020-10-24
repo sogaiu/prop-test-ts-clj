@@ -2,7 +2,7 @@
 #      ought to be recorded and tracked.  preferably this could be
 #      expressed programmatically as a dependency.  for the moment:
 #
-#        9df53ae75475e5bdbeb21cd297b8e3160f3b6ed8
+#        1eb6e9fac75a8da969c0c6cd502f9d9258ffbd93
 
 # XXX: periodically go through source looking for comments related
 #      to unfinished or temporary bits
