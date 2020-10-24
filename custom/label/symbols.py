@@ -1,1 +1,1 @@
-label = "symbol"
+label = "sym_lit"

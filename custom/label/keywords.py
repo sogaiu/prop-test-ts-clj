@@ -1,1 +1,1 @@
-label = "keyword"
+label = "kwd_lit"

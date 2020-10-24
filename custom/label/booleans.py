@@ -1,1 +1,1 @@
-label = "boolean"
+label = "bool_lit"

@@ -1,1 +1,1 @@
-label = "vector"
+label = "vec_lit"

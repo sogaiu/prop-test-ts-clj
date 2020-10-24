@@ -151,8 +151,7 @@ def verify_node_metadatum(ctx, item):
 
 def verify_node_metadata(ctx, item):
     node, source = itemgetter('node', 'source')(ctx)
-    md_nodes = child_nodes_with_field_names(node,
-                                            ["metadata", "old_metadata"])
+    md_nodes = child_nodes_with_field_names(node, ["meta", "old_meta"])
     n_md_nodes = len(md_nodes)
     md_items = item["metadata"]
     assert len(md_items) == n_md_nodes, \

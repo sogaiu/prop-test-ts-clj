@@ -1,1 +1,1 @@
-label = "number"
+label = "num_lit"

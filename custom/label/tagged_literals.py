@@ -1,1 +1,1 @@
-label = "tagged_literal"
+label = "tagged_or_ctor_lit"

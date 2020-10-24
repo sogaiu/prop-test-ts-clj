@@ -1,1 +1,1 @@
-label = "auto_res_marker"
+label = "auto_res_mark"

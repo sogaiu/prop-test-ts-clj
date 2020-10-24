@@ -1,1 +1,1 @@
-label = "regex"
+label = "regex_lit"

@@ -1,2 +1,2 @@
-label = "anon_func"
+label = "anon_fn_lit"
 

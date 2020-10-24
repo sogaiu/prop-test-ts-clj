@@ -1,1 +1,1 @@
-label = "namespaced_map"
+label = "ns_map_lit"

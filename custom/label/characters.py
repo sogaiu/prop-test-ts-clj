@@ -1,2 +1,2 @@
-label = "character"
+label = "char_lit"
 

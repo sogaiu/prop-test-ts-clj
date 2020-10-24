@@ -1,1 +1,1 @@
-label = "string"
+label = "str_lit"

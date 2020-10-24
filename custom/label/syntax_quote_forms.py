@@ -1,1 +1,1 @@
-label = "syntax_quote_form"
+label = "syn_quoting_lit"

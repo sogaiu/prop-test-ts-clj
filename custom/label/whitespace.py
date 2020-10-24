@@ -1,1 +1,1 @@
-label = "_whitespace"
+label = "_ws"
